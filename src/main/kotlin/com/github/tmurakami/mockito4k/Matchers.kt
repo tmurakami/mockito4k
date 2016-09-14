@@ -2,10 +2,12 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.ArgumentMatcher
 import org.mockito.Matchers
+import kotlin.reflect.KClass
 
 inline fun <reified T : Any> any(): T = Matchers.any() ?: _Class.defaultValue(T::class.java)
 inline fun <reified T : Any> anyVararg(): T = Matchers.anyVararg() ?: _Class.defaultValue(T::class.java)
 
+fun <T : Any> isA(clazz: KClass<T>): T = isA(clazz.java)
 fun <T> isA(clazz: Class<T>): T = Matchers.isA(clazz) ?: _Class.defaultValue(clazz)
 
 fun <T> eq(value: T): T = Matchers.eq(value) ?: value

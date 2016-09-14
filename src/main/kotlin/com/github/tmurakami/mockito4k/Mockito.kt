@@ -9,6 +9,7 @@ import org.mockito.stubbing.DeprecatedOngoingStubbing
 import org.mockito.verification.VerificationAfterDelay
 import org.mockito.verification.VerificationMode
 import org.mockito.verification.VerificationWithTimeout
+import kotlin.reflect.KClass
 
 inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)
 inline fun <reified T : Any> mock(name: String): T = Mockito.mock(T::class.java, name)
@@ -44,3 +45,5 @@ fun after(millis: Int): VerificationAfterDelay = Mockito.after(millis)
 fun validateMockitoUsage() = Mockito.validateMockitoUsage()
 
 fun withSettings(): MockSettings = Mockito.withSettings()
+
+fun MockSettings.extraInterfaces(vararg interfaces: KClass<*>): MockSettings = extraInterfaces(*interfaces.map { it.java }.toTypedArray())
