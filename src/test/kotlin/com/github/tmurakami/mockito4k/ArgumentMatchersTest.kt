@@ -5,7 +5,7 @@ import org.mockito.BDDMockito
 import org.mockito.Mockito
 import java.io.Serializable
 
-class MatchersTest {
+class ArgumentMatchersTest {
 
     @Test
     fun testAny() {
