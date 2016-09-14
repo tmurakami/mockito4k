@@ -19,17 +19,6 @@ class MatchersTest {
     }
 
     @Test
-    fun testAnyVarargs() {
-        abstract class A {
-            abstract fun f(vararg arg: Any)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(Any(), Any())
-        BDDMockito.then(mock).should().f(anyVararg())
-    }
-
-    @Test
     fun testEq() {
         abstract class A {
             abstract fun f(arg: Any)

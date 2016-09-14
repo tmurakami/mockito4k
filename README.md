@@ -1,6 +1,6 @@
 # Mockito4k
 
-A Kotlin wrapper around [Mockito 1](https://github.com/mockito/mockito).
+A Kotlin wrapper around [Mockito](https://github.com/mockito/mockito).
 
 ## Installation
 
