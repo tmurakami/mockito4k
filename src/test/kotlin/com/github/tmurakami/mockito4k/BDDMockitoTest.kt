@@ -33,10 +33,26 @@ class BDDMockitoTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun testWillThrow() {
+    fun testWillThrowThrowable() {
         val list = ArrayList<String>()
         val mock = Mockito.spy(list)
         willThrow(RuntimeException()).given(mock).clear()
+        mock.clear()
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun testWillThrowKClass() {
+        val list = ArrayList<String>()
+        val mock = Mockito.spy(list)
+        willThrow(RuntimeException::class).given(mock).clear()
+        mock.clear()
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun testWillThrowClass() {
+        val list = ArrayList<String>()
+        val mock = Mockito.spy(list)
+        willThrow(RuntimeException::class.java).given(mock).clear()
         mock.clear()
     }
 
