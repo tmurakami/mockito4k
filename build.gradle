@@ -14,7 +14,7 @@ apply plugin: 'maven'
 apply plugin: 'com.github.ben-manes.versions'
 
 group = 'com.github.tmurakami'
-version = '0.2.0'
+version = '0.3.0-SNAPSHOT'
 
 repositories {
     jcenter()

@@ -1,7 +1,7 @@
 # Mockito4k
 
+[![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
-[![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield&circle-token=b6013808a25875faa3e6dd253e6c5eb7ee447f9d)](https://circleci.com/gh/tmurakami/mockito4k)
 
 A Kotlin wrapper around [Mockito 1](https://github.com/mockito/mockito).
 
