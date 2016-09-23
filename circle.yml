@@ -1,6 +1,3 @@
-machine:
-  environment:
-    GRADLE_OPTS: '-Dorg.gradle.daemon=true'
 test:
   post:
     - mkdir $CIRCLE_TEST_REPORTS/junit
