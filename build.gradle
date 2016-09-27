@@ -16,6 +16,14 @@ apply plugin: 'com.github.ben-manes.versions'
 group = 'com.github.tmurakami'
 version = '0.3.0-SNAPSHOT'
 
+sourceSets {
+    licenses.resources {
+        srcDir rootDir
+        include 'LICENSE'
+    }
+    main.resources.srcDir licenses.resources
+}
+
 repositories {
     jcenter()
 }
