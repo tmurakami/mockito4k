@@ -13,8 +13,10 @@ apply plugin: 'kotlin'
 apply plugin: 'maven'
 apply plugin: 'com.github.ben-manes.versions'
 
+apply from: "$rootDir/gradle/version.gradle"
+
 group = 'com.github.tmurakami'
-version = '0.3.0'
+version = ext.versionName
 
 repositories {
     jcenter()
