@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
 
-A Kotlin wrapper around [Mockito](https://github.com/mockito/mockito).
+A Kotlin wrapper around [Mockito2](https://github.com/mockito/mockito).
 
 ## Installation
 
