@@ -4,6 +4,7 @@ import org.junit.Test
 import org.mockito.BDDMockito
 import org.mockito.Mockito
 import java.io.Serializable
+import java.util.regex.Pattern
 
 class ArgumentMatchersTest {
 
@@ -99,7 +100,19 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsStartsWith() {
+    fun testNullable() {
+        abstract class A {
+            abstract fun f(arg: Any?)
+        }
+
+        val mock = Mockito.mock(A::class.java)
+        mock.f(null)
+        mock.f(Any())
+        BDDMockito.then(mock).should(Mockito.times(2)).f(nullable())
+    }
+
+    @Test
+    fun testStartsWith() {
         abstract class A {
             abstract fun f(s: String)
         }
@@ -110,7 +123,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsContains() {
+    fun testContains() {
         abstract class A {
             abstract fun f(s: String)
         }
@@ -121,7 +134,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsEndsWith() {
+    fun testEndsWith() {
         abstract class A {
             abstract fun f(s: String)
         }
@@ -132,7 +145,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsMatches() {
+    fun testMatchesString() {
         abstract class A {
             abstract fun f(arg: String)
         }
@@ -140,6 +153,28 @@ class ArgumentMatchersTest {
         val mock = Mockito.mock(A::class.java)
         mock.f("foobar")
         BDDMockito.then(mock).should().f(matches("[\\w]+"))
+    }
+
+    @Test
+    fun testMatchesRegex() {
+        abstract class A {
+            abstract fun f(arg: String)
+        }
+
+        val mock = Mockito.mock(A::class.java)
+        mock.f("foobar")
+        BDDMockito.then(mock).should().f(matches(Regex("[\\w]+")))
+    }
+
+    @Test
+    fun testMatchesPattern() {
+        abstract class A {
+            abstract fun f(arg: String)
+        }
+
+        val mock = Mockito.mock(A::class.java)
+        mock.f("foobar")
+        BDDMockito.then(mock).should().f(matches(Pattern.compile("[\\w]+")))
     }
 
     @Test
