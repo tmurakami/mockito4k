@@ -1,6 +1,7 @@
 package com.github.tmurakami.mockito4k
 
 import org.junit.Test
+import org.mockito.ArgumentMatcher
 import org.mockito.BDDMockito
 import org.mockito.Mockito
 import java.io.Serializable
@@ -187,6 +188,18 @@ class ArgumentMatchersTest {
         val arg = Any()
         mock.f(arg)
         BDDMockito.then(mock).should().f(argThat { this == arg })
+    }
+
+    @Test
+    fun testArgThatArgumentMatcher() {
+        abstract class A {
+            abstract fun f(arg: Any)
+        }
+
+        val mock = Mockito.mock(A::class.java)
+        val arg = Any()
+        mock.f(arg)
+        BDDMockito.then(mock).should().f(argThat(ArgumentMatcher { it == arg }))
     }
 
 }

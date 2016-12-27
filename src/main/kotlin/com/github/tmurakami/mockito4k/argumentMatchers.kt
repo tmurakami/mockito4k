@@ -1,5 +1,6 @@
 package com.github.tmurakami.mockito4k
 
+import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
 import java.util.regex.Pattern
 import kotlin.reflect.KClass
@@ -21,9 +22,10 @@ inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class
 fun startsWith(prefix: String): String = ArgumentMatchers.startsWith(prefix)
 fun contains(substring: String): String = ArgumentMatchers.contains(substring)
 fun endsWith(suffix: String): String = ArgumentMatchers.endsWith(suffix)
-fun matches(regex: String): String = ArgumentMatchers.matches(regex)
 
+fun matches(regex: String): String = ArgumentMatchers.matches(regex)
 fun matches(regex: Regex): String = matches(regex.toPattern())
 fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
 
+inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T = ArgumentMatchers.argThat(matcher) ?: _Class.defaultValue(T::class.java)
 inline fun <reified T : Any> argThat(noinline matcher: T.() -> Boolean): T = ArgumentMatchers.argThat(matcher) ?: _Class.defaultValue(T::class.java)

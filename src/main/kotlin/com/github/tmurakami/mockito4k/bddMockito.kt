@@ -2,6 +2,7 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.BDDMockito
 import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 import kotlin.reflect.KClass
 
 fun <T> given(methodCall: T): BDDMockito.BDDMyOngoingStubbing<T> = BDDMockito.given(methodCall)
@@ -14,7 +15,10 @@ fun willThrow(toBeThrown: Class<out Throwable>): BDDMockito.BDDStubber = BDDMock
 fun willThrow(toBeThrown: KClass<out Throwable>, vararg throwableTypes: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *throwableTypes.map { it.java }.toTypedArray())
 fun willThrow(toBeThrown: Class<out Throwable>, vararg throwableTypes: Class<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown, *throwableTypes)
 
+fun willAnswer(answer: Answer<*>): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
 fun willAnswer(answer: InvocationOnMock.() -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
+
+fun will(answer: Answer<*>): BDDMockito.BDDStubber = BDDMockito.will(answer)
 fun will(answer: InvocationOnMock.() -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
 
 fun willDoNothing(): BDDMockito.BDDStubber = BDDMockito.willDoNothing()
