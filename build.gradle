@@ -16,7 +16,7 @@ apply plugin: 'com.github.ben-manes.versions'
 apply from: "$rootDir/gradle/version.gradle"
 
 group = 'com.github.tmurakami'
-version = ext.versionName
+version = version_name
 
 repositories {
     jcenter()
@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.mockito:mockito-core:2.4.2'
+    compile 'org.mockito:mockito-core:2.5.4'
     testCompile 'junit:junit:4.12'
 }
 
