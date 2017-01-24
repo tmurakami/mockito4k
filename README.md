@@ -27,7 +27,7 @@ These matchers are defined as top-level functions.
 - isNull()
 - isNotNull()
 - nullable()
-- matches(kotlin.text.Regex)
+- matches(Regex)
 - argThat(ArgumentMatcher<T>)
 - argThat((T) -> Boolean)
 - and(T?, T?)
