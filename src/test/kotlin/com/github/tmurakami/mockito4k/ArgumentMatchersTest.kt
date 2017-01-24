@@ -5,7 +5,6 @@ import org.mockito.ArgumentMatcher
 import org.mockito.BDDMockito
 import org.mockito.Mockito
 import java.io.Serializable
-import java.util.regex.Pattern
 
 class ArgumentMatchersTest {
 
@@ -30,18 +29,6 @@ class ArgumentMatchersTest {
         val mock = Mockito.mock(A::class.java)
         mock.f(arg)
         BDDMockito.then(mock).should().f(eq(arg))
-    }
-
-    @Test
-    fun testRefEq() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
-        val arg = "" to Any()
-        val mock = Mockito.mock(A::class.java)
-        mock.f(arg)
-        BDDMockito.then(mock).should().f(refEq("" to null, "second"))
     }
 
     @Test
@@ -113,51 +100,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testStartsWith() {
-        abstract class A {
-            abstract fun f(s: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(startsWith("fo"))
-    }
-
-    @Test
-    fun testContains() {
-        abstract class A {
-            abstract fun f(s: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(contains("ob"))
-    }
-
-    @Test
-    fun testEndsWith() {
-        abstract class A {
-            abstract fun f(s: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(endsWith("ar"))
-    }
-
-    @Test
-    fun testMatchesString() {
-        abstract class A {
-            abstract fun f(arg: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(matches("[\\w]+"))
-    }
-
-    @Test
-    fun testMatchesRegex() {
+    fun testMatches() {
         abstract class A {
             abstract fun f(arg: String)
         }
@@ -165,17 +108,6 @@ class ArgumentMatchersTest {
         val mock = Mockito.mock(A::class.java)
         mock.f("foobar")
         BDDMockito.then(mock).should().f(matches(Regex("[\\w]+")))
-    }
-
-    @Test
-    fun testMatchesPattern() {
-        abstract class A {
-            abstract fun f(arg: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(matches(Pattern.compile("[\\w]+")))
     }
 
     @Test
@@ -187,7 +119,7 @@ class ArgumentMatchersTest {
         val mock = Mockito.mock(A::class.java)
         val arg = Any()
         mock.f(arg)
-        BDDMockito.then(mock).should().f(argThat { this == arg })
+        BDDMockito.then(mock).should().f(argThat { it == arg })
     }
 
     @Test
