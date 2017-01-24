@@ -23,7 +23,7 @@ These matchers are defined as top-level functions.
 - any()
 - eq(T)
 - same(T)
-- isA(KClass<T>)/isA(Class<T>)
+- isA(KClass<T>)
 - isNull()
 - isNotNull()
 - nullable()
@@ -37,7 +37,7 @@ These matchers are defined as top-level functions.
 To directly use ArgumentMatchers/AdditionalMatchers methods, use 'by' function.
 This function prevents causing NullPointerException when using these matchers for method that only accepts non-null parameter.
 ```kotlin
-BDDMockito.given(mock.doSomething(by(/* Any ArgumentMatchers/AdditionalMatchers method */)))
+BDDMockito.given(mock.doSomething(by(AdditionalMatchers.geq("a"))))
 ```
 
 ## Capturing arguments
