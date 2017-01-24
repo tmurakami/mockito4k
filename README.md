@@ -1,7 +1,7 @@
 # Mockito4k
 
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
-[![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
+[![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)  
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.6%2B-blue.svg)
 ![Mockito](https://img.shields.io/badge/Mockito-2.6.0%2B-blue.svg)
 
