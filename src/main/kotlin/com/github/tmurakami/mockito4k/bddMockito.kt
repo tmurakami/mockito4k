@@ -4,10 +4,8 @@ import org.mockito.BDDMockito
 import org.mockito.invocation.InvocationOnMock
 import kotlin.reflect.KClass
 
-fun willThrow(toBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java)
-fun willThrow(toBeThrown: Class<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown)
-fun willThrow(toBeThrown: KClass<out Throwable>, vararg throwableTypes: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *throwableTypes.map { it.java }.toTypedArray())
-fun willThrow(toBeThrown: Class<out Throwable>, vararg throwableTypes: Class<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown, *throwableTypes)
+fun willThrow(toBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java)
+fun willThrow(toBeThrown: KClass<out Throwable>, vararg throwableTypes: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *throwableTypes.map { it.java }.toTypedArray())
 
 fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
 fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)

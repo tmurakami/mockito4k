@@ -44,7 +44,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsAKClass() {
+    fun testIsA() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -52,17 +52,6 @@ class ArgumentMatchersTest {
         val mock = Mockito.mock(A::class.java)
         mock.f("")
         BDDMockito.then(mock).should().f(isA(Serializable::class))
-    }
-
-    @Test
-    fun testIsAClass() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("")
-        BDDMockito.then(mock).should().f(isA(Serializable::class.java))
     }
 
     @Test

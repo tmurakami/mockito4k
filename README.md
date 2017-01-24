@@ -23,7 +23,7 @@ These matchers are defined as top-level functions.
 - any()
 - eq(T)
 - same(T)
-- isA(KClass<T>)/isA(Class<T>)
+- isA(KClass<T>)
 - isNull()
 - isNotNull()
 - nullable()

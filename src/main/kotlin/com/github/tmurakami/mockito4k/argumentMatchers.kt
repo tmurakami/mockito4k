@@ -11,8 +11,7 @@ fun <T> any(): T = ArgumentMatchers.any()
 fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
 fun <T> same(value: T): T = ArgumentMatchers.same(value)
 
-fun <T : Any> isA(clazz: KClass<T>): T = isA(clazz.java)
-fun <T> isA(clazz: Class<T>): T = ArgumentMatchers.isA(clazz)
+fun <T : Any> isA(clazz: KClass<T>): T = by(ArgumentMatchers.isA(clazz.java))
 
 fun <T> isNull(): T? = ArgumentMatchers.isNull()
 fun <T> isNotNull(): T? = ArgumentMatchers.isNotNull()
