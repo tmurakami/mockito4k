@@ -10,7 +10,7 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 ## Mock creation
 
 ```kotlin
-val mockedList = mock<MutableList<String>>()
+val mockedMap = mock<Map<String, String>>()
 ```
 
 ## Stubbing/Verification
@@ -20,12 +20,12 @@ val mockedList = mock<MutableList<String>>()
 // reserved as a keyword in Kotlin.
 import org.mockito.BDDMockito.given
 
-given(mockedList[any()]).willReturn("test")
+given(mockedMap[any()]).willReturn("test")
 ```
 ```kotlin
 import org.mockito.BDDMockito.then
 
-then(mockedList).should()[or(eq("foo"), eq("bar"))]
+then(mockedMap).should()[or(eq("foo"), eq("bar"))]
 ```
 
 These matchers are defined as top-level functions.
@@ -49,21 +49,20 @@ This function prevents causing NullPointerException when using these matchers fo
 import org.mockito.AdditionalMatchers.geq
 import org.mockito.BDDMockito.given
 
-given(mockedList[by(geq("a"))]).will...
+given(mockedMap[by(geq("a"))]).will...
 ```
 
 ## Capturing arguments
 
 ```kotlin
-val captor = argumentCaptor<Int>()
+val captor = argumentCaptor<String>()
 ```
 
 Use 'capture' function to avoid causing NullPointerException.
 ```kotlin
 import org.mockito.BDDMockito.then
 
-then(mockedList).should()[capture(captor)]
-assertEquals(0, captor.value)
+given(mockedMap[capture(captor)]).will...
 ```
 
 ## Installation
