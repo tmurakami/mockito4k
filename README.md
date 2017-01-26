@@ -16,7 +16,16 @@ val mockedList = mock<MutableList<String>>()
 ## Stubbing/Verification
 
 ```kotlin
-BDDMockito.given(mockedList[any()]).willReturn("test")
+// Use BDDMockito#given instead of Mockito#when because the 'when' is
+// reserved as a keyword in Kotlin.
+import org.mockito.BDDMockito.given
+
+given(mockedList[any()]).willReturn("test")
+```
+```kotlin
+import org.mockito.BDDMockito.then
+
+then(mockedList).should()[or(eq("foo"), eq("bar"))]
 ```
 
 These matchers are defined as top-level functions.
@@ -37,7 +46,10 @@ These matchers are defined as top-level functions.
 To directly use ArgumentMatchers/AdditionalMatchers methods, use 'by' function.
 This function prevents causing NullPointerException when using these matchers for method that only accepts non-null parameter.
 ```kotlin
-BDDMockito.given(mock.doSomething(by(AdditionalMatchers.geq("a"))))
+import org.mockito.AdditionalMatchers.geq
+import org.mockito.BDDMockito.given
+
+given(mockedList[by(geq("a"))]).will...
 ```
 
 ## Capturing arguments
@@ -48,7 +60,9 @@ val captor = argumentCaptor<Int>()
 
 Use 'capture' function to avoid causing NullPointerException.
 ```kotlin
-BDDMockito.then(mockedList).should()[capture(captor)]
+import org.mockito.BDDMockito.then
+
+then(mockedList).should()[capture(captor)]
 assertEquals(0, captor.value)
 ```
 
