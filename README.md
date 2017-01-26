@@ -5,7 +5,7 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.6%2B-blue.svg)
 ![Mockito](https://img.shields.io/badge/Mockito-2.6.0%2B-blue.svg)
 
-A Kotlin wrapper around [Mockito2](https://github.com/mockito/mockito).
+A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
 ## Mock creation
 
