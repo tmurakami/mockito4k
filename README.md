@@ -3,6 +3,7 @@
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)  
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.6%2B-blue.svg)
+![Java](https://img.shields.io/badge/Java-7%2B-blue.svg)
 ![Mockito](https://img.shields.io/badge/Mockito-2.6%2B-blue.svg)
 
 A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
