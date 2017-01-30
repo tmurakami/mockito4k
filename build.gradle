@@ -18,7 +18,9 @@ apply from: "$rootDir/gradle/version.gradle"
 group = 'com.github.tmurakami'
 version = version_name
 
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = JavaVersion.VERSION_1_7
+//noinspection GroovyUnusedAssignment
 targetCompatibility = JavaVersion.VERSION_1_7
 
 repositories {
@@ -29,6 +31,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.mockito:mockito-core:2.6.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:latest.release'
 }
 
 task sourcesJar(type: Jar) {
