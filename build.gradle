@@ -18,11 +18,6 @@ apply from: "$rootDir/gradle/version.gradle"
 group = 'com.github.tmurakami'
 version = version_name
 
-//noinspection GroovyUnusedAssignment
-sourceCompatibility = JavaVersion.VERSION_1_7
-//noinspection GroovyUnusedAssignment
-targetCompatibility = JavaVersion.VERSION_1_7
-
 repositories {
     jcenter()
 }

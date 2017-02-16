@@ -4,7 +4,7 @@ import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
 import kotlin.reflect.KClass
 
-fun <T> by(matcher: T?): T = matcher ?: Fake.nonNull()
+fun <T> by(matcher: T?): T = matcher as T
 
 fun <T> any(): T = ArgumentMatchers.any()
 
