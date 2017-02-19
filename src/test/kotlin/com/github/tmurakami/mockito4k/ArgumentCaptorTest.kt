@@ -7,7 +7,7 @@ import org.mockito.Mockito
 
 class ArgumentCaptorTest {
     @Test
-    fun testCapture() {
+    fun the_capture_method_should_be_able_to_capture_the_argument() {
         abstract class A {
             abstract fun f(arg: Any)
         }

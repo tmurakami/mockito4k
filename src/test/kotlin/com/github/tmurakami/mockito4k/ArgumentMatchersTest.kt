@@ -9,7 +9,7 @@ import java.io.Serializable
 class ArgumentMatchersTest {
 
     @Test
-    fun testAny() {
+    fun the_any_method_should_make_a_matcher_that_matches_anything() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -20,7 +20,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testEq() {
+    fun the_eq_method_should_make_a_matcher_that_is_equal_to_the_given_value() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -32,7 +32,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testSame() {
+    fun the_same_method_should_make_a_matcher_that_is_same_as_the_given_value() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -44,7 +44,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsA() {
+    fun the_isA_method_should_make_a_matcher_that_is_of_the_given_type() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -55,7 +55,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsNull() {
+    fun the_isNull_method_should_make_a_matcher_that_is_equal_to_null() {
         abstract class A {
             abstract fun f(arg: Any?)
         }
@@ -66,7 +66,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testIsNotNull() {
+    fun the_isNotNull_method_should_make_a_matcher_that_is_not_equal_to_null() {
         abstract class A {
             abstract fun f(arg: Any?)
         }
@@ -77,7 +77,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testNullable() {
+    fun the_nullable_method_should_make_a_matcher_that_is_either_null_or_of_the_given_type() {
         abstract class A {
             abstract fun f(arg: Any?)
         }
@@ -89,7 +89,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testMatches() {
+    fun the_matches_method_should_make_a_matcher_that_matches_the_given_regular_expression() {
         abstract class A {
             abstract fun f(arg: String)
         }
@@ -100,7 +100,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testArgThat() {
+    fun the_argThat_method_should_make_a_matcher_with_the_given_function() {
         abstract class A {
             abstract fun f(arg: Any)
         }
@@ -112,7 +112,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun testArgThatArgumentMatcher() {
+    fun the_argThat_method_should_make_a_matcher_with_the_given_ArgumentMatcher() {
         abstract class A {
             abstract fun f(arg: Any)
         }

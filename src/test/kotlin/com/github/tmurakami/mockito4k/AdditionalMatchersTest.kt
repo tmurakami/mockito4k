@@ -8,7 +8,7 @@ import org.mockito.Mockito
 class AdditionalMatchersTest {
 
     @Test
-    fun testAnd() {
+    fun the_and_method_should_make_a_matcher_that_matches_both_of_the_given_matchers() {
         abstract class A {
             abstract fun f(arg: String)
         }
@@ -19,7 +19,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun testOr() {
+    fun the_or_method_should_make_a_matcher_that_matcher_either_of_the_given_matchers() {
         abstract class A {
             abstract fun f(arg: String)
         }
@@ -30,7 +30,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun testNot() {
+    fun the_not_method_should_make_a_matcher_that_does_not_match_the_given_matcher() {
         abstract class A {
             abstract fun f(arg: String)
         }
