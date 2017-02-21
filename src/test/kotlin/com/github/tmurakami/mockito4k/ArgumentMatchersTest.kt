@@ -11,12 +11,13 @@ class ArgumentMatchersTest {
     @Test
     fun the_any_method_should_make_a_matcher_that_matches_anything() {
         abstract class A {
-            abstract fun f(arg: Any)
+            abstract fun f(arg: Any?)
         }
 
         val mock = Mockito.mock(A::class.java)
+        mock.f(null)
         mock.f(Any())
-        BDDMockito.then(mock).should().f(any())
+        BDDMockito.then(mock).should(Mockito.times(2)).f(any())
     }
 
     @Test
@@ -51,6 +52,7 @@ class ArgumentMatchersTest {
 
         val mock = Mockito.mock(A::class.java)
         mock.f("")
+        mock.f(Any())
         BDDMockito.then(mock).should().f(isA(Serializable::class))
     }
 
@@ -84,8 +86,9 @@ class ArgumentMatchersTest {
 
         val mock = Mockito.mock(A::class.java)
         mock.f(null)
+        mock.f("")
         mock.f(Any())
-        BDDMockito.then(mock).should(Mockito.times(2)).f(nullable())
+        BDDMockito.then(mock).should(Mockito.times(2)).f(nullable<Serializable>())
     }
 
     @Test
