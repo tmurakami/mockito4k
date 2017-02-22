@@ -5,17 +5,16 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.jacoco:org.jacoco.core:0.7.7.201606060606'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
     }
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'jacoco'
 apply plugin: 'maven'
 apply plugin: 'com.github.ben-manes.versions'
 
 apply from: "$rootDir/gradle/version.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"
 
 group = 'com.github.tmurakami'
 version = version_name
@@ -39,10 +38,3 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives sourcesJar
 }
-
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        xml.enabled = true
-    }
-}.dependsOn test
