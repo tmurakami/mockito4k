@@ -30,6 +30,7 @@ then(mock).should().doSomething(or(eq("foo"), eq("bar")))
 
 These matchers are defined as top-level functions.
 - any()
+- any(KClass)
 - eq(T)
 - same(T)
 - isA(KClass<T>)

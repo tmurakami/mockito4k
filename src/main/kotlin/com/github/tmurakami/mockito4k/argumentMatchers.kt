@@ -7,6 +7,7 @@ import kotlin.reflect.KClass
 fun <T> by(matcher: T?): T = matcher as T
 
 fun <T> any(): T = ArgumentMatchers.any()
+fun <T : Any> any(clazz: KClass<T>): T = by(ArgumentMatchers.any(clazz.java))
 
 fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
 fun <T> same(value: T): T = ArgumentMatchers.same(value)
