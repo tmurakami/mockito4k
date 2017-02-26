@@ -4,14 +4,45 @@ import org.mockito.BDDMockito
 import org.mockito.invocation.InvocationOnMock
 import kotlin.reflect.KClass
 
-fun willThrow(toBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java)
-fun willThrow(toBeThrown: KClass<out Throwable>, vararg throwableTypes: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *throwableTypes.map { it.java }.toTypedArray())
+/**
+ * The delegation to [BDDMockito#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
+ *
+ * @param toBeThrown the class of error to be thrown when the stubbed function is called
+ * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
+ * @return the result for executing [BDDMockito#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
+ */
+fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
+/**
+ * The delegation to [BDDMockito#willAnswer(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willAnswer&#40;org.mockito.stubbing.Answer&#41;).
+ *
+ * @param answer the answer when the stubbed function is called
+ * @return the result for executing [BDDMockito#willAnswer(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willAnswer&#40;org.mockito.stubbing.Answer&#41;)
+ */
 fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
+
+/**
+ * The delegation to [BDDMockito#will(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#will&#40;org.mockito.stubbing.Answer&#41;).
+ *
+ * @param answer the answer when the stubbed function is called
+ * @return the result for executing [BDDMockito#will(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#will&#40;org.mockito.stubbing.Answer&#41;)
+ */
 fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
 
-fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(throwableType: KClass<out Throwable>): BDDMockito.BDDMyOngoingStubbing<T> = willThrow(throwableType.java)
-fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(throwableType: KClass<out Throwable>, vararg throwableTypes: KClass<out Throwable>): BDDMockito.BDDMyOngoingStubbing<T> = willThrow(throwableType.java, *throwableTypes.map { it.java }.toTypedArray())
+/**
+ * The delegation to [BDDMockito.BDDMyOngoingStubbing#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDMyOngoingStubbing.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
+ *
+ * @param toBeThrown the class of error to be thrown when the stubbed function is called
+ * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
+ * @return the result for executing [BDDMockito.BDDMyOngoingStubbing#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDMyOngoingStubbing.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
+ */
+fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDMyOngoingStubbing<T> = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
-fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java)
+/**
+ * The delegation to [BDDMockito.BDDStubber#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDStubber.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
+ *
+ * @param toBeThrown the class of error to be thrown when the stubbed function is called
+ * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
+ * @return the result for executing [BDDMockito.BDDStubber#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDStubber.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
+ */
 fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())

@@ -45,7 +45,7 @@ These matchers are defined as top-level functions.
 - not(T?)
 
 To directly use ArgumentMatchers/AdditionalMatchers methods, use 'by' function.
-This function prevents causing NullPointerException when using these matchers for method that only accepts non-null parameter.
+This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
 ```kotlin
 import org.mockito.AdditionalMatchers.geq
 import org.mockito.BDDMockito.given
