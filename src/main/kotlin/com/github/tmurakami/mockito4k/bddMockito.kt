@@ -13,20 +13,10 @@ import kotlin.reflect.KClass
  */
 fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
-/**
- * The delegation to [BDDMockito#willAnswer(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willAnswer&#40;org.mockito.stubbing.Answer&#41;).
- *
- * @param answer the answer when the stubbed function is called
- * @return the result for executing [BDDMockito#willAnswer(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willAnswer&#40;org.mockito.stubbing.Answer&#41;)
- */
+@Deprecated("Use BDDMockito#willAnswer(Answer) directly", ReplaceWith(""))
 fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
 
-/**
- * The delegation to [BDDMockito#will(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#will&#40;org.mockito.stubbing.Answer&#41;).
- *
- * @param answer the answer when the stubbed function is called
- * @return the result for executing [BDDMockito#will(Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#will&#40;org.mockito.stubbing.Answer&#41;)
- */
+@Deprecated("Use BDDMockito#will(Answer) directly", ReplaceWith(""))
 fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
 
 /**

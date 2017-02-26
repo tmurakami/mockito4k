@@ -37,7 +37,10 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-dokka.outputDirectory = javadoc.destinationDir
+dokka {
+    skipDeprecated = true
+    outputDirectory = javadoc.destinationDir
+}
 javadoc.dependsOn dokka
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
