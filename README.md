@@ -13,11 +13,17 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 val mock = mock<Foo>()
 ```
 
+To create a mock with additional settings, use `MockSettings.mock` function.
+```kotlin
+import org.mockito.Mockito.withSettings
+
+val mock = withSettings().name("foo").mock<Foo>()
+```
+
 ## Stubbing/Verification
 
+Use `BDDMockito#given(T)` instead of `Mockito#when(T)` because the `when` is reserved as a keyword in Kotlin.
 ```kotlin
-// Use BDDMockito#given instead of Mockito#when because the 'when' is
-// reserved as a keyword in Kotlin.
 import org.mockito.BDDMockito.given
 
 given(mock.doSomething(any())).willReturn("test")
@@ -44,7 +50,7 @@ These matchers are defined as top-level functions.
 - or(T?, T?)
 - not(T?)
 
-To directly use ArgumentMatchers/AdditionalMatchers methods, use 'by' function.
+To directly use ArgumentMatchers/AdditionalMatchers methods, use `by` function.
 This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
 ```kotlin
 import org.mockito.AdditionalMatchers.geq
@@ -76,7 +82,7 @@ repositories {
 }
 ```
 
-And then, add this library and mockito-core as 'testCompile' dependency.
+And then, add this library and mockito-core as `testCompile` dependency.
 ```groovy
 dependencies {
     testCompile 'com.github.tmurakami:mockito4k:x.y.z'
@@ -84,7 +90,7 @@ dependencies {
 }
 ```
 
-To use this library with mockito-android, add these libraries as 'androidTestCompile' dependency.
+To use this library with mockito-android, add these libraries as `androidTestCompile` dependency.
 ```groovy
 dependencies {
     androidTestCompile 'com.github.tmurakami:mockito4k:x.y.z'

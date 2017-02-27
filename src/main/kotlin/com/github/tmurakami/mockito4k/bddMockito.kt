@@ -13,10 +13,10 @@ import kotlin.reflect.KClass
  */
 fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
-@Deprecated("Use BDDMockito#willAnswer(Answer) directly", ReplaceWith(""))
+@Deprecated("Use 'BDDMockito#willAnswer(Answer)' directly", ReplaceWith("willAnswer(answer)", "org.mockito.BDDMockito.willAnswer"))
 fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
 
-@Deprecated("Use BDDMockito#will(Answer) directly", ReplaceWith(""))
+@Deprecated("Use 'BDDMockito#will(Answer)' directly", ReplaceWith("will(answer)", "org.mockito.BDDMockito.will"))
 fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
 
 /**

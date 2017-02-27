@@ -14,40 +14,17 @@ import kotlin.reflect.KClass
  */
 inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)
 
-/**
- * The delegation to [Mockito#mock(Class, String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;java.lang.String&#41;).
- *
- * @param T the type of mock
- * @param name the name of mock
- * @return the result for executing [Mockito#mock(Class, String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;java.lang.String&#41;)
- */
+@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().name(name).mock<T>()", "org.mockito.Mockito.withSettings"))
 inline fun <reified T : Any> mock(name: String): T = Mockito.mock(T::class.java, name)
 
-/**
- * The delegation to [Mockito#mock(Class, org.mockito.stubbing.Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.stubbing.Answer&#41;).
- *
- * @param T the type of mock
- * @param defaultAnswer the default answer for unstubbed functions
- * @return the result for executing [Mockito#mock(Class, org.mockito.stubbing.Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.stubbing.Answer&#41;)
- */
+@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().defaultAnswer(defaultAnswer).mock<T>()", "org.mockito.Mockito.withSettings"))
 inline fun <reified T : Any> mock(defaultAnswer: Answer<*>): T = Mockito.mock(T::class.java, defaultAnswer)
 
-/**
- * The delegation to [Mockito#mock(Class, org.mockito.stubbing.Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.stubbing.Answer&#41;).
- *
- * @param T the type of mock
- * @param defaultAnswer the default answer for unstubbed functions
- * @return the result for executing [Mockito#mock(Class, org.mockito.stubbing.Answer)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.stubbing.Answer&#41;)
- */
+@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().defaultAnswer(defaultAnswer).mock<T>()", "org.mockito.Mockito.withSettings"))
 inline fun <reified T : Any> mock(noinline defaultAnswer: (InvocationOnMock) -> Any?): T = Mockito.mock(T::class.java, defaultAnswer)
 
-/**
- * The delegation to [Mockito#mock(Class, org.mockito.MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;).
- *
- * @param T the type of mock
- * @param mockSettings the additional settings for making mock
- * @return the result for executing [Mockito#mock(Class, org.mockito.MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;)
- */
+@JvmName("deprecatedMock")
+@Deprecated("Use 'MockSettings.mock'", ReplaceWith("mockSettings.mock<T>()"))
 inline fun <reified T : Any> mock(mockSettings: MockSettings): T = Mockito.mock(T::class.java, mockSettings)
 
 /**
@@ -66,6 +43,14 @@ inline fun <reified T : Any> spy(): T = Mockito.spy(T::class.java)
  * @return the result for executing [Mockito#spy(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#spy&#40;T&#41;)
  */
 fun <T> spy(instance: T): T = Mockito.spy(instance)
+
+/**
+ * The delegation to [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;).
+ *
+ * @param T the type of mock
+ * @return the result for executing [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;)
+ */
+inline fun <reified T : Any> MockSettings.mock(): T = Mockito.mock(T::class.java, this)
 
 /**
  * The delegation to [MockSettings#extraInterfaces(Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/MockSettings.html#extraInterfaces&#40;java.lang.Class...&#41;).
