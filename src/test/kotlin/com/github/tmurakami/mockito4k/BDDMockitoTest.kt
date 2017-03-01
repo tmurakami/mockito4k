@@ -8,7 +8,7 @@ import java.util.*
 class BDDMockitoTest {
 
     @Test(expected = RuntimeException::class)
-    fun the_willThrow_function_should_make_a_BDDStubber_that_causes_error_of_the_given_type() {
+    fun `willThrow(KClass, vararg KClass) should make a BDDStubber that causes error of the given type`() {
         val list = ArrayList<String>()
         val mock = Mockito.spy(list)
         willThrow(RuntimeException::class).given(mock).clear()
@@ -16,7 +16,7 @@ class BDDMockitoTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun the_willThrow_function_should_make_a_BDDMyOngoingStubbing_that_causes_error_of_the_given_type() {
+    fun `BDDMyOngoingStubbing#willThrow(KClass, vararg KClass) should make a BDDMyOngoingStubbing that causes error of the given type`() {
         val mock = Mockito.mock(List::class.java)
         BDDMockito.given(mock[0]).willThrow(RuntimeException::class)
         mock[0]

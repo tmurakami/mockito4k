@@ -9,133 +9,95 @@ import java.io.Serializable
 class ArgumentMatchersTest {
 
     @Test
-    fun the_any_function_should_make_a_matcher_that_matches_anything() {
-        abstract class A {
-            abstract fun f(arg: Any?)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(null)
-        mock.f(Any())
-        BDDMockito.then(mock).should(Mockito.times(2)).f(any())
+    fun `any() should make a matcher that matches anything`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.nullableAny(null)
+        mock.nullableAny(Any())
+        BDDMockito.then(mock).should(Mockito.times(2)).nullableAny(any())
     }
 
     @Test
-    fun the_anyKClass_function_should_make_a_matcher_that_is_of_the_given_type() {
-        abstract class A {
-            abstract fun f(arg: Any?)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(null)
-        mock.f(Any())
-        BDDMockito.then(mock).should(Mockito.times(1)).f(any(Any::class))
+    fun `any(KClass) function should make a matcher that is of the given type`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.nullableAny(null)
+        mock.nullableAny(Any())
+        BDDMockito.then(mock).should(Mockito.times(1)).nullableAny(any(Any::class))
     }
 
     @Test
-    fun the_eq_function_should_make_a_matcher_that_is_equal_to_the_given_value() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
+    fun `eq(T) should make a matcher that is equal to the given value`() {
         val arg = Any()
-        val mock = Mockito.mock(A::class.java)
-        mock.f(arg)
-        BDDMockito.then(mock).should().f(eq(arg))
+        val mock = Mockito.mock(I::class.java)
+        mock.any(arg)
+        BDDMockito.then(mock).should().any(eq(arg))
     }
 
     @Test
-    fun the_same_function_should_make_a_matcher_that_is_same_as_the_given_value() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
+    fun `same(T) should make a matcher that is same as the given value`() {
         val arg = Any()
-        val mock = Mockito.mock(A::class.java)
-        mock.f(arg)
-        BDDMockito.then(mock).should().f(same(arg))
+        val mock = Mockito.mock(I::class.java)
+        mock.any(arg)
+        BDDMockito.then(mock).should().any(same(arg))
     }
 
     @Test
-    fun the_isA_function_should_make_a_matcher_that_is_of_the_given_type() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("")
-        mock.f(Any())
-        BDDMockito.then(mock).should().f(isA(Serializable::class))
+    fun `isA(KClass) should make a matcher that is of the given type`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.any("")
+        mock.any(Any())
+        BDDMockito.then(mock).should().any(isA(Serializable::class))
     }
 
     @Test
-    fun the_isNull_function_should_make_a_matcher_that_is_equal_to_null() {
-        abstract class A {
-            abstract fun f(arg: Any?)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(null)
-        BDDMockito.then(mock).should().f(isNull())
+    fun `isNull() should make a matcher that is equal to null`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.nullableAny(null)
+        BDDMockito.then(mock).should().nullableAny(isNull())
     }
 
     @Test
-    fun the_isNotNull_function_should_make_a_matcher_that_is_not_equal_to_null() {
-        abstract class A {
-            abstract fun f(arg: Any?)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(Any())
-        BDDMockito.then(mock).should().f(isNotNull())
+    fun `isNotNull() should make a matcher that is not equal to null`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.nullableAny(Any())
+        BDDMockito.then(mock).should().nullableAny(isNotNull())
     }
 
     @Test
-    fun the_nullable_function_should_make_a_matcher_that_is_either_null_or_of_the_given_type() {
-        abstract class A {
-            abstract fun f(arg: Any?)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f(null)
-        mock.f("")
-        mock.f(Any())
-        BDDMockito.then(mock).should(Mockito.times(2)).f(nullable<Serializable>())
+    fun `nullable() should make a matcher that is either null or of the given type`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.nullableAny(null)
+        mock.nullableAny("")
+        mock.nullableAny(Any())
+        BDDMockito.then(mock).should(Mockito.times(2)).nullableAny(nullable<Serializable>())
     }
 
     @Test
-    fun the_matches_function_should_make_a_matcher_that_matches_the_given_regular_expression() {
-        abstract class A {
-            abstract fun f(arg: String)
-        }
-
-        val mock = Mockito.mock(A::class.java)
-        mock.f("foobar")
-        BDDMockito.then(mock).should().f(matches(Regex("[\\w]+")))
+    fun `matches(Regex) should make a matcher that matches the given regular expression`() {
+        val mock = Mockito.mock(I::class.java)
+        mock.string("foobar")
+        BDDMockito.then(mock).should().string(matches(Regex("[\\w]+")))
     }
 
     @Test
-    fun the_argThat_function_should_make_a_matcher_with_the_given_function() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
-        val mock = Mockito.mock(A::class.java)
+    fun `argThat(Function1) should make a matcher with the given function`() {
+        val mock = Mockito.mock(I::class.java)
         val arg = Any()
-        mock.f(arg)
-        BDDMockito.then(mock).should().f(argThat { it == arg })
+        mock.any(arg)
+        BDDMockito.then(mock).should().any(argThat { it == arg })
     }
 
     @Test
-    fun the_argThat_function_should_make_a_matcher_with_the_given_ArgumentMatcher() {
-        abstract class A {
-            abstract fun f(arg: Any)
-        }
-
-        val mock = Mockito.mock(A::class.java)
+    fun `argThat(ArgumentMatcher) should make a matcher with the given ArgumentMatcher`() {
+        val mock = Mockito.mock(I::class.java)
         val arg = Any()
-        mock.f(arg)
-        BDDMockito.then(mock).should().f(argThat(ArgumentMatcher { it == arg }))
+        mock.any(arg)
+        BDDMockito.then(mock).should().any(argThat(ArgumentMatcher { it == arg }))
+    }
+
+    interface I {
+        fun any(arg: Any)
+        fun nullableAny(arg: Any?)
+        fun string(arg: String)
     }
 
 }
