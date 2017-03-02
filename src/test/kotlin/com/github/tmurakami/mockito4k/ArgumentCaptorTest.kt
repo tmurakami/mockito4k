@@ -8,7 +8,7 @@ import org.mockito.Mockito
 class ArgumentCaptorTest {
 
     @Test
-    fun `capture(ArgumentCaptor) should capture the argument without causing IllegalStateException`() {
+    fun `capture should capture the argument without causing IllegalStateException`() {
         val arg = Any()
         val mock = Mockito.mock(I::class.java)
         mock.f(arg)
