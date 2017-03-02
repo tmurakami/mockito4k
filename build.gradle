@@ -26,10 +26,11 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.mockito:mockito-core:2.6.0'
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:latest.release'
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 task sourcesJar(type: Jar) {
@@ -40,6 +41,7 @@ task sourcesJar(type: Jar) {
 dokka {
     skipDeprecated = true
     outputDirectory = javadoc.destinationDir
+    processConfigurations = ['compile', 'compileOnly']
 }
 javadoc.dependsOn dokka
 
