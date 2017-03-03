@@ -74,7 +74,7 @@ These matchers are defined as top-level functions.
 - find
 - aryEq
 
-To directly use ArgumentMatchers/AdditionalMatchers methods, use `by` function.
+If you want to use ArgumentMatchers/AdditionalMatchers methods directly, use `by` function with those methods.
 This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
 ```kotlin
 mock.doSomething(by(AdditionalMatchers.geq("a")))
