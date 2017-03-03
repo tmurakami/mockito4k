@@ -41,6 +41,15 @@ fun <T : Any> any(clazz: KClass<T>): T = by(ArgumentMatchers.any(clazz.java))
 fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
 
 /**
+ * The delegation to [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;).
+ *
+ * @param T the type of the given [value]
+ * @param value the value to be compared
+ * @return the result for executing [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;)
+ */
+fun <T> refEq(value: T, vararg excludeFields: String): T = ArgumentMatchers.refEq(value, *excludeFields)
+
+/**
  * The delegation to [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;).
  *
  * @param T the type of the given [value]

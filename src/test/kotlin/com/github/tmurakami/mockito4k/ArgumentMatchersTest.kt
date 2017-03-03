@@ -12,108 +12,118 @@ class ArgumentMatchersTest {
     @Test
     fun `any should make a matcher that matches anything`() {
         val mock = mock<I>()
-        mock.o(null)
-        mock.o(Any())
-        then(mock).should(Mockito.times(2)).o(any())
+        mock.nullable(null)
+        mock.nullable(Any())
+        then(mock).should(Mockito.times(2)).nullable(any())
     }
 
     @Test
     fun `any_KClass function should make a matcher that is of the given type`() {
         val mock = mock<I>()
-        mock.o(null)
-        mock.o(Any())
-        then(mock).should(Mockito.times(1)).o(any(Any::class))
+        mock.nullable(null)
+        mock.nullable(Any())
+        then(mock).should(Mockito.times(1)).nullable(any(Any::class))
     }
 
     @Test
     fun `eq should make a matcher that is equal to the given value`() {
         val arg = Any()
         val mock = mock<I>()
-        mock.o(arg)
-        then(mock).should().o(eq(arg))
+        mock.nonNull(arg)
+        then(mock).should().nonNull(eq(arg))
+    }
+
+    @Test
+    fun `refEq should make a matcher that is reflection-equal to the given value`() {
+        val first = Any()
+        val arg = first to Any()
+        val mock = mock<I>()
+        mock.nonNull(arg)
+        then(mock).should().nonNull(refEq(first to null, "second"))
     }
 
     @Test
     fun `same should make a matcher that is same as the given value`() {
         val arg = Any()
         val mock = mock<I>()
-        mock.o(arg)
-        then(mock).should().o(same(arg))
+        mock.nonNull(arg)
+        then(mock).should().nonNull(same(arg))
     }
 
     @Test
     fun `isA should make a matcher that is of the given type`() {
         val mock = mock<I>()
-        mock.o("")
-        mock.o(Any())
-        then(mock).should().o(isA(Serializable::class))
+        mock.nonNull("")
+        mock.nonNull(Any())
+        then(mock).should().nonNull(isA(Serializable::class))
     }
 
     @Test
     fun `isNull should make a matcher that is equal to null`() {
         val mock = mock<I>()
-        mock.o(null)
-        then(mock).should().o(isNull())
+        mock.nullable(null)
+        then(mock).should().nullable(isNull())
     }
 
     @Test
     fun `isNotNull should make a matcher that is not equal to null`() {
         val mock = mock<I>()
-        mock.o(Any())
-        then(mock).should().o(isNotNull())
+        mock.nullable(Any())
+        then(mock).should().nullable(isNotNull())
     }
 
     @Test
     fun `nullable should make a matcher that is either null or of the given type`() {
         val mock = mock<I>()
-        mock.o(null)
-        mock.o("")
-        mock.o(Any())
-        then(mock).should(Mockito.times(2)).o(nullable<Serializable>())
+        mock.nullable(null)
+        mock.nullable("")
+        mock.nullable(Any())
+        then(mock).should(Mockito.times(2)).nullable(nullable<Serializable>())
     }
 
     @Test
     fun `matches_Regex should make a matcher that matches the given regular expression`() {
         val mock = mock<I>()
-        mock.o("foobar")
-        then(mock).should().o(matches(Regex("[\\w]+")))
+        mock.nonNull("foobar")
+        then(mock).should().nonNull(matches(Regex("[\\w]+")))
     }
 
     @Test
     fun `argThat_Function1 should make a primitive matcher with the given function`() {
         val mock = mock<I>()
         val arg = 0
-        mock.i(arg)
-        then(mock).should().i(argThat { it == 0 })
+        mock.int(arg)
+        then(mock).should().int(argThat { it == 0 })
     }
 
     @Test
     fun `argThat_Function1 should make a object matcher with the given function`() {
         val mock = mock<I>()
         val arg = Any()
-        mock.o(arg)
-        BDDMockito.then(mock).should().o(argThat { it == arg })
+        mock.nonNull(arg)
+        BDDMockito.then(mock).should().nonNull(argThat { it == arg })
     }
 
     @Test
     fun `argThat_ArgumentMatcher should make a primitive matcher with the given ArgumentMatcher`() {
         val mock = mock<I>()
         val arg = 0
-        mock.i(arg)
-        then(mock).should().i(argThat(ArgumentMatcher { it == arg }))
+        mock.int(arg)
+        then(mock).should().int(argThat(ArgumentMatcher { it == arg }))
     }
 
     @Test
     fun `argThat_ArgumentMatcher should make a object matcher with the given ArgumentMatcher`() {
         val mock = mock<I>()
         val arg = Any()
-        mock.o(arg)
-        then(mock).should().o(argThat(ArgumentMatcher { it == arg }))
+        mock.nonNull(arg)
+        then(mock).should().nonNull(argThat(ArgumentMatcher { it == arg }))
     }
 
     interface I {
-        fun i(arg: Int)
-        fun o(arg: Any?)
+        fun int(arg: Int)
+        fun nonNull(arg: Any)
+        fun nullable(arg: Any?)
     }
 
 }
