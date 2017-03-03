@@ -9,15 +9,14 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
 ## Mock creation
 
+Use `mock()`
 ```kotlin
 val mock = mock<Foo>()
 ```
 
-To create a mock with additional settings, use `MockSettings.mock` function.
+To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` function.
 ```kotlin
-import org.mockito.Mockito.withSettings
-
-val mock = withSettings().name("foo").mock<Foo>()
+val mock = mock<Foo> { name("foo") }
 ```
 
 ## Stubbing
@@ -53,27 +52,31 @@ then(mock).should().someProperty = "bar"
 ## Checking arguments
 
 These matchers are defined as top-level functions.
-- any()
+- any
 - any(KClass)
-- eq(T)
-- same(T)
-- isA(KClass<T>)
-- isNull()
-- isNotNull()
-- nullable()
+- eq
+- refEq
+- same
+- isA
+- isNull
+- isNotNull
+- nullable
 - matches(Regex)
-- argThat(ArgumentMatcher<T>)
-- argThat((T) -> Boolean)
-- and(T?, T?)
-- or(T?, T?)
-- not(T?)
+- argThat
+- and
+- or
+- not
+- geq
+- gt
+- leq
+- lt
+- find
+- aryEq
 
 To directly use ArgumentMatchers/AdditionalMatchers methods, use `by` function.
 This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
 ```kotlin
-import org.mockito.AdditionalMatchers.geq
-
-mock.doSomething(by(geq("a")))
+mock.doSomething(by(AdditionalMatchers.geq("a")))
 ```
 
 ## Capturing arguments
