@@ -2,30 +2,24 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.MockSettings
 import org.mockito.Mockito
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
 import kotlin.reflect.KClass
 
 /**
- * The delegation to [Mockito#mock(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class&#41;).
+ * Creates a mock object without additional settings.
  *
  * @param T the type of mock
- * @return the result for executing [Mockito#mock(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class&#41;)
+ * @return the mock object
  */
-inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)
+inline fun <reified T : Any> mock(): T = mock { }
 
-@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().name(name).mock<T>()", "org.mockito.Mockito.withSettings"))
-inline fun <reified T : Any> mock(name: String): T = Mockito.mock(T::class.java, name)
-
-@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().defaultAnswer(defaultAnswer).mock<T>()", "org.mockito.Mockito.withSettings"))
-inline fun <reified T : Any> mock(defaultAnswer: Answer<*>): T = Mockito.mock(T::class.java, defaultAnswer)
-
-@Deprecated("Use 'MockSettings.mock'", ReplaceWith("withSettings().defaultAnswer(defaultAnswer).mock<T>()", "org.mockito.Mockito.withSettings"))
-inline fun <reified T : Any> mock(noinline defaultAnswer: (InvocationOnMock) -> Any?): T = Mockito.mock(T::class.java, defaultAnswer)
-
-@JvmName("deprecatedMock")
-@Deprecated("Use 'MockSettings.mock'", ReplaceWith("mockSettings.mock<T>()"))
-inline fun <reified T : Any> mock(mockSettings: MockSettings): T = Mockito.mock(T::class.java, mockSettings)
+/**
+ * The delegation to [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;).
+ *
+ * @param T the type of mock
+ * @return the result for executing [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;)
+ */
+inline fun <reified T : Any> mock(settings: MockSettings.() -> Unit): T =
+        Mockito.mock(T::class.java, Mockito.withSettings().apply { settings() })
 
 /**
  * The delegation to [Mockito#spy(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#spy&#40;java.lang.Class&#41;).
@@ -44,12 +38,7 @@ inline fun <reified T : Any> spy(): T = Mockito.spy(T::class.java)
  */
 fun <T> spy(instance: T): T = Mockito.spy(instance)
 
-/**
- * The delegation to [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;).
- *
- * @param T the type of mock
- * @return the result for executing [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;)
- */
+@Deprecated("use 'mock(MockSettings.() -> Unit)' instead", ReplaceWith("mock<T> { this }"))
 inline fun <reified T : Any> MockSettings.mock(): T = Mockito.mock(T::class.java, this)
 
 /**
