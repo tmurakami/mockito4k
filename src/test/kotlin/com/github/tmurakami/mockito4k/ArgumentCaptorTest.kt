@@ -2,18 +2,17 @@ package com.github.tmurakami.mockito4k
 
 import org.junit.Assert.assertSame
 import org.junit.Test
-import org.mockito.BDDMockito
-import org.mockito.Mockito
+import org.mockito.BDDMockito.then
 
 class ArgumentCaptorTest {
 
     @Test
     fun `capture should capture the argument without causing IllegalStateException`() {
         val arg = Any()
-        val mock = Mockito.mock(I::class.java)
+        val mock = mock<I>()
         mock.f(arg)
         val captor = argumentCaptor<Any>()
-        BDDMockito.then(mock).should().f(capture(captor))
+        then(mock).should().f(capture(captor))
         assertSame(arg, captor.value)
     }
 

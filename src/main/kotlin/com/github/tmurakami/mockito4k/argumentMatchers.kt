@@ -2,14 +2,15 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
+import org.mockito.internal.util.Primitives
 import kotlin.reflect.KClass
 
 /**
- * Prevent causing NullPointerException when using a matcher for method that only accepts non-null parameter.
+ * Prevent causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
  *
- * @param T the type of the given argument matcher
+ * @param T the type of the given argument [matcher]
  * @param matcher the argument matcher
- * @return the given argument matcher
+ * @return the given argument [matcher]
  */
 fun <T> by(matcher: T?): T = matcher as T
 
@@ -19,7 +20,7 @@ fun <T> by(matcher: T?): T = matcher as T
  * @param T the type of the argument matcher
  * @return the result for executing [ArgumentMatchers#any()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;&#41;)
  */
-fun <T> any(): T = ArgumentMatchers.any()
+fun <T> any(): T? = ArgumentMatchers.any()
 
 /**
  * The delegation to [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;).
@@ -33,7 +34,7 @@ fun <T : Any> any(clazz: KClass<T>): T = by(ArgumentMatchers.any(clazz.java))
 /**
  * The delegation to [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;).
  *
- * @param T the type of the given value
+ * @param T the type of the given [value]
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;)
  */
@@ -42,7 +43,7 @@ fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
 /**
  * The delegation to [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;).
  *
- * @param T the type of the given value
+ * @param T the type of the given [value]
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;)
  */
@@ -92,17 +93,17 @@ fun matches(regex: Regex): String = ArgumentMatchers.matches(regex.toPattern())
 /**
  * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).
  *
- * @param T the type of the argument matcher
+ * @param T the type of the argument [matcher]
  * @param matcher the argument matcher
  * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
  */
-fun <T> argThat(matcher: ArgumentMatcher<T>): T = ArgumentMatchers.argThat(matcher)
+inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T = by(ArgumentMatchers.argThat(matcher) ?: Primitives.defaultValue(T::class.java))
 
 /**
  * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).
  *
- * @param T the type of the argument matcher
+ * @param T the type of the argument [matcher]
  * @param matcher the argument matcher
  * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
  */
-fun <T> argThat(matcher: (T) -> Boolean): T = ArgumentMatchers.argThat(matcher)
+inline fun <reified T : Any> argThat(noinline matcher: (T) -> Boolean): T = by(ArgumentMatchers.argThat(matcher) ?: Primitives.defaultValue(T::class.java))
