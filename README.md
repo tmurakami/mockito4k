@@ -10,7 +10,7 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
 ## Mock creation
 
-Use `mock()`
+Use `mock` function.
 ```kotlin
 val mock = mock<Foo>()
 ```
@@ -22,7 +22,7 @@ val mock = mock<Foo> { name("foo") }
 
 ## Stubbing
 
-Use `given(T)`.
+Use `given` function.
 ```kotlin
 given(mock) {
     running { doSomething("foo") }
@@ -82,14 +82,13 @@ mock.doSomething(by(AdditionalMatchers.geq("a")))
 
 ## Capturing arguments
 
+Use `argumentCaptor` function.
 ```kotlin
 val captor = argumentCaptor<String>()
 ```
 
-Use 'capture' function to avoid causing NullPointerException.
+To avoid causing NullPointerException, use `capture` function.
 ```kotlin
-import org.mockito.BDDMockito.then
-
 mock.doSomething(capture(captor))
 ```
 
