@@ -20,19 +20,36 @@ import org.mockito.Mockito.withSettings
 val mock = withSettings().name("foo").mock<Foo>()
 ```
 
-## Stubbing/Verification
+## Stubbing
 
-Use `BDDMockito#given(T)` instead of `Mockito#when(T)` because the `when` is reserved as a keyword in Kotlin.
+Use `given(T)`.
 ```kotlin
-import org.mockito.BDDMockito.given
-
-given(mock.doSomething(any())).willReturn("test")
+given(mock) {
+    running { doSomething("foo") }
+            .willReturn("bar")
+            .willThrow(IllegalStateException::class)
+}
 ```
+
+This function can also be used for properties, `Unit` (`void`) functions, and spied objects.
+```kotlin
+given(mock) {
+    running { someProperty = "foo" }
+            .willReturn(Unit) // Same as Mockito#doNothing()
+            .willThrow(IllegalStateException::class)
+}
+```
+
+## Verification
+
+Currently we do not provide any functions for verification, so use `BDDMockito#then(T)`.
 ```kotlin
 import org.mockito.BDDMockito.then
 
-then(mock).should().doSomething(or(eq("foo"), eq("bar")))
+then(mock).should().doSomething("foo")
 ```
+
+## Checking arguments
 
 These matchers are defined as top-level functions.
 - any()
@@ -54,9 +71,8 @@ To directly use ArgumentMatchers/AdditionalMatchers methods, use `by` function.
 This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
 ```kotlin
 import org.mockito.AdditionalMatchers.geq
-import org.mockito.BDDMockito.given
 
-given(mock.doSomething(by(geq("a")))).will...
+mock.doSomething(by(geq("a")))
 ```
 
 ## Capturing arguments
@@ -69,7 +85,7 @@ Use 'capture' function to avoid causing NullPointerException.
 ```kotlin
 import org.mockito.BDDMockito.then
 
-given(mock.doSomething(capture(captor))).will...
+mock.doSomething(capture(captor))
 ```
 
 ## Installation
