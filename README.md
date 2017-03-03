@@ -47,6 +47,7 @@ Currently we do not provide any functions for verification, so use `BDDMockito#t
 import org.mockito.BDDMockito.then
 
 then(mock).should().doSomething("foo")
+then(mock).should().someProperty = "bar"
 ```
 
 ## Checking arguments
