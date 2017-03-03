@@ -1,38 +1,158 @@
 package com.github.tmurakami.mockito4k
 
 import org.mockito.BDDMockito
+import org.mockito.Mockito
 import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
+import org.mockito.stubbing.Stubber
 import kotlin.reflect.KClass
 
-/**
- * The delegation to [BDDMockito#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
- *
- * @param toBeThrown the class of error to be thrown when the stubbed function is called
- * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
- * @return the result for executing [BDDMockito#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
- */
+@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
 fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
-@Deprecated("Use 'BDDMockito#willAnswer(Answer)' directly", ReplaceWith("willAnswer(answer)", "org.mockito.BDDMockito.willAnswer"))
+@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
 fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
 
-@Deprecated("Use 'BDDMockito#will(Answer)' directly", ReplaceWith("will(answer)", "org.mockito.BDDMockito.will"))
+@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
 fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
 
-/**
- * The delegation to [BDDMockito.BDDMyOngoingStubbing#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDMyOngoingStubbing.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
- *
- * @param toBeThrown the class of error to be thrown when the stubbed function is called
- * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
- * @return the result for executing [BDDMockito.BDDMyOngoingStubbing#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDMyOngoingStubbing.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
- */
+@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
 fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDMyOngoingStubbing<T> = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
-/**
- * The delegation to [BDDMockito.BDDStubber#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDStubber.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;).
- *
- * @param toBeThrown the class of error to be thrown when the stubbed function is called
- * @param nextToBeThrown the class of next to be thrown when the stubbed function is called
- * @return the result for executing [BDDMockito.BDDStubber#willThrow(Class, Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.BDDStubber.html#willThrow&#40;java.lang.Class,&#32;java.lang.Class...&#41;)
- */
+@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
 fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
+
+/**
+ * Enable stubbing functions.
+ *
+ * @param T the type of the given [mock]
+ * @param mock the mock object you want to stub
+ * @param settings the stubbing settings
+ * @return the given [mock] object
+ */
+fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T {
+    var pending: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>? = null
+    fun Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.finishStubbing() = second.stubber?.`when`(mock)?.let { first(mock) }
+    object : BDDStubbingSettings<T> {
+        override fun <R> running(function: T.() -> R): BDDOngoingStubbing<R> {
+            pending?.finishStubbing()
+            return BDDOngoingStubbingImpl<R>().apply { pending = function to this }
+        }
+    }.settings()
+    pending?.finishStubbing()
+    return mock
+}
+
+/**
+ * The settings for stubbing.
+ *
+ * @param T the type of a mock
+ */
+interface BDDStubbingSettings<out T> {
+
+    /**
+     * Stub the given function.
+     *
+     * @param R the return type of the given [function]
+     * @param function the function you want to stub
+     * @return the fluent object to stub
+     */
+    fun <R> running(function: T.() -> R): BDDOngoingStubbing<R>
+
+}
+
+/**
+ * The fluent API for stubbing.
+ *
+ * @param R the return type of the function you want to stub
+ */
+interface BDDOngoingStubbing<R> {
+
+    /**
+     * Set to call the given [answer] when the function is called.
+     *
+     * @param answer the answer to be called
+     * @return this object
+     */
+    fun will(answer: Answer<R>): BDDOngoingStubbing<R>
+
+    /**
+     * Set to call the given [answer] when the function is called.
+     *
+     * @param answer the answer to be called
+     * @return this object
+     */
+    fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
+
+    /**
+     * Set to call the actual function when the function is called.
+     *
+     * @return this object
+     */
+    fun willCallRealMethod(): BDDOngoingStubbing<R>
+
+    /**
+     * Set to return values to be returned when the function is called.
+     *
+     * @param value the value to be returned
+     * @param values the next value to be returned
+     * @return this object
+     */
+    fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R>
+
+    /**
+     * Set to throw errors when the function is called.
+     *
+     * @param toBeThrown the error to be thrown
+     * @param nextToBeThrown the next error to be thrown
+     * @return this object
+     */
+    fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R>
+
+    /**
+     * Set to throw errors to be thrown when the function is called.
+     *
+     * @param toBeThrown the type of the error to be thrown
+     * @param nextToBeThrown the type of the next error to be thrown
+     * @return this object
+     */
+    fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R>
+
+}
+
+private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
+
+    companion object {
+        val DO_NOTHING: (InvocationOnMock) -> Any? = { Unit }
+    }
+
+    var stubber: Stubber? = null
+
+    override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = apply {
+        stubber = (stubber?.doAnswer(answer)) ?: Mockito.doAnswer(answer)
+    }
+
+    override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = apply {
+        stubber = (stubber?.doAnswer(answer)) ?: Mockito.doAnswer(answer)
+    }
+
+    override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply {
+        stubber = (stubber?.doCallRealMethod()) ?: Mockito.doCallRealMethod()
+    }
+
+    override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
+        stubber = arrayListOf(value, *values).fold(stubber) { s, v ->
+            if (v === Unit) (s?.doAnswer(DO_NOTHING)) ?: Mockito.doAnswer(DO_NOTHING) else (s?.doReturn(v)) ?: Mockito.doReturn(v)
+        }
+    }
+
+    override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
+        stubber = (stubber?.doThrow(toBeThrown, *nextToBeThrown)) ?: Mockito.doThrow(toBeThrown, *nextToBeThrown)
+    }
+
+    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
+        val classes = nextToBeThrown.map { it.java }.toTypedArray()
+        stubber = (stubber?.doThrow(toBeThrown.java, *classes)) ?: Mockito.doThrow(toBeThrown.java, *classes)
+    }
+
+}
