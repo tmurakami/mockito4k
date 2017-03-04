@@ -30,9 +30,9 @@ fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>, vararg ne
  * @param settings the stubbing settings
  * @return the given [mock] object
  */
-fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T {
+fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
     var pending: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>? = null
-    fun Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.finishStubbing() = second.stubber?.`when`(mock)?.let { first(mock) }
+    val finishStubbing: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.() -> Unit = { second.stubber?.`when`(mock)?.let { first(mock) } }
     object : BDDStubbingSettings<T> {
         override fun <R> running(function: T.() -> R): BDDOngoingStubbing<R> {
             pending?.finishStubbing()
@@ -40,7 +40,6 @@ fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T {
         }
     }.settings()
     pending?.finishStubbing()
-    return mock
 }
 
 /**
@@ -123,36 +122,35 @@ interface BDDOngoingStubbing<R> {
 private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
     companion object {
-        val DO_NOTHING: (InvocationOnMock) -> Any? = { Unit }
+        val UNIT: (InvocationOnMock) -> Any? = { Unit }
     }
 
     var stubber: Stubber? = null
 
     override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = apply {
-        stubber = (stubber?.doAnswer(answer)) ?: Mockito.doAnswer(answer)
+        stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
 
     override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = apply {
-        stubber = (stubber?.doAnswer(answer)) ?: Mockito.doAnswer(answer)
+        stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
 
     override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply {
-        stubber = (stubber?.doCallRealMethod()) ?: Mockito.doCallRealMethod()
+        stubber = stubber?.doCallRealMethod() ?: Mockito.doCallRealMethod()
     }
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
         stubber = arrayListOf(value, *values).fold(stubber) { s, v ->
-            if (v === Unit) (s?.doAnswer(DO_NOTHING)) ?: Mockito.doAnswer(DO_NOTHING) else (s?.doReturn(v)) ?: Mockito.doReturn(v)
+            if (v === Unit) s?.doAnswer(UNIT) ?: Mockito.doAnswer(UNIT) else s?.doReturn(v) ?: Mockito.doReturn(v)
         }
     }
 
     override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
-        stubber = (stubber?.doThrow(toBeThrown, *nextToBeThrown)) ?: Mockito.doThrow(toBeThrown, *nextToBeThrown)
+        stubber = stubber?.doThrow(toBeThrown, *nextToBeThrown) ?: Mockito.doThrow(toBeThrown, *nextToBeThrown)
     }
 
     override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
-        val classes = nextToBeThrown.map { it.java }.toTypedArray()
-        stubber = (stubber?.doThrow(toBeThrown.java, *classes)) ?: Mockito.doThrow(toBeThrown.java, *classes)
+        stubber = toBeThrown.java.let { stubber?.doThrow(it) ?: Mockito.doThrow(it) }.let { nextToBeThrown.fold(it) { s, c -> s.doThrow(c.java) } }
     }
 
 }
