@@ -1,31 +1,37 @@
 package com.github.tmurakami.mockito4k
 
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.BDDMockito.then
+import org.mockito.Spy
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
+import org.mockito.quality.Strictness
 import org.mockito.stubbing.Answer
 
 class BDDMockitoTest {
 
-    @Test
-    fun `given should stub the function to call the specified answer object`() {
-        val mock = spy<C>()
-        assertEquals("foo", given(mock) {
-            running { s }.will(Answer { "foo" })
-        }.s)
-    }
+    @get:Rule
+    val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
+    @Spy
+    lateinit var mock: C
 
     @Test
-    fun `given should stub the function to call the specified answer function`() {
-        val mock = spy<C>()
-        assertEquals("foo", given(mock) {
-            running { s }.will { "foo" }
-        }.s)
-    }
+    fun `given should stub the function to call the specified answer object`() =
+            assertEquals("foo", given(mock) {
+                running { s }.will(Answer { "foo" })
+            }.s)
+
+    @Test
+    fun `given should stub the function to call the specified answer function`() =
+            assertEquals("foo", given(mock) {
+                running { s }.will { "foo" }
+            }.s)
 
     @Test
     fun `given should stub the function to call the real function`() {
-        val mock = spy<C>()
         given(mock) {
             running { s = any(String::class) }.willReturn(Unit).willCallRealMethod()
         }
@@ -36,16 +42,13 @@ class BDDMockitoTest {
     }
 
     @Test
-    fun `given should stub the function to return the specified value`() {
-        val mock = spy<C>()
-        assertEquals("foo", given(mock) {
-            running { s }.willReturn("foo")
-        }.s)
-    }
+    fun `given should stub the function to return the specified value`() =
+            assertEquals("foo", given(mock) {
+                running { s }.willReturn("foo")
+            }.s)
 
     @Test
     fun `given should stub the void function to return Unit`() {
-        val mock = spy<C>()
         given(mock) {
             running { s = any(String::class) }.willReturn(Unit)
         }
@@ -55,7 +58,6 @@ class BDDMockitoTest {
 
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the specified error`() {
-        val mock = spy<C>()
         given(mock) {
             running { s = any(String::class) }.willThrow(IllegalStateException())
         }.s = "foo"
@@ -63,7 +65,6 @@ class BDDMockitoTest {
 
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the error of the specified type`() {
-        val mock = spy<C>()
         given(mock) {
             running { s = any(String::class) }.willThrow(IllegalStateException::class)
         }.s = "foo"
