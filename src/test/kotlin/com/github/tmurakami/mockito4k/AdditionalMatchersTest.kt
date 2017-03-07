@@ -78,6 +78,98 @@ class AdditionalMatchersTest {
     }
 
     @Test
+    fun `geq should make a primitive matcher that is greater than or equal to the given value`() {
+        mock.i(0)
+        mock.i(1)
+        mock.i(2)
+        mock.i(3)
+        mock.i(4)
+        then(mock).should(times(3)).i(geq(2))
+    }
+
+    @Test
+    fun `geq should make a object matcher that is greater than or equal to the given value`() {
+        mock.s("0")
+        mock.s("1")
+        mock.s("2")
+        mock.s("3")
+        mock.s("4")
+        then(mock).should(times(3)).s(geq("2"))
+    }
+
+    @Test
+    fun `gt should make a primitive matcher that is greater than the given value`() {
+        mock.i(0)
+        mock.i(1)
+        mock.i(2)
+        mock.i(3)
+        mock.i(4)
+        then(mock).should(times(2)).i(gt(2))
+    }
+
+    @Test
+    fun `gt should make a object matcher that is greater than the given value`() {
+        mock.s("0")
+        mock.s("1")
+        mock.s("2")
+        mock.s("3")
+        mock.s("4")
+        then(mock).should(times(2)).s(gt("2"))
+    }
+
+    @Test
+    fun `leq should make a primitive matcher that is less than or equal to the given value`() {
+        mock.i(0)
+        mock.i(1)
+        mock.i(2)
+        mock.i(3)
+        mock.i(4)
+        then(mock).should(times(3)).i(leq(2))
+    }
+
+    @Test
+    fun `leq should make a object matcher that is less than or equal to the given value`() {
+        mock.s("0")
+        mock.s("1")
+        mock.s("2")
+        mock.s("3")
+        mock.s("4")
+        then(mock).should(times(3)).s(leq("2"))
+    }
+
+    @Test
+    fun `lt should make a primitive matcher that is less than the given value`() {
+        mock.i(0)
+        mock.i(1)
+        mock.i(2)
+        mock.i(3)
+        mock.i(4)
+        then(mock).should(times(2)).i(lt(2))
+    }
+
+    @Test
+    fun `lt should make a object matcher that is less than the given value`() {
+        mock.s("0")
+        mock.s("1")
+        mock.s("2")
+        mock.s("3")
+        mock.s("4")
+        then(mock).should(times(2)).s(lt("2"))
+    }
+
+    @Test
+    fun `cmpEq should make a primitive matcher that is comparable-equal to the given value`() {
+        mock.i(0)
+        then(mock).should().i(cmpEq(0))
+    }
+
+    @Test
+    fun `cmpEq should make a object matcher that is comparable-equal to the given value`() {
+        mock.s("0")
+        then(mock).should().s(cmpEq("0"))
+    }
+
+    @Test
     fun `find should make a matcher that matches the given regular expression`() {
         mock.s("foo")
         then(mock).should().s(find("o"))

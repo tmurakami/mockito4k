@@ -50,7 +50,7 @@ then(mock).should().doSomething("foo")
 then(mock).should().someProperty = "bar"
 ```
 
-## Checking arguments
+## Comparing arguments
 
 These matchers are defined as top-level functions.
 - any
@@ -71,13 +71,14 @@ These matchers are defined as top-level functions.
 - gt
 - leq
 - lt
+- cmpEq
 - find
 - aryEq
 
-If you want to use ArgumentMatchers/AdditionalMatchers methods directly, use `by` function with those methods.
-This function prevents causing NullPointerException when using these matchers for function that only accepts non-null parameter.
+When using matchers written in Java for functions that only accept non-null parameters, NullPointerException may be thrown.
+To avoid NullPointerException, use `by` function with these matchers.
 ```kotlin
-mock.doSomething(by(AdditionalMatchers.geq("a")))
+mock.doSomething(by(MatchersWrittenByJava.matchesSomething()))
 ```
 
 ## Capturing arguments
@@ -87,7 +88,7 @@ Use `argumentCaptor` function.
 val captor = argumentCaptor<String>()
 ```
 
-To avoid causing NullPointerException, use `capture` function.
+To avoid NullPointerException, use `capture` function.
 ```kotlin
 mock.doSomething(capture(captor))
 ```

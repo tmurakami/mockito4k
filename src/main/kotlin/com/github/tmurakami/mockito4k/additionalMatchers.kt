@@ -68,6 +68,15 @@ fun <T : Comparable<T>> leq(value: T): T = AdditionalMatchers.leq(value) ?: valu
 fun <T : Comparable<T>> lt(value: T): T = AdditionalMatchers.lt(value) ?: value
 
 /**
+ * The delegation to [AdditionalMatchers#cmpEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#cmpEq&#40;T&#41;).
+ *
+ * @param T the type of the given [value]
+ * @param value the value to be compared
+ * @return the result for executing [AdditionalMatchers#cmpEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#cmpEq&#40;T&#41;)
+ */
+fun <T : Comparable<T>> cmpEq(value: T): T = AdditionalMatchers.cmpEq(value) ?: value
+
+/**
  * The delegation to [AdditionalMatchers#regex(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#find&#40;java.lang.String&#41;).
  *
  * @param regex the regular expression
