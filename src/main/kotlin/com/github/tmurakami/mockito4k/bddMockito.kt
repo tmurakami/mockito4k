@@ -75,13 +75,16 @@ interface BDDOngoingStubbing<R> {
      */
     fun will(answer: Answer<R>): BDDOngoingStubbing<R>
 
+    @Deprecated("Use 'willAnswer((InvocationOnMock) -> R)'", ReplaceWith("willAnswer(answer)"))
+    fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
+
     /**
      * Set to call the given [answer] when the function is called.
      *
      * @param answer the answer to be called
      * @return this object
      */
-    fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
+    fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
 
     /**
      * Set to call the actual function when the function is called.
@@ -131,7 +134,10 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
         stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
 
-    override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = apply {
+    @Suppress("OverridingDeprecatedMember")
+    override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = willAnswer(answer)
+
+    override fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = apply {
         stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
 

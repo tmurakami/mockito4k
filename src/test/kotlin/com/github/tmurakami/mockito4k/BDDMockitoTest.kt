@@ -27,7 +27,7 @@ class BDDMockitoTest {
     @Test
     fun `given should stub the function to call the specified answer function`() =
             assertEquals("foo", given(mock) {
-                running { s }.will { "foo" }
+                running { s }.willAnswer { "foo" }
             }.s)
 
     @Test
