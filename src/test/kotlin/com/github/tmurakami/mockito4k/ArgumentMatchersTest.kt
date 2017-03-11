@@ -1,21 +1,17 @@
 package com.github.tmurakami.mockito4k
 
-import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentMatcher
 import org.mockito.BDDMockito
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-import org.mockito.quality.Strictness
+import org.mockito.junit.MockitoJUnitRunner
 import java.io.Serializable
 
+@RunWith(MockitoJUnitRunner::class)
 class ArgumentMatchersTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
     @Mock
     lateinit var mock: I

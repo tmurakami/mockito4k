@@ -1,34 +1,30 @@
 package com.github.tmurakami.mockito4k
 
 import org.junit.Assert.assertEquals
-import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
 import org.mockito.Spy
-import org.mockito.junit.MockitoJUnit
-import org.mockito.junit.MockitoRule
-import org.mockito.quality.Strictness
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.stubbing.Answer
 
+@RunWith(MockitoJUnitRunner::class)
 class BDDMockitoTest {
-
-    @get:Rule
-    val mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
     @Spy
     lateinit var mock: C
 
     @Test
     fun `given should stub the function to call the specified answer object`() =
-            assertEquals("foo", given(mock) {
-                running { s }.will(Answer { "foo" })
-            }.s)
+        assertEquals("foo", given(mock) {
+            running { s }.will(Answer { "foo" })
+        }.s)
 
     @Test
     fun `given should stub the function to call the specified answer function`() =
-            assertEquals("foo", given(mock) {
-                running { s }.willAnswer { "foo" }
-            }.s)
+        assertEquals("foo", given(mock) {
+            running { s }.willAnswer { "foo" }
+        }.s)
 
     @Test
     fun `given should stub the function to call the real function`() {
@@ -43,9 +39,9 @@ class BDDMockitoTest {
 
     @Test
     fun `given should stub the function to return the specified value`() =
-            assertEquals("foo", given(mock) {
-                running { s }.willReturn("foo")
-            }.s)
+        assertEquals("foo", given(mock) {
+            running { s }.willReturn("foo")
+        }.s)
 
     @Test
     fun `given should stub the void function to return Unit`() {

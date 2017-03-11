@@ -25,12 +25,31 @@ repositories {
     jcenter()
 }
 
+configurations {
+    ktlint
+}
+
 dependencies {
+    ktlint 'com.github.shyiko:ktlint:0.6.1'
     compile 'org.mockito:mockito-core:2.6.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:latest.release'
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+task ktlint(type: JavaExec) {
+    main = 'com.github.shyiko.ktlint.Main'
+    classpath = configurations.ktlint
+    args = ['src/**/*.kt']
+}
+
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec) {
+    main = 'com.github.shyiko.ktlint.Main'
+    classpath = configurations.ktlint
+    args = ['-F', 'src/**/*.kt']
 }
 
 task sourcesJar(type: Jar) {
