@@ -76,7 +76,7 @@ class ArgumentMatchersTest {
         mock.nullable(null)
         mock.nullable("")
         mock.nullable(Any())
-        then(mock).should(Mockito.times(2)).nullable(nullable<Serializable>())
+        then(mock).should(Mockito.times(2)).nullable(nullable(Serializable::class))
     }
 
     @Test

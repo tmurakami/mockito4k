@@ -83,13 +83,17 @@ fun <T> isNull(): T? = ArgumentMatchers.isNull()
  */
 fun <T> isNotNull(): T? = ArgumentMatchers.isNotNull()
 
+@Deprecated("Use `nullable(KClass)`", ReplaceWith("nullable(T::class)"))
+inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class.java)
+
 /**
  * The delegation to [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;).
  *
  * @param T the type of the argument matcher
+ * @param clazz the class of the acceptable type
  * @return the result for executing [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;)
  */
-inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class.java)
+fun <T : Any> nullable(clazz: KClass<T>): T? = ArgumentMatchers.nullable(clazz.java)
 
 /**
  * The delegation to [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.regex.Pattern&#41;).
