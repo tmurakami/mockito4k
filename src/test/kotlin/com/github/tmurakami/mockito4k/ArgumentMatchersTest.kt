@@ -10,7 +10,7 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.Serializable
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner.StrictStubs::class)
 class ArgumentMatchersTest {
 
     @Mock

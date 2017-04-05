@@ -8,7 +8,7 @@ import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.stubbing.Answer
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner.StrictStubs::class)
 class BDDMockitoTest {
 
     @Spy

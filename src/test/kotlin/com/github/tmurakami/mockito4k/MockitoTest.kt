@@ -8,7 +8,7 @@ import org.mockito.Mockito
 import org.mockito.internal.util.MockUtil
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner.StrictStubs::class)
 class MockitoTest {
 
     @Test
