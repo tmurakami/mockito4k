@@ -6,7 +6,7 @@ import org.mockito.internal.util.Primitives
 import kotlin.reflect.KClass
 
 /**
- * Prevent causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
+ * Prevents causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
  *
  * @param T the type of the given argument [matcher]
  * @param matcher the argument matcher

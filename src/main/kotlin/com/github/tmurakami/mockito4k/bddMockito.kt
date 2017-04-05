@@ -23,7 +23,7 @@ fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(toBeThrown: KClass<out Thro
 fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
 /**
- * Enable stubbing functions.
+ * Sets the expected behavior for the given [mock] object.
  *
  * @param T the type of the given [mock]
  * @param mock the mock object you want to stub
@@ -50,7 +50,7 @@ fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.ap
 interface BDDStubbingSettings<out T> {
 
     /**
-     * Stub the given function.
+     * Enables stubbing function.
      *
      * @param R the return type of the given [function]
      * @param function the function you want to stub
@@ -68,7 +68,7 @@ interface BDDStubbingSettings<out T> {
 interface BDDOngoingStubbing<R> {
 
     /**
-     * Set to call the given [answer] when the function is called.
+     * Sets to call the given [answer] when the function is called.
      *
      * @param answer the answer to be called
      * @return this object
@@ -76,7 +76,7 @@ interface BDDOngoingStubbing<R> {
     fun will(answer: Answer<R>): BDDOngoingStubbing<R>
 
     /**
-     * Set to call the given [answer] when the function is called.
+     * Sets to call the given [answer] when the function is called.
      *
      * @param answer the answer to be called
      * @return this object
@@ -84,7 +84,7 @@ interface BDDOngoingStubbing<R> {
     fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
 
     /**
-     * Set to call the given [answer] when the function is called.
+     * Sets to call the given [answer] when the function is called.
      *
      * @param answer the answer to be called
      * @return this object
@@ -92,7 +92,7 @@ interface BDDOngoingStubbing<R> {
     fun willAnswer(answer: Answer<R>): BDDOngoingStubbing<R>
 
     /**
-     * Set to call the given [answer] when the function is called.
+     * Sets to call the given [answer] when the function is called.
      *
      * @param answer the answer to be called
      * @return this object
@@ -100,14 +100,14 @@ interface BDDOngoingStubbing<R> {
     fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R>
 
     /**
-     * Set to call the actual function when the function is called.
+     * Sets to call the actual function when the function is called.
      *
      * @return this object
      */
     fun willCallRealMethod(): BDDOngoingStubbing<R>
 
     /**
-     * Set to return values to be returned when the function is called.
+     * Sets to return values to be returned when the function is called.
      *
      * @param value the value to be returned
      * @param values the next value to be returned
@@ -116,7 +116,7 @@ interface BDDOngoingStubbing<R> {
     fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R>
 
     /**
-     * Set to throw errors when the function is called.
+     * Sets to throw errors when the function is called.
      *
      * @param toBeThrown the error to be thrown
      * @param nextToBeThrown the next error to be thrown
@@ -125,7 +125,7 @@ interface BDDOngoingStubbing<R> {
     fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R>
 
     /**
-     * Set to throw errors to be thrown when the function is called.
+     * Sets to throw errors to be thrown when the function is called.
      *
      * @param toBeThrown the type of the error to be thrown
      * @param nextToBeThrown the type of the next error to be thrown
