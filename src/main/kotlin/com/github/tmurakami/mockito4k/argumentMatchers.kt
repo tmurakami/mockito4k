@@ -20,7 +20,7 @@ fun <T> by(matcher: T?): T = matcher as T
  * @param T the type of the argument matcher
  * @return the result for executing [ArgumentMatchers#any()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;&#41;)
  */
-fun <T> any(): T? = ArgumentMatchers.any()
+fun <T> anyNullable(): T? = ArgumentMatchers.any()
 
 /**
  * The delegation to [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;).

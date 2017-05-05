@@ -53,7 +53,7 @@ then(mock).should().someProperty = "bar"
 ## Comparing arguments
 
 These matchers are defined as top-level functions.
-- any
+- anyNullable
 - any(KClass)
 - eq
 - refEq

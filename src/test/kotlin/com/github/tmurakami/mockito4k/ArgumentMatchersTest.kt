@@ -17,10 +17,10 @@ class ArgumentMatchersTest {
     lateinit var mock: I
 
     @Test
-    fun `any should make a matcher that matches anything`() {
+    fun `anyNullable should make a matcher that matches anything`() {
         mock.nullable(null)
         mock.nullable(Any())
-        then(mock).should(Mockito.times(2)).nullable(any())
+        then(mock).should(Mockito.times(2)).nullable(anyNullable())
     }
 
     @Test
