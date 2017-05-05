@@ -34,7 +34,7 @@ dependencies {
     compile 'org.mockito:mockito-core:2.7.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:latest.release'
+    testCompile 'org.mockito:mockito-inline:latest.release'
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 

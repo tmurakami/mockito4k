@@ -66,8 +66,8 @@ class BDDMockitoTest {
         }.s = "foo"
     }
 
-    open class C {
-        open var s: String = ""
+    class C {
+        var s: String = ""
     }
 
 }
