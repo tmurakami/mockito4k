@@ -3,6 +3,7 @@ package com.github.tmurakami.mockito4k
 import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
 import org.mockito.internal.util.Primitives
+import java.util.regex.Pattern
 import kotlin.reflect.KClass
 
 /**
@@ -99,12 +100,28 @@ inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class
 fun <T : Any> nullable(clazz: KClass<T>): T? = ArgumentMatchers.nullable(clazz.java)
 
 /**
+ * The delegation to [ArgumentMatchers#matches(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.lang.String&#41;).
+ *
+ * @param regex the regular expression
+ * @return the result for executing [ArgumentMatchers#matches(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.lang.String&#41;)
+ */
+fun matches(regex: String): String = ArgumentMatchers.matches(regex)
+
+/**
  * The delegation to [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.regex.Pattern&#41;).
  *
  * @param regex the regular expression
  * @return the result for executing [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.regex.Pattern&#41;)
  */
-fun matches(regex: Regex): String = ArgumentMatchers.matches(regex.toPattern())
+fun matches(regex: Regex): String = matches(regex.toPattern())
+
+/**
+ * The delegation to [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.pattern.Pattern&#41;).
+ *
+ * @param pattern the regular expression
+ * @return the result for executing [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.pattern.Pattern&#41;)
+ */
+fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
 
 /**
  * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).

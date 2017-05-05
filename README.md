@@ -62,7 +62,7 @@ These matchers are defined as top-level functions.
 - isNull
 - isNotNull
 - nullable
-- matches(Regex)
+- matches
 - argThat
 - and
 - or

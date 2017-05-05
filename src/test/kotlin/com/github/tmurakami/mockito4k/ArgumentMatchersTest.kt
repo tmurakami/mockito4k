@@ -9,6 +9,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.Serializable
+import java.util.regex.Pattern
 
 @RunWith(MockitoJUnitRunner.StrictStubs::class)
 class ArgumentMatchersTest {
@@ -80,9 +81,21 @@ class ArgumentMatchersTest {
     }
 
     @Test
+    fun `matches_String should make a matcher that matches the given regular expression`() {
+        mock.nonNull("foobar")
+        then(mock).should().nonNull(matches("[\\w]+"))
+    }
+
+    @Test
     fun `matches_Regex should make a matcher that matches the given regular expression`() {
         mock.nonNull("foobar")
         then(mock).should().nonNull(matches(Regex("[\\w]+")))
+    }
+
+    @Test
+    fun `matches_Pattern should make a matcher that matches the given regular expression`() {
+        mock.nonNull("foobar")
+        then(mock).should().nonNull(matches(Pattern.compile("[\\w]+")))
     }
 
     @Test
