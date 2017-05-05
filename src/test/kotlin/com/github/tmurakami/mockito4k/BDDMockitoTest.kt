@@ -29,7 +29,7 @@ class BDDMockitoTest {
     @Test
     fun `given should stub the function to call the real function`() {
         given(mock) {
-            running { s = any(String::class) }.willReturn(Unit).willCallRealMethod()
+            running { s = any() }.willReturn(Unit).willCallRealMethod()
         }
         mock.s = "foo"
         assertEquals("", mock.s)
@@ -46,7 +46,7 @@ class BDDMockitoTest {
     @Test
     fun `given should stub the void function to return Unit`() {
         given(mock) {
-            running { s = any(String::class) }.willReturn(Unit)
+            running { s = any() }.willReturn(Unit)
         }
         mock.s = "foo"
         then(mock).should().s = "foo"
@@ -55,14 +55,14 @@ class BDDMockitoTest {
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the specified error`() {
         given(mock) {
-            running { s = any(String::class) }.willThrow(IllegalStateException())
+            running { s = any() }.willThrow(IllegalStateException())
         }.s = "foo"
     }
 
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the error of the specified type`() {
         given(mock) {
-            running { s = any(String::class) }.willThrow(IllegalStateException::class)
+            running { s = any() }.willThrow(IllegalStateException::class)
         }.s = "foo"
     }
 

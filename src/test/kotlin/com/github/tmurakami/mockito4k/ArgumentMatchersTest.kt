@@ -24,10 +24,10 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `any_KClass function should make a matcher that is of the given type`() {
+    fun `any function should make a matcher that is of the given type`() {
         mock.nullable(null)
         mock.nullable(Any())
-        then(mock).should(Mockito.times(1)).nullable(any(Any::class))
+        then(mock).should(Mockito.times(1)).nullable(any())
     }
 
     @Test
@@ -56,7 +56,7 @@ class ArgumentMatchersTest {
     fun `isA should make a matcher that is of the given type`() {
         mock.nonNull("")
         mock.nonNull(Any())
-        then(mock).should().nonNull(isA(Serializable::class))
+        then(mock).should().nonNull(isA<Serializable>())
     }
 
     @Test
@@ -76,7 +76,7 @@ class ArgumentMatchersTest {
         mock.nullable(null)
         mock.nullable("")
         mock.nullable(Any())
-        then(mock).should(Mockito.times(2)).nullable(nullable(Serializable::class))
+        then(mock).should(Mockito.times(2)).nullable(nullable<Serializable>())
     }
 
     @Test
