@@ -17,19 +17,19 @@ class BDDMockitoTest {
     @Test
     fun `given should stub the function to call the specified answer object`() =
         assertEquals("foo", given(mock) {
-            running { s }.will(Answer { "foo" })
+            calling { s }.will(Answer { "foo" })
         }.s)
 
     @Test
     fun `given should stub the function to call the specified answer function`() =
         assertEquals("foo", given(mock) {
-            running { s }.willAnswer { "foo" }
+            calling { s }.willAnswer { "foo" }
         }.s)
 
     @Test
     fun `given should stub the function to call the real function`() {
         given(mock) {
-            running { s = any() }.willReturn(Unit).willCallRealMethod()
+            calling { s = any() }.willReturn(Unit).willCallRealMethod()
         }
         mock.s = "foo"
         assertEquals("", mock.s)
@@ -40,13 +40,13 @@ class BDDMockitoTest {
     @Test
     fun `given should stub the function to return the specified value`() =
         assertEquals("foo", given(mock) {
-            running { s }.willReturn("foo")
+            calling { s }.willReturn("foo")
         }.s)
 
     @Test
     fun `given should stub the void function to return Unit`() {
         given(mock) {
-            running { s = any() }.willReturn(Unit)
+            calling { s = any() }.willReturn(Unit)
         }
         mock.s = "foo"
         then(mock).should().s = "foo"
@@ -55,14 +55,14 @@ class BDDMockitoTest {
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the specified error`() {
         given(mock) {
-            running { s = any() }.willThrow(IllegalStateException())
+            calling { s = any() }.willThrow(IllegalStateException())
         }.s = "foo"
     }
 
     @Test(expected = IllegalStateException::class)
     fun `given should stub the function to throw the error of the specified type`() {
         given(mock) {
-            running { s = any() }.willThrow(IllegalStateException::class)
+            calling { s = any() }.willThrow(IllegalStateException::class)
         }.s = "foo"
     }
 

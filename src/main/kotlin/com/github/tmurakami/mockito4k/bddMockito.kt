@@ -34,7 +34,7 @@ fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.ap
     var pending: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>? = null
     val finishStubbing: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.() -> Unit = { second.stubber?.`when`(mock)?.let { first(mock) } }
     object : BDDStubbingSettings<T> {
-        override fun <R> running(function: T.() -> R): BDDOngoingStubbing<R> {
+        override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
             pending?.finishStubbing()
             return BDDOngoingStubbingImpl<R>().apply { pending = function to this }
         }
@@ -56,7 +56,10 @@ interface BDDStubbingSettings<out T> {
      * @param function the function you want to stub
      * @return the fluent object to stub
      */
-    fun <R> running(function: T.() -> R): BDDOngoingStubbing<R>
+    fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R>
+
+    @Deprecated("Use calling(T.() -> R)", ReplaceWith("calling(function)"))
+    fun <R> running(function: T.() -> R): BDDOngoingStubbing<R> = calling(function)
 
 }
 
