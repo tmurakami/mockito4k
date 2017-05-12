@@ -52,22 +52,24 @@ class BDDMockitoTest {
         then(mock).should().s = "foo"
     }
 
-    @Test(expected = IllegalStateException::class)
+    @Test(expected = E::class)
     fun `given should stub the function to throw the specified error`() {
         given(mock) {
-            calling { s = any() }.willThrow(IllegalStateException())
+            calling { s = any() }.willThrow(E())
         }.s = "foo"
     }
 
-    @Test(expected = IllegalStateException::class)
+    @Test(expected = E::class)
     fun `given should stub the function to throw the error of the specified type`() {
         given(mock) {
-            calling { s = any() }.willThrow(IllegalStateException::class)
+            calling { s = any() }.willThrow(E::class)
         }.s = "foo"
     }
 
     class C {
         var s: String = ""
     }
+
+    class E : Exception()
 
 }
