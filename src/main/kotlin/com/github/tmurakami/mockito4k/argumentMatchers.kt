@@ -4,7 +4,6 @@ import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
 import org.mockito.internal.util.Primitives
 import java.util.regex.Pattern
-import kotlin.reflect.KClass
 
 /**
  * Prevents causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
@@ -30,9 +29,6 @@ fun <T> anyNullable(): T? = ArgumentMatchers.any()
  * @return the result for executing [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;)
  */
 inline fun <reified T : Any> any(): T = by(ArgumentMatchers.any(T::class.java))
-
-@Deprecated("Use `any<T>()`", ReplaceWith("any<T>()"))
-fun <T : Any> any(clazz: KClass<T>): T = by(ArgumentMatchers.any(clazz.java))
 
 /**
  * The delegation to [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;).
@@ -69,9 +65,6 @@ fun <T> same(value: T): T = ArgumentMatchers.same(value)
  */
 inline fun <reified T : Any> isA(): T = by(ArgumentMatchers.isA(T::class.java))
 
-@Deprecated("Use `isA<T>()`", ReplaceWith("isA<T>()"))
-fun <T : Any> isA(clazz: KClass<T>): T = by(ArgumentMatchers.isA(clazz.java))
-
 /**
  * The delegation to [ArgumentMatchers#isNull()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNull&#40;&#41;).
  *
@@ -95,9 +88,6 @@ fun <T> isNotNull(): T? = ArgumentMatchers.isNotNull()
  * @return the result for executing [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;)
  */
 inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class.java)
-
-@Deprecated("Use `nullable<T>()`", ReplaceWith("nullable<T>()"))
-fun <T : Any> nullable(clazz: KClass<T>): T? = ArgumentMatchers.nullable(clazz.java)
 
 /**
  * The delegation to [ArgumentMatchers#matches(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.lang.String&#41;).

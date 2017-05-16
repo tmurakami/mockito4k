@@ -37,9 +37,6 @@ inline fun <reified T : Any> spy(): T = Mockito.spy(T::class.java)
  */
 fun <T> spy(instance: T): T = Mockito.spy(instance)
 
-@Deprecated("use 'mock(MockSettings.() -> Unit)' instead", ReplaceWith("mock<T> { this }"))
-inline fun <reified T : Any> MockSettings.mock(): T = Mockito.mock(T::class.java, this)
-
 /**
  * The delegation to [MockSettings#extraInterfaces(Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/MockSettings.html#extraInterfaces&#40;java.lang.Class...&#41;).
  *

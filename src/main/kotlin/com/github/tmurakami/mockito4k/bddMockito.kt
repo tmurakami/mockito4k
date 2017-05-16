@@ -1,27 +1,11 @@
 package com.github.tmurakami.mockito4k
 
-import org.mockito.BDDMockito
 import org.mockito.Mockito
 import org.mockito.internal.stubbing.answers.ThrowsException
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
 import kotlin.reflect.KClass
-
-@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
-fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = BDDMockito.willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
-
-@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
-fun willAnswer(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.willAnswer(answer)
-
-@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
-fun will(answer: (InvocationOnMock) -> Any?): BDDMockito.BDDStubber = BDDMockito.will(answer)
-
-@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
-fun <T> BDDMockito.BDDMyOngoingStubbing<T>.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDMyOngoingStubbing<T> = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
-
-@Deprecated("Use 'given(T, BDDStubbing<T>.() -> Unit)' for stubbing", ReplaceWith(""))
-fun BDDMockito.BDDStubber.willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDMockito.BDDStubber = willThrow(toBeThrown.java, *nextToBeThrown.map { it.java }.toTypedArray())
 
 /**
  * Sets the expected behavior for the given [mock] object.
@@ -58,9 +42,6 @@ interface BDDStubbingSettings<out T> {
      * @return the fluent object to stub
      */
     fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R>
-
-    @Deprecated("Use calling(T.() -> R)", ReplaceWith("calling(function)"))
-    fun <R> running(function: T.() -> R): BDDOngoingStubbing<R> = calling(function)
 
 }
 
