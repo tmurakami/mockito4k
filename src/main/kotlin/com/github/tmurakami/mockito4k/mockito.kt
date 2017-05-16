@@ -5,7 +5,7 @@ import org.mockito.Mockito
 import kotlin.reflect.KClass
 
 /**
- * Creates a mock object without additional settings.
+ * Creates a mock object without additional mock settings.
  *
  * @param T the type of mock
  * @return the mock object
@@ -16,6 +16,7 @@ inline fun <reified T : Any> mock(): T = mock { }
  * The delegation to [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;).
  *
  * @param T the type of mock
+ * @param settings the mock settings
  * @return the result for executing [Mockito#mock(Class, MockSettings)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class,&#32;org.mockito.MockSettings&#41;)
  */
 inline fun <reified T : Any> mock(settings: MockSettings.() -> Unit): T = Mockito.mock(T::class.java, Mockito.withSettings().apply { settings() })
@@ -40,6 +41,7 @@ fun <T> spy(instance: T): T = Mockito.spy(instance)
 /**
  * The delegation to [MockSettings#extraInterfaces(Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/MockSettings.html#extraInterfaces&#40;java.lang.Class...&#41;).
  *
+ * @receiver the mock settings
  * @param interfaces interfaces to be implemented
  * @return the result for executing [MockSettings#extraInterfaces(Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/MockSettings.html#extraInterfaces&#40;java.lang.Class...&#41;)
  */
