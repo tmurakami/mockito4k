@@ -25,7 +25,7 @@ val mock = mock<Foo> { name("foo") }
 Use `given` function.
 ```kotlin
 given(mock) {
-    running { doSomething("foo") }
+    calling { doSomething("foo") }
             .willReturn("bar")
             .willThrow(IllegalStateException::class)
 }
@@ -34,7 +34,7 @@ given(mock) {
 This function can also be used for properties, `Unit` (`void`) functions, and spied objects.
 ```kotlin
 given(mock) {
-    running { someProperty = "foo" }
+    calling { someProperty = "foo" }
             .willReturn(Unit) // Same as Mockito#doNothing()
             .willThrow(IllegalStateException::class)
 }
