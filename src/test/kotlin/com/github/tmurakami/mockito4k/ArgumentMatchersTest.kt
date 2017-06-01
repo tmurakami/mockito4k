@@ -3,10 +3,9 @@ package com.github.tmurakami.mockito4k
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatcher
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.times
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.Serializable
 import java.util.regex.Pattern
@@ -21,14 +20,14 @@ class ArgumentMatchersTest {
     fun `anyNullable should make a matcher that matches anything`() {
         mock.nullable(null)
         mock.nullable(Any())
-        then(mock).should(Mockito.times(2)).nullable(anyNullable())
+        then(mock).should(times(2)).nullable(anyNullable())
     }
 
     @Test
     fun `any function should make a matcher that is of the given type`() {
         mock.nullable(null)
         mock.nullable(Any())
-        then(mock).should(Mockito.times(1)).nullable(any())
+        then(mock).should(times(1)).nullable(any())
     }
 
     @Test
@@ -77,7 +76,7 @@ class ArgumentMatchersTest {
         mock.nullable(null)
         mock.nullable("")
         mock.nullable(Any())
-        then(mock).should(Mockito.times(2)).nullable(nullable<Serializable>())
+        then(mock).should(times(2)).nullable(nullable<Serializable>())
     }
 
     @Test
@@ -109,7 +108,7 @@ class ArgumentMatchersTest {
     fun `argThat_Function1 should make a object matcher with the given function`() {
         val arg = Any()
         mock.nonNull(arg)
-        BDDMockito.then(mock).should().nonNull(argThat { it == arg })
+        then(mock).should().nonNull(argThat { it == arg })
     }
 
     @Test
