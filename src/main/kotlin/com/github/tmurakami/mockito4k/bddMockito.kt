@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
  * @param settings the stubbing settings
  * @return the given [mock] object
  */
-fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
+fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
     var pending: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>? = null
     val finishStubbing: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.() -> Unit = { second.stubber?.`when`(mock)?.let { first(mock) } }
     object : BDDStubbingSettings<T> {
@@ -32,7 +32,7 @@ fun <T> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.ap
  *
  * @param T the type of a mock
  */
-interface BDDStubbingSettings<out T> {
+interface BDDStubbingSettings<out T : Any> {
 
     /**
      * Enables stubbing function.
