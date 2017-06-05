@@ -107,7 +107,7 @@ And then, add this library and mockito-core as `testCompile` dependency.
 ```groovy
 dependencies {
     testCompile 'com.github.tmurakami:mockito4k:x.y.z'
-    testCompile 'org.mockito:mockito-core:latest.release'
+    testCompile 'org.mockito:mockito-core:x.y.z' // 2.7.0 or later
 }
 ```
 
@@ -115,6 +115,6 @@ To use this library with mockito-android, add these libraries as `androidTestCom
 ```groovy
 dependencies {
     androidTestCompile 'com.github.tmurakami:mockito4k:x.y.z'
-    androidTestCompile 'org.mockito:mockito-android:latest.release'
+    androidTestCompile 'org.mockito:mockito-android:x.y.z' // 2.7.0 or later
 }
 ```
