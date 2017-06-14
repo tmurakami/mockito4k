@@ -16,15 +16,17 @@ import kotlin.reflect.KClass
  * @return the given [mock] object
  */
 fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
-    var pending: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>? = null
-    val finishStubbing: Pair<T.() -> Any?, BDDOngoingStubbingImpl<*>>.() -> Unit = { second.stubber?.`when`(mock)?.let { first(mock) } }
+    var pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>? = null
+    fun finishStubbing(mock: T, pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>?) {
+        pending?.run { first.stubber?.`when`(mock)?.let { second(mock) } }
+    }
     object : BDDStubbingSettings<T> {
         override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
-            pending?.finishStubbing()
-            return BDDOngoingStubbingImpl<R>().apply { pending = function to this }
+            finishStubbing(this@apply, pending)
+            return BDDOngoingStubbingImpl<R>().apply { pending = this to function }
         }
     }.settings()
-    pending?.finishStubbing()
+    finishStubbing(this, pending)
 }
 
 /**
