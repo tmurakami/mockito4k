@@ -20,7 +20,7 @@ fun <T> by(matcher: T?): T = matcher as T
  * @param T the type of the argument matcher
  * @return the result for executing [ArgumentMatchers#any()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;&#41;)
  */
-fun <T> anyNullable(): T? = ArgumentMatchers.any()
+inline fun <reified T> anyNullable(): T? = ArgumentMatchers.any()
 
 /**
  * The delegation to [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;).
@@ -37,7 +37,7 @@ inline fun <reified T : Any> any(): T = by(ArgumentMatchers.any(T::class.java))
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;)
  */
-fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
+inline fun <reified T> eq(value: T): T = ArgumentMatchers.eq(value)
 
 /**
  * The delegation to [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;).
@@ -46,7 +46,7 @@ fun <T> eq(value: T): T = ArgumentMatchers.eq(value)
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;)
  */
-fun <T> refEq(value: T, vararg excludeFields: String): T = ArgumentMatchers.refEq(value, *excludeFields)
+inline fun <reified T> refEq(value: T, vararg excludeFields: String): T = ArgumentMatchers.refEq(value, *excludeFields)
 
 /**
  * The delegation to [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;).
@@ -55,7 +55,7 @@ fun <T> refEq(value: T, vararg excludeFields: String): T = ArgumentMatchers.refE
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;)
  */
-fun <T> same(value: T): T = ArgumentMatchers.same(value)
+inline fun <reified T> same(value: T): T = ArgumentMatchers.same(value)
 
 /**
  * The delegation to [ArgumentMatchers#isA(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isA&#40;java.lang.Class&#41;).
@@ -71,7 +71,7 @@ inline fun <reified T : Any> isA(): T = by(ArgumentMatchers.isA(T::class.java))
  * @param T the type of the argument matcher
  * @return the result for executing [ArgumentMatchers#isNull()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNull&#40;&#41;)
  */
-fun <T> isNull(): T? = ArgumentMatchers.isNull()
+inline fun <reified T> isNull(): T? = ArgumentMatchers.isNull()
 
 /**
  * The delegation to [ArgumentMatchers#isNotNull(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNotNull&#40;&#41;).
@@ -79,7 +79,7 @@ fun <T> isNull(): T? = ArgumentMatchers.isNull()
  * @param T the type of the argument matcher
  * @return the result for executing [ArgumentMatchers#isNotNull(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNotNull&#40;&#41;)
  */
-fun <T> isNotNull(): T? = ArgumentMatchers.isNotNull()
+inline fun <reified T> isNotNull(): T? = ArgumentMatchers.isNotNull()
 
 /**
  * The delegation to [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;).

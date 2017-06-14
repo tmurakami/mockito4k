@@ -36,7 +36,7 @@ inline fun <reified T : Any> spy(): T = Mockito.spy(T::class.java)
  * @param instance the object to spy on
  * @return the result for executing [Mockito#spy(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#spy&#40;T&#41;)
  */
-fun <T : Any> spy(instance: T): T = Mockito.spy(instance)
+inline fun <reified T : Any> spy(instance: T): T = Mockito.spy(instance)
 
 /**
  * The delegation to [MockSettings#extraInterfaces(Class...)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/MockSettings.html#extraInterfaces&#40;java.lang.Class...&#41;).

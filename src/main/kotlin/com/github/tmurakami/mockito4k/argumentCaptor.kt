@@ -17,4 +17,4 @@ inline fun <reified T : Any> argumentCaptor(): ArgumentCaptor<T> = ArgumentCapto
  * @param captor the [ArgumentCaptor](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentCaptor.html)
  * @return the result for executing [ArgumentCaptor#capture()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentCaptor.html#capture&#40;&#41;)
  */
-fun <T> capture(captor: ArgumentCaptor<T>): T = captor.capture()
+inline fun <reified T> capture(captor: ArgumentCaptor<T>): T = captor.capture()
