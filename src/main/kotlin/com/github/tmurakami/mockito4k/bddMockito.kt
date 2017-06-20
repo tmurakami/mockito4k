@@ -149,6 +149,8 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
         stubber = arrayListOf(value, *values).fold(stubber) { s, v ->
+            // Using `doReturn` for a `void` method causes CannotStubVoidMethodWithReturnValue. Also, using `doNothing`
+            // for a method that is not `void` causes MockitoException. So we use `doAnswer` for `Unit`.
             if (v === Unit) s?.doAnswer(UNIT) ?: Mockito.doAnswer(UNIT) else s?.doReturn(v) ?: Mockito.doReturn(v)
         }
     }
