@@ -157,7 +157,7 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
         stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, v ->
             object : ThrowsException(v) {
                 // Kotlin has no checked exception.
-                override fun validateFor(invocation: InvocationOnMock?): Unit = Unit
+                override fun validateFor(invocation: InvocationOnMock?) = Unit
             }.let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
         }
     }

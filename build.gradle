@@ -30,7 +30,7 @@ configurations {
 }
 
 dependencies {
-    ktlint 'com.github.shyiko:ktlint:0.7.0'
+    ktlint 'com.github.shyiko:ktlint:0.8.3'
     implementation 'org.mockito:mockito-core:2.7.0'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation 'junit:junit:4.12'
