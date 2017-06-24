@@ -31,7 +31,7 @@ class MockitoTest {
     fun `mock using extraInterfaces should make a mock object which implements the specified interfaces`() =
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
-    interface I
-    open class C
+    private interface I
+    private open class C
 
 }

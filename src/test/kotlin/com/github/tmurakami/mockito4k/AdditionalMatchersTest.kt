@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class AdditionalMatchersTest {
 
     @Mock
-    lateinit var mock: I
+    private lateinit var mock: I
 
     @Test
     fun `and should make a primitive matcher that matches both of the given matchers`() {
@@ -234,7 +234,7 @@ class AdditionalMatchersTest {
         then(mock).should().objects(aryEq(array))
     }
 
-    interface I {
+    private interface I {
         fun i(arg: Int)
         fun s(arg: String)
         fun booleans(arg: BooleanArray)

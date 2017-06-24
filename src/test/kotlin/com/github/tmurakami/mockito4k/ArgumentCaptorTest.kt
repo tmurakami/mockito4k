@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class ArgumentCaptorTest {
 
     @Mock
-    lateinit var mock: I
+    private lateinit var mock: I
 
     @Test
     fun `capture should capture the argument without causing IllegalStateException`() {
@@ -22,7 +22,7 @@ class ArgumentCaptorTest {
         assertSame(arg, captor.value)
     }
 
-    interface I {
+    private interface I {
         fun f(arg: Any)
     }
 

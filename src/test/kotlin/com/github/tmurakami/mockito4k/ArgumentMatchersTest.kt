@@ -14,7 +14,7 @@ import java.util.regex.Pattern
 class ArgumentMatchersTest {
 
     @Mock
-    lateinit var mock: I
+    private lateinit var mock: I
 
     @Test
     fun `anyNullable should make a matcher that matches anything`() {
@@ -125,7 +125,7 @@ class ArgumentMatchersTest {
         then(mock).should().nonNull(argThat(ArgumentMatcher { it == arg }))
     }
 
-    interface I {
+    private interface I {
         fun int(arg: Int)
         fun nonNull(arg: Any)
         fun nullable(arg: Any?)

@@ -12,7 +12,7 @@ import org.mockito.stubbing.Answer
 class BDDMockitoTest {
 
     @Spy
-    lateinit var mock: C
+    private lateinit var mock: C
 
     @Test
     fun `given should stub the function to call the specified answer object`() =
@@ -66,10 +66,10 @@ class BDDMockitoTest {
         }.s = "foo"
     }
 
-    class C {
+    private class C {
         var s: String = ""
     }
 
-    class E : Exception()
+    private class E : Exception()
 
 }
