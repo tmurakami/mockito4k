@@ -12,6 +12,7 @@ import java.util.regex.Pattern
  * @param matcher the argument matcher
  * @return the given argument [matcher]
  */
+@Suppress("UNCHECKED_CAST")
 fun <T> by(matcher: T?): T = matcher as T
 
 /**

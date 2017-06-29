@@ -17,8 +17,8 @@ import kotlin.reflect.KClass
  */
 fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
     var pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>? = null
-    fun finishStubbing(mock: T, pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>?) {
-        pending?.run { first.stubber?.`when`(mock)?.let { second(mock) } }
+    fun finishStubbing(m: T, p: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>?) {
+        p?.run { first.stubber?.`when`(m)?.let { second(m) } }
     }
     object : BDDStubbingSettings<T> {
         override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
