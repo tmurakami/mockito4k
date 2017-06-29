@@ -6,6 +6,7 @@ machine:
     version: openjdk8
 test:
   override:
+    - ./gradlew -PtestKotlinVersion=1.0.7 test
     - ./gradlew jacocoTestReport
   post:
     - mkdir $CIRCLE_TEST_REPORTS/jacoco
