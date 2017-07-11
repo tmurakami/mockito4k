@@ -9,7 +9,6 @@ test:
     - ./gradlew -PtestKotlinVersion=1.0.7 test
     - ./gradlew jacocoTestReport
   post:
-    - mkdir $CIRCLE_ARTIFACTS/jacoco
-    - find . -type f -regex '.*/build/reports/jacoco/.*\.xml' -exec cp -p {} $CIRCLE_ARTIFACTS/jacoco \;
+    - find . -type d -regex '.*/build/reports' -exec cp -pr {} $CIRCLE_ARTIFACTS \;
     - mkdir $CIRCLE_TEST_REPORTS/junit
     - find . -type f -regex '.*/build/test-results/.*\.xml' -exec cp -p {} $CIRCLE_TEST_REPORTS/junit \;
