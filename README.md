@@ -118,3 +118,7 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-android:x.y.z' // 2.7.0 or later
 }
 ```
+
+## Limitations
+
+[Extension functions](https://kotlinlang.org/docs/reference/extensions.html) cannot be stubbed because they are compiled into **static** methods that Mockito cannot stub.
