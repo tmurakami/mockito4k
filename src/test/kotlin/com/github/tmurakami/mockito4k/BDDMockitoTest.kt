@@ -12,56 +12,56 @@ import org.mockito.stubbing.Answer
 class BDDMockitoTest {
 
     @Spy
-    private lateinit var mock: C
+    private lateinit var spy: C
 
     @Test
     fun `given should stub the function to call the specified answer object`() =
-        assertEquals("foo", given(mock) {
+        assertEquals("foo", given(spy) {
             calling { s }.will(Answer { "foo" })
         }.s)
 
     @Test
     fun `given should stub the function to call the specified answer function`() =
-        assertEquals("foo", given(mock) {
+        assertEquals("foo", given(spy) {
             calling { s }.willAnswer { "foo" }
         }.s)
 
     @Test
     fun `given should stub the function to call the real function`() {
-        given(mock) {
+        given(spy) {
             calling { s = any() }.willReturn(Unit).willCallRealMethod()
         }
-        mock.s = "foo"
-        assertEquals("", mock.s)
-        mock.s = "bar"
-        assertEquals("bar", mock.s)
+        spy.s = "foo"
+        assertEquals("", spy.s)
+        spy.s = "bar"
+        assertEquals("bar", spy.s)
     }
 
     @Test
     fun `given should stub the function to return the specified value`() =
-        assertEquals("foo", given(mock) {
+        assertEquals("foo", given(spy) {
             calling { s }.willReturn("foo")
         }.s)
 
     @Test
     fun `given should stub the void function to return Unit`() {
-        given(mock) {
+        given(spy) {
             calling { s = any() }.willReturn(Unit)
         }
-        mock.s = "foo"
-        then(mock).should().s = "foo"
+        spy.s = "foo"
+        then(spy).should().s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the specified error`() {
-        given(mock) {
+        given(spy) {
             calling { s = any() }.willThrow(E())
         }.s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the error of the specified type`() {
-        given(mock) {
+        given(spy) {
             calling { s = any() }.willThrow(E::class)
         }.s = "foo"
     }
