@@ -11,11 +11,13 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 ## Mock creation
 
 Use `mock` function.
+
 ```kotlin
 val mock = mock<Foo>()
 ```
 
 To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` function.
+
 ```kotlin
 val mock = mock<Foo> { name("foo") }
 ```
@@ -23,6 +25,7 @@ val mock = mock<Foo> { name("foo") }
 ## Stubbing
 
 Use `given` function.
+
 ```kotlin
 given(mock) {
     calling { doSomething("foo") }
@@ -32,6 +35,7 @@ given(mock) {
 ```
 
 This function can also be used for properties, `Unit` (`void`) functions, and spied objects.
+
 ```kotlin
 given(mock) {
     calling { someProperty = "foo" }
@@ -43,6 +47,7 @@ given(mock) {
 ## Verification
 
 Currently we do not provide any functions for verification, so use `BDDMockito#then(T)`.
+
 ```kotlin
 import org.mockito.BDDMockito.then
 
@@ -77,6 +82,7 @@ These matchers are defined as top-level functions.
 
 When using matchers written in Java for functions that only accept non-null parameters, NullPointerException may be thrown.
 To avoid NullPointerException, use `by` function with these matchers.
+
 ```kotlin
 mock.doSomething(by(MatchersWrittenByJava.matchesSomething()))
 ```
@@ -84,11 +90,13 @@ mock.doSomething(by(MatchersWrittenByJava.matchesSomething()))
 ## Capturing arguments
 
 Use `argumentCaptor` function.
+
 ```kotlin
 val captor = argumentCaptor<String>()
 ```
 
 To avoid NullPointerException, use `capture` function.
+
 ```kotlin
 mock.doSomething(capture(captor))
 ```
@@ -96,6 +104,7 @@ mock.doSomething(capture(captor))
 ## Installation
 
 First, add the [JitPack](https://jitpack.io/) repository and the [JCenter](https://bintray.com/bintray/jcenter) repository to your build.gradle.
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -104,6 +113,7 @@ repositories {
 ```
 
 And then, add this library and mockito-core as `testCompile` dependency.
+
 ```groovy
 dependencies {
     testCompile 'com.github.tmurakami:mockito4k:x.y.z'
@@ -112,6 +122,7 @@ dependencies {
 ```
 
 To use this library with mockito-android, add these libraries as `androidTestCompile` dependency.
+
 ```groovy
 dependencies {
     androidTestCompile 'com.github.tmurakami:mockito4k:x.y.z'
@@ -121,4 +132,7 @@ dependencies {
 
 ## Limitations
 
-[Extension functions](https://kotlinlang.org/docs/reference/extensions.html) cannot be stubbed because they are compiled into **static** methods that Mockito cannot stub.
+Stubbing the following functions does not work.
+
+- [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
+- [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
