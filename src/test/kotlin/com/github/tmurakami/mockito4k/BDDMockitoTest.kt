@@ -4,7 +4,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
+import org.mockito.Mock
 import org.mockito.Spy
+import org.mockito.exceptions.base.MockitoException
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.stubbing.Answer
 
@@ -12,61 +14,71 @@ import org.mockito.stubbing.Answer
 class BDDMockitoTest {
 
     @Spy
-    private lateinit var spy: C
+    private lateinit var kotlinClass: KotlinClass
+
+    @Mock
+    private lateinit var javaInterface: JavaClass
 
     @Test
     fun `given should stub the function to call the given answer object`() =
-        assertEquals("foo", given(spy) {
+        assertEquals("foo", given(kotlinClass) {
             calling { s }.will(Answer { "foo" })
         }.s)
 
     @Test
     fun `given should stub the function to call the given answer function`() =
-        assertEquals("foo", given(spy) {
+        assertEquals("foo", given(kotlinClass) {
             calling { s }.willAnswer { "foo" }
         }.s)
 
     @Test
     fun `given should stub the function to call the real function`() {
-        given(spy) {
+        given(kotlinClass) {
             calling { s = any() }.willReturn(Unit).willCallRealMethod()
         }
-        spy.s = "foo"
-        assertEquals("", spy.s)
-        spy.s = "bar"
-        assertEquals("bar", spy.s)
+        kotlinClass.s = "foo"
+        assertEquals("", kotlinClass.s)
+        kotlinClass.s = "bar"
+        assertEquals("bar", kotlinClass.s)
     }
 
     @Test
     fun `given should stub the function to return the given value`() =
-        assertEquals("foo", given(spy) {
+        assertEquals("foo", given(kotlinClass) {
             calling { s }.willReturn("foo")
         }.s)
 
     @Test
     fun `given should stub the void function to return Unit`() {
-        given(spy) {
+        given(kotlinClass) {
             calling { s = any() }.willReturn(Unit)
         }
-        spy.s = "foo"
-        then(spy).should().s = "foo"
+        kotlinClass.s = "foo"
+        then(kotlinClass).should().s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the given error`() {
-        given(spy) {
+        given(kotlinClass) {
             calling { s = any() }.willThrow(E())
         }.s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the error of the given type`() {
-        given(spy) {
+        given(kotlinClass) {
             calling { s = any() }.willThrow(E::class)
         }.s = "foo"
     }
 
-    private open class C {
+    @Test(expected = MockitoException::class)
+    fun `given should throw MockitoException if the given checked exception does not match the stubbed Java method signature`() {
+        given(javaInterface) {
+            calling { s = any() }.willThrow(E())
+        }.s = "foo"
+    }
+
+    private open class KotlinClass {
         open var s: String = ""
     }
 
