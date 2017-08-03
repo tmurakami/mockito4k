@@ -66,8 +66,8 @@ class BDDMockitoTest {
         }.s = "foo"
     }
 
-    private class C {
-        var s: String = ""
+    private open class C {
+        open var s: String = ""
     }
 
     private class E : Exception()
