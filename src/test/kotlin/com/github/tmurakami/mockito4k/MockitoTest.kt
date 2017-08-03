@@ -15,7 +15,7 @@ class MockitoTest {
     fun `mock should make a mock object`() = assertTrue(MockUtil.isMock(mock<C>()))
 
     @Test
-    fun `mock should make a mock object with the specified name`() {
+    fun `mock should make a mock object with the given name`() {
         val mock = mock<C> { name("foo") }
         assertTrue(MockUtil.isMock(mock))
         assertEquals("foo", MockUtil.getMockName(mock).toString())
@@ -28,7 +28,7 @@ class MockitoTest {
     fun `spy should make a spied object of the given type`() = assertTrue(MockUtil.isMock(spy<C>()))
 
     @Test
-    fun `mock using extraInterfaces should make a mock object which implements the specified interfaces`() =
+    fun `mock using extraInterfaces should make a mock object which implements the given interfaces`() =
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
     private interface I

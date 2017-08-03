@@ -15,13 +15,13 @@ class BDDMockitoTest {
     private lateinit var spy: C
 
     @Test
-    fun `given should stub the function to call the specified answer object`() =
+    fun `given should stub the function to call the given answer object`() =
         assertEquals("foo", given(spy) {
             calling { s }.will(Answer { "foo" })
         }.s)
 
     @Test
-    fun `given should stub the function to call the specified answer function`() =
+    fun `given should stub the function to call the given answer function`() =
         assertEquals("foo", given(spy) {
             calling { s }.willAnswer { "foo" }
         }.s)
@@ -38,7 +38,7 @@ class BDDMockitoTest {
     }
 
     @Test
-    fun `given should stub the function to return the specified value`() =
+    fun `given should stub the function to return the given value`() =
         assertEquals("foo", given(spy) {
             calling { s }.willReturn("foo")
         }.s)
@@ -53,14 +53,14 @@ class BDDMockitoTest {
     }
 
     @Test(expected = E::class)
-    fun `given should stub the function to throw the specified error`() {
+    fun `given should stub the function to throw the given error`() {
         given(spy) {
             calling { s = any() }.willThrow(E())
         }.s = "foo"
     }
 
     @Test(expected = E::class)
-    fun `given should stub the function to throw the error of the specified type`() {
+    fun `given should stub the function to throw the error of the given type`() {
         given(spy) {
             calling { s = any() }.willThrow(E::class)
         }.s = "foo"
