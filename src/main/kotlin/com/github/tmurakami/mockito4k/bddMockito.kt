@@ -1,7 +1,6 @@
 package com.github.tmurakami.mockito4k
 
 import org.mockito.Mockito
-import org.mockito.internal.stubbing.answers.ThrowsException
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
@@ -156,11 +155,8 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
     }
 
     override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
-        stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, v ->
-            object : ThrowsException(v) {
-                // Kotlin has no checked exception.
-                override fun validateFor(invocation: InvocationOnMock?) = Unit
-            }.let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
+        stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
+            Mockito4kThrowsException(t).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
         }
     }
 
