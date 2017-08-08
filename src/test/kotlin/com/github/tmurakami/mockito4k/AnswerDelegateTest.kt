@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.never
 import org.mockito.BDDMockito.then
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.junit.MockitoJUnitRunner
@@ -20,6 +21,9 @@ import java.io.ObjectOutputStream
 @RunWith(MockitoJUnitRunner.Strict::class)
 class AnswerDelegateTest {
 
+    @InjectMocks
+    private lateinit var testTarget: AnswerDelegate<Any>
+
     @Mock(extraInterfaces = arrayOf(ValidableAnswer::class), serializable = true)
     private lateinit var answer: Answer<Any>
     @Mock(serializable = true)
@@ -29,7 +33,6 @@ class AnswerDelegateTest {
 
     @Test
     fun `AnswerDelegate should be serializable`() {
-        val testTarget = AnswerDelegate(answer, shouldBeValidated)
         val bytes = ByteArrayOutputStream().apply {
             ObjectOutputStream(this).use { it.writeObject(testTarget) }
         }.toByteArray()
@@ -44,7 +47,7 @@ class AnswerDelegateTest {
         given(answer) {
             calling { answer(invocation) }.willReturn(result)
         }
-        assertSame(result, AnswerDelegate(answer, shouldBeValidated).answer(invocation))
+        assertSame(result, testTarget.answer(invocation))
         then(shouldBeValidated).should(never()).invoke(invocation)
     }
 
@@ -53,7 +56,7 @@ class AnswerDelegateTest {
         given(shouldBeValidated) {
             calling { invoke(invocation) }.willReturn(true)
         }
-        AnswerDelegate(answer, shouldBeValidated).validateFor(invocation)
+        testTarget.validateFor(invocation)
         then(answer as ValidableAnswer).should().validateFor(invocation)
     }
 
@@ -62,7 +65,7 @@ class AnswerDelegateTest {
         given(shouldBeValidated) {
             calling { invoke(invocation) }.willReturn(false)
         }
-        AnswerDelegate(answer, shouldBeValidated).validateFor(invocation)
+        testTarget.validateFor(invocation)
         then(answer as ValidableAnswer).should(never()).validateFor(invocation)
     }
 
