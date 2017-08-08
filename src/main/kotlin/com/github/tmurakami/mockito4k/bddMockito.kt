@@ -19,7 +19,16 @@ import kotlin.reflect.KClass
 fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
     var pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>? = null
     fun T.finishStubbing(p: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>?) {
-        p?.run { first.stubber?.`when`(this@finishStubbing)?.second() }
+        p?.run {
+            first.stubber?.`when`(this@finishStubbing)?.run {
+                try {
+                    second()
+                } catch (ignored: NullPointerException) {
+                    // NullPointerException is thrown when the MockHandler returns null as the return value of the
+                    // primitive type, so we ignore this error.
+                }
+            }
+        }
     }
     object : BDDStubbingSettings<T> {
         override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {

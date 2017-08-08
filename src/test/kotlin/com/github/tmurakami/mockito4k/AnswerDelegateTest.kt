@@ -29,7 +29,7 @@ class AnswerDelegateTest {
 
     @Test
     fun `AnswerDelegate should be serializable`() {
-        val testTarget = AnswerDelegate(answer) { false }
+        val testTarget = AnswerDelegate(answer, shouldBeValidated)
         val bytes = ByteArrayOutputStream().apply {
             ObjectOutputStream(this).use { it.writeObject(testTarget) }
         }.toByteArray()
@@ -44,19 +44,25 @@ class AnswerDelegateTest {
         given(answer) {
             calling { answer(invocation) }.willReturn(result)
         }
-        assertSame(result, AnswerDelegate(answer) { false }.answer(invocation))
+        assertSame(result, AnswerDelegate(answer, shouldBeValidated).answer(invocation))
         then(shouldBeValidated).should(never()).invoke(invocation)
     }
 
     @Test
     fun `validateFor should delegate to the given Answer if the invocation should be validated`() {
-        AnswerDelegate(answer) { true }.validateFor(invocation)
+        given(shouldBeValidated) {
+            calling { invoke(invocation) }.willReturn(true)
+        }
+        AnswerDelegate(answer, shouldBeValidated).validateFor(invocation)
         then(answer as ValidableAnswer).should().validateFor(invocation)
     }
 
     @Test
     fun `validateFor should not delegate to the given Answer if the invocation should not be validated`() {
-        AnswerDelegate(answer) { false }.validateFor(invocation)
+        given(shouldBeValidated) {
+            calling { invoke(invocation) }.willReturn(false)
+        }
+        AnswerDelegate(answer, shouldBeValidated).validateFor(invocation)
         then(answer as ValidableAnswer).should(never()).validateFor(invocation)
     }
 
