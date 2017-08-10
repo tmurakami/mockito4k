@@ -130,6 +130,13 @@ dependencies {
 }
 ```
 
+> **Note:** If you want to mock the classes obfuscated with [ProGuard](https://www.guardsquare.com/en/proguard), you must add the following settings into your ProGuard configuration file.
+>
+> ```
+> -keepattributes RuntimeVisibleAnnotations
+> -keep @interface kotlin.Metadata
+> ```
+
 ## Limitations
 
 Stubbing the following functions does not work.
