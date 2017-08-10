@@ -10,7 +10,7 @@ import org.mockito.AdditionalMatchers
  * @param second the second argument matcher
  * @return the result for executing [AdditionalMatchers#and(T, T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#and&#40;T,&#32;T&#41;)
  */
-inline fun <reified T> and(first: T?, second: T?): T = by(AdditionalMatchers.and(first, second) ?: first ?: second)
+inline fun <reified T> and(first: T?, second: T?): T = AdditionalMatchers.and(first, second) ?: first ?: by(second)
 
 /**
  * The delegation to [AdditionalMatchers#or(T, T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#or&#40;T,&#32;T&#41;).
@@ -20,7 +20,7 @@ inline fun <reified T> and(first: T?, second: T?): T = by(AdditionalMatchers.and
  * @param second the second argument matcher
  * @return the result for executing [AdditionalMatchers#or(T, T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#or&#40;T,&#32;T&#41;)
  */
-inline fun <reified T> or(first: T?, second: T?): T = by(AdditionalMatchers.or(first, second) ?: first ?: second)
+inline fun <reified T> or(first: T?, second: T?): T = AdditionalMatchers.or(first, second) ?: first ?: by(second)
 
 /**
  * The delegation to [AdditionalMatchers#not(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#not&#40;T&#41;).
@@ -29,7 +29,7 @@ inline fun <reified T> or(first: T?, second: T?): T = by(AdditionalMatchers.or(f
  * @param matcher the argument matcher
  * @return the result for executing [AdditionalMatchers#not(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#not&#40;T&#41;)
  */
-inline fun <reified T> not(matcher: T?): T = by(AdditionalMatchers.not(matcher) ?: matcher)
+inline fun <reified T> not(matcher: T?): T = AdditionalMatchers.not(matcher) ?: by(matcher)
 
 /**
  * The delegation to [AdditionalMatchers#geq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#geq&#40;T&#41;).
@@ -90,7 +90,7 @@ fun find(regex: String): String = AdditionalMatchers.find(regex) ?: regex
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(boolean[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;boolean[]&#41;)
  */
-fun aryEq(value: BooleanArray): BooleanArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: BooleanArray): BooleanArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(byte[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;byte[]&#41;).
@@ -98,7 +98,7 @@ fun aryEq(value: BooleanArray): BooleanArray = by(AdditionalMatchers.aryEq(value
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(byte[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;byte[]&#41;)
  */
-fun aryEq(value: ByteArray): ByteArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: ByteArray): ByteArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(char[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;char[]&#41;).
@@ -106,7 +106,7 @@ fun aryEq(value: ByteArray): ByteArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(char[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;char[]&#41;)
  */
-fun aryEq(value: CharArray): CharArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: CharArray): CharArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(double[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;double[]&#41;).
@@ -114,7 +114,7 @@ fun aryEq(value: CharArray): CharArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(double[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;double[]&#41;)
  */
-fun aryEq(value: DoubleArray): DoubleArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: DoubleArray): DoubleArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(float[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;float[]&#41;).
@@ -122,7 +122,7 @@ fun aryEq(value: DoubleArray): DoubleArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(float[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;float[]&#41;)
  */
-fun aryEq(value: FloatArray): FloatArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: FloatArray): FloatArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(int[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;int[]&#41;).
@@ -130,7 +130,7 @@ fun aryEq(value: FloatArray): FloatArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(int[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;int[]&#41;)
  */
-fun aryEq(value: IntArray): IntArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: IntArray): IntArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(long[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;long[]&#41;).
@@ -138,7 +138,7 @@ fun aryEq(value: IntArray): IntArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(long[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;long[]&#41;)
  */
-fun aryEq(value: LongArray): LongArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: LongArray): LongArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(short[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;short[]&#41;).
@@ -146,7 +146,7 @@ fun aryEq(value: LongArray): LongArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(short[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;short[]&#41;)
  */
-fun aryEq(value: ShortArray): ShortArray = by(AdditionalMatchers.aryEq(value))
+fun aryEq(value: ShortArray): ShortArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers#aryEq(T[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;T[]&#41;).
@@ -155,4 +155,4 @@ fun aryEq(value: ShortArray): ShortArray = by(AdditionalMatchers.aryEq(value))
  * @param value the value to be compared
  * @return the result for executing [AdditionalMatchers#aryEq(T[])](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/AdditionalMatchers.html#aryEq&#40;T[]&#41;)
  */
-inline fun <reified T> aryEq(value: Array<T>): Array<T> = by(AdditionalMatchers.aryEq(value))
+inline fun <reified T> aryEq(value: Array<T>): Array<T> = AdditionalMatchers.aryEq(value) ?: value

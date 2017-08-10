@@ -12,7 +12,8 @@ internal class AnswerDelegate<T>(private val delegate: Answer<T>,
     override fun answer(invocation: InvocationOnMock): T = delegate.answer(invocation)
 
     override fun validateFor(invocation: InvocationOnMock) {
-        if (invocation.shouldBeValidated()) (delegate as? ValidableAnswer)?.validateFor(invocation)
+        val delegate = this.delegate
+        if (delegate is ValidableAnswer && invocation.shouldBeValidated()) delegate.validateFor(invocation)
     }
 
     companion object {

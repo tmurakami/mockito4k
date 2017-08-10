@@ -24,8 +24,8 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = m
                 try {
                     second()
                 } catch (ignored: NullPointerException) {
-                    // NullPointerException is thrown when the MockHandler returns null as the return value of the
-                    // primitive type, so we ignore this error.
+                    // NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a
+                    // primitive return value. Therefore, we ignore this error.
                 }
             }
         }
@@ -132,18 +132,16 @@ interface BDDOngoingStubbing<R> {
 
 }
 
-// All the Kotlin classes are marked with the `kotlin.Metadata` annotation. Note that if the annotation is renamed or
-// removed by shrinking tools (e.g., ProGuard), the code below will not work well.
 internal val InvocationOnMock.isNotForKotlin: Boolean
-    get() = !method.declaringClass.declaredAnnotations.any { it.annotationClass.java.name == "kotlin.Metadata" }
+    get() {
+        // All the Kotlin classes are marked with the `kotlin.Metadata` annotation. Note that the code below will not
+        // work well if the annotation is renamed or removed by shrinking tools (e.g., ProGuard).
+        return !method.declaringClass.declaredAnnotations.any { it.annotationClass.java.name == "kotlin.Metadata" }
+    }
 
 private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
-    companion object {
-        val UNIT: (InvocationOnMock) -> Any? = { Unit }
-    }
-
-    var stubber: Stubber? = null
+    internal var stubber: Stubber? = null
         private set
 
     override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = willAnswer(answer)
@@ -164,22 +162,21 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
         stubber = arrayListOf(value, *values).fold(stubber) { s, v ->
-            // Using `doReturn` for a `void` method causes CannotStubVoidMethodWithReturnValue. Also, using `doNothing`
-            // for a method that is not `void` causes MockitoException. So we use `doAnswer` for `Unit`.
-            if (v === Unit) s?.doAnswer(UNIT) ?: Mockito.doAnswer(UNIT) else s?.doReturn(v) ?: Mockito.doReturn(v)
+            // We use `doAnswer` for `Unit` because `doReturn` cannot be used for void methods and `doNothing` cannot for non-void methods.
+            if (v === Unit) Answer { Unit as Any }.let { s?.doAnswer(it) ?: Mockito.doAnswer(it) } else s?.doReturn(v) ?: Mockito.doReturn(v)
         }
     }
 
     override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
         stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
-            // Kotlin has no checked exceptions, so only invocations that are not of Kotlin should be validated.
+            // Kotlin has no checked exceptions, so only invocations that are not for Kotlin should be validated.
             AnswerDelegate(ThrowsException(t), InvocationOnMock::isNotForKotlin).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
         }
     }
 
     override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
         stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
-            // Kotlin has no checked exceptions, so only invocations that are not of Kotlin should be validated.
+            // Kotlin has no checked exceptions, so only invocations that are not for Kotlin should be validated.
             AnswerDelegate(ThrowsExceptionClass(t.java), InvocationOnMock::isNotForKotlin).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
         }
     }
