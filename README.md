@@ -130,7 +130,7 @@ dependencies {
 }
 ```
 
-> **Note:** If you want to mock the classes obfuscated with [ProGuard](https://www.guardsquare.com/en/proguard), you must add the following settings into your ProGuard configuration file.
+> **Note:** The `willThrow` function will not work for the classes shrunk by the [code shrinker](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you must add the following settings into your ProGuard configuration file.
 >
 > ```
 > -keepattributes RuntimeVisibleAnnotations
