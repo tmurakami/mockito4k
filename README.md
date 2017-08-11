@@ -121,7 +121,7 @@ dependencies {
 }
 ```
 
-To use this library with mockito-android, add these libraries as `androidTestCompile` dependency.
+To use this with mockito-android, add them as `androidTestCompile` dependency.
 
 ```groovy
 dependencies {
@@ -130,7 +130,7 @@ dependencies {
 }
 ```
 
-> **Note:** The `willThrow` function will not work for the classes shrunk by the [code shrinker](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you must add the following settings into your ProGuard configuration file.
+> **Note:** The `willThrow` function may not work for the classes shrunk by the [code shrinker](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you must add the following settings into your ProGuard configuration file.
 >
 > ```
 > -keepattributes RuntimeVisibleAnnotations
