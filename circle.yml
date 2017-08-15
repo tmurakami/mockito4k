@@ -6,7 +6,7 @@ machine:
     version: openjdk8
 test:
   override:
-    - ./gradlew -PtestKotlinVersion=1.0.7 test
+    - ./test.sh
     - ./gradlew jacocoTestReport
   post:
     - find . -type d -regex '.*/build/reports' -exec cp -pr {} $CIRCLE_ARTIFACTS \;

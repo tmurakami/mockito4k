@@ -1,6 +1,7 @@
 package com.github.tmurakami.mockito4k
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
@@ -18,6 +19,9 @@ class BDDMockitoTest {
 
     @Mock
     private lateinit var javaMock: JavaClass
+
+    @Mock
+    private lateinit var booleanFunctionMock: () -> Boolean
 
     @Test
     fun `given should stub the function to call the given answer object`() =
@@ -76,6 +80,13 @@ class BDDMockitoTest {
         given(javaMock) {
             calling { s = any() }.willThrow(E())
         }.s = "foo"
+    }
+
+    @Test
+    fun `given should not throw NullPointerException when stubbing a primitive function`() {
+        assertTrue(given(booleanFunctionMock) {
+            calling { invoke() }.willReturn(true)
+        }())
     }
 
     private open class KotlinClass {
