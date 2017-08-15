@@ -10,13 +10,13 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
 ## Mock creation
 
-Use `mock` function.
+Use the `mock` function.
 
 ```kotlin
 val mock = mock<Foo>()
 ```
 
-To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` function.
+To create a mock with additional settings, use the `mock(MockSettings.() -> Unit)` function.
 
 ```kotlin
 val mock = mock<Foo> { name("foo") }
@@ -24,7 +24,7 @@ val mock = mock<Foo> { name("foo") }
 
 ## Stubbing
 
-Use `given` function.
+Use the `given` function.
 
 ```kotlin
 given(mock) {
@@ -46,7 +46,7 @@ given(mock) {
 
 ## Verification
 
-Currently we do not provide any functions for verification, so use `BDDMockito#then(T)`.
+Currently we do not provide any function for verification, so use Mockito's [`BDDMockito#then(T)`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#then(T)).
 
 ```kotlin
 import org.mockito.BDDMockito.then
@@ -57,7 +57,8 @@ then(mock).should().someProperty = "bar"
 
 ## Comparing arguments
 
-These matchers are defined as top-level functions.
+We provide the following matchers as top-level functions.
+
 - anyNullable
 - any
 - eq
@@ -80,22 +81,23 @@ These matchers are defined as top-level functions.
 - find
 - aryEq
 
-When using matchers written in Java for functions that only accept non-null parameters, NullPointerException may be thrown.
-To avoid NullPointerException, use `by` function with these matchers.
+Applying a matcher written in Java to a function that does not accept null may throw an IllegalStateException with the message `xxx must not be null`.
+In that case, use the `by` function as follows:
 
 ```kotlin
-mock.doSomething(by(MatchersWrittenByJava.matchesSomething()))
+mock.doSomething(by(MatchersWrittenInJava.matchesSomething()))
 ```
 
 ## Capturing arguments
 
-Use `argumentCaptor` function.
+Use the `argumentCaptor` function.
 
 ```kotlin
 val captor = argumentCaptor<String>()
 ```
 
-To avoid NullPointerException, use `capture` function.
+Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an IllegalStateException with the message `xxx.capture() must not be null`.
+To avoid it, use the `capture` function instead.
 
 ```kotlin
 mock.doSomething(capture(captor))
@@ -130,7 +132,7 @@ dependencies {
 }
 ```
 
-> **Note:** The `willThrow` function may not work for the classes shrunk by the [code shrinker](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you must add the following settings into your ProGuard configuration file.
+> **Note:** Several functions may not work for the classes shrunk by [enabling code shrinking on Android projects](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you need to add the following settings into your ProGuard configuration file.
 >
 > ```
 > -keepattributes RuntimeVisibleAnnotations
@@ -139,7 +141,9 @@ dependencies {
 
 ## Limitations
 
-Stubbing the following functions does not work.
+- Stubbing the following functions does not work.
 
-- [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
-- [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
+ - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
+ - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
+
+- Do not use the [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of methods in interfaces.
