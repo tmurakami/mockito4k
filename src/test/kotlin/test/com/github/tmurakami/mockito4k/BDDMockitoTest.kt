@@ -1,5 +1,7 @@
-package com.github.tmurakami.mockito4k
+package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.any
+import com.github.tmurakami.mockito4k.given
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

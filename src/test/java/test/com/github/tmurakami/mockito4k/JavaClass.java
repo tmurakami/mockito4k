@@ -1,4 +1,4 @@
-package com.github.tmurakami.mockito4k;
+package test.com.github.tmurakami.mockito4k;
 
 class JavaClass {
 

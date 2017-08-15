@@ -1,5 +1,16 @@
-package com.github.tmurakami.mockito4k
+package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.and
+import com.github.tmurakami.mockito4k.aryEq
+import com.github.tmurakami.mockito4k.cmpEq
+import com.github.tmurakami.mockito4k.eq
+import com.github.tmurakami.mockito4k.find
+import com.github.tmurakami.mockito4k.geq
+import com.github.tmurakami.mockito4k.gt
+import com.github.tmurakami.mockito4k.leq
+import com.github.tmurakami.mockito4k.lt
+import com.github.tmurakami.mockito4k.not
+import com.github.tmurakami.mockito4k.or
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then

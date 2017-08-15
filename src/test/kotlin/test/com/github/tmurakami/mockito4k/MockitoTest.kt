@@ -1,5 +1,8 @@
-package com.github.tmurakami.mockito4k
+package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.extraInterfaces
+import com.github.tmurakami.mockito4k.mock
+import com.github.tmurakami.mockito4k.spy
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -31,6 +34,7 @@ class MockitoTest {
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
     private interface I
+
     private open class C
 
 }

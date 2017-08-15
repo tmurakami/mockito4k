@@ -1,5 +1,7 @@
-package com.github.tmurakami.mockito4k
+package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.argumentCaptor
+import com.github.tmurakami.mockito4k.capture
 import org.junit.Assert.assertSame
 import org.junit.Test
 import org.junit.runner.RunWith

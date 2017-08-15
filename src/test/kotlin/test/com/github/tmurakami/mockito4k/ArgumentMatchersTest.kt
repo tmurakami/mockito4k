@@ -1,5 +1,16 @@
-package com.github.tmurakami.mockito4k
+package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.any
+import com.github.tmurakami.mockito4k.anyNullable
+import com.github.tmurakami.mockito4k.argThat
+import com.github.tmurakami.mockito4k.eq
+import com.github.tmurakami.mockito4k.isA
+import com.github.tmurakami.mockito4k.isNotNull
+import com.github.tmurakami.mockito4k.isNull
+import com.github.tmurakami.mockito4k.matches
+import com.github.tmurakami.mockito4k.nullable
+import com.github.tmurakami.mockito4k.refEq
+import com.github.tmurakami.mockito4k.same
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatcher
