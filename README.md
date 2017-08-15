@@ -143,7 +143,7 @@ dependencies {
 
 - Stubbing the following functions does not work.
 
- - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
- - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
+  - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
+  - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
 
 - Do not use the [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of methods in interfaces.
