@@ -1,5 +1,6 @@
 package com.github.tmurakami.mockito4k
 
+import org.mockito.Answers
 import org.mockito.Mockito
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
@@ -149,7 +150,7 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
     }
 
     override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply {
-        stubber = stubber?.doCallRealMethod() ?: Mockito.doCallRealMethod()
+        stubber = stubber?.doAnswer(Answers.CALLS_REAL_METHODS) ?: Mockito.doAnswer(Answers.CALLS_REAL_METHODS)
     }
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {

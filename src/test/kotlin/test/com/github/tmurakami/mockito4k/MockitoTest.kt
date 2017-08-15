@@ -7,6 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Answers
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -33,7 +34,14 @@ class MockitoTest {
     fun `mock using extraInterfaces should make a mock object which implements the given interfaces`() =
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
-    private interface I
+    @Test
+    fun `The default implementation of an interface method should be called with Answers#CALLS_REAL_METHODS`() {
+        assertEquals("test", mock<I> { defaultAnswer(Answers.CALLS_REAL_METHODS) }.doIt())
+    }
+
+    private interface I {
+        fun doIt(): String = "test"
+    }
 
     private open class C
 
