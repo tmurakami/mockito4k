@@ -1,11 +1,10 @@
 package com.github.tmurakami.mockito4k
 
 import org.mockito.Mockito
-import org.mockito.internal.stubbing.answers.ThrowsException
-import org.mockito.internal.stubbing.answers.ThrowsExceptionClass
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
+import org.objenesis.ObjenesisHelper
 import kotlin.reflect.KClass
 
 /**
@@ -24,7 +23,7 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = m
                 try {
                     second()
                 } catch (ignored: NullPointerException) {
-                    // NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a
+                    // An NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a
                     // primitive return value. Therefore, we ignore this error.
                 }
             }
@@ -132,13 +131,6 @@ interface BDDOngoingStubbing<R> {
 
 }
 
-internal val InvocationOnMock.isNotForKotlin: Boolean
-    get() {
-        // All the Kotlin classes are marked with the `kotlin.Metadata` annotation. Note that the code below will not
-        // work well if the annotation is renamed or removed by shrinking tools (e.g., ProGuard).
-        return !method.declaringClass.declaredAnnotations.any { it.annotationClass.java.name == "kotlin.Metadata" }
-    }
-
 private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
     internal var stubber: Stubber? = null
@@ -169,16 +161,11 @@ private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
 
     override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
         stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
-            // Kotlin has no checked exceptions, so only invocations that are not for Kotlin should be validated.
-            AnswerDelegate(ThrowsException(t), InvocationOnMock::isNotForKotlin).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
+            KThrowsException(t).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
         }
     }
 
-    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
-        stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
-            // Kotlin has no checked exceptions, so only invocations that are not for Kotlin should be validated.
-            AnswerDelegate(ThrowsExceptionClass(t.java), InvocationOnMock::isNotForKotlin).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
-        }
-    }
+    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> =
+        willThrow(ObjenesisHelper.newInstance(toBeThrown.java), *nextToBeThrown.map { ObjenesisHelper.newInstance(it.java) }.toTypedArray())
 
 }

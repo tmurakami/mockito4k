@@ -82,6 +82,13 @@ class BDDMockitoTest {
         }.s = "foo"
     }
 
+    @Test(expected = MockitoException::class)
+    fun `given should throw MockitoException if the given checked exception type does not match the stubbed Java method signature`() {
+        given(javaMock) {
+            calling { s = any() }.willThrow(E::class)
+        }.s = "foo"
+    }
+
     @Test
     fun `given should not throw NullPointerException when stubbing a primitive function`() {
         assertTrue(given(booleanFunctionMock) {
