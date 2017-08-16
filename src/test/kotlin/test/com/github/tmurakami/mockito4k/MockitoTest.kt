@@ -35,9 +35,8 @@ class MockitoTest {
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
     @Test
-    fun `The default implementation of an interface method should be called with Answers#CALLS_REAL_METHODS`() {
+    fun `The default implementation of an interface method should be called with Answers#CALLS_REAL_METHODS`() =
         assertEquals("test", mock<I> { defaultAnswer(Answers.CALLS_REAL_METHODS) }.doIt())
-    }
 
     private interface I {
         fun doIt(): String = "test"

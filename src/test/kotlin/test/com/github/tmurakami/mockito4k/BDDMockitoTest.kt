@@ -92,11 +92,10 @@ class BDDMockitoTest {
     }
 
     @Test
-    fun `given should not throw NullPointerException when stubbing a primitive function`() {
+    fun `given should not throw NullPointerException when stubbing a primitive function`() =
         assertTrue(given(booleanFunctionMock) {
             calling { invoke() }.willReturn(true)
         }())
-    }
 
     private open class KotlinClass {
         open var s: String = ""

@@ -32,13 +32,14 @@ configurations {
 
 def test_kotlin_version = project.properties['testKotlinVersion'] ?: kotlin_version
 def test_mockito_version = project.properties['testMockitoVersion'] ?: 'latest.release'
+def test_mockito_type = project.properties['testMockitoType'] ?: 'core'
 
 dependencies {
     ktlint 'com.github.shyiko:ktlint:0.8.3'
     compile 'org.mockito:mockito-core:2.7.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.0.7'
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.mockito:mockito-core:$test_mockito_version"
+    testImplementation "org.mockito:mockito-${test_mockito_type}:$test_mockito_version"
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$test_kotlin_version"
 }
 
