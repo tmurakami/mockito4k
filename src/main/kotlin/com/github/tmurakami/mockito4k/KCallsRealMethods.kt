@@ -20,7 +20,7 @@ internal object KCallsRealMethods : CallsRealMethods() {
     }
 
     private val Method.defaultImpl: Method?
-        get() = if (declaringClass.isInterface && declaringClass.isCompiledByKotlinCompiler)
+        get() = if (declaringClass.isInterface)
             try {
                 try {
                     Class.forName(declaringClass.name + "\$DefaultImpls", false, declaringClass.classLoader)
