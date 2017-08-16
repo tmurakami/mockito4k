@@ -1,1 +1,1 @@
-org.mockito.internal.configuration.plugins.Mockito4kExtensions
+com.github.tmurakami.mockito4k.Init

@@ -2,6 +2,7 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.Answers
 import org.mockito.Mockito
+import org.mockito.exceptions.base.MockitoException
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
@@ -30,13 +31,24 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = m
             }
         }
     }
-    object : BDDStubbingSettings<T> {
-        override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
-            finishStubbing(pending)
-            return BDDOngoingStubbingImpl<R>().apply { pending = this to function }
+    try {
+        object : BDDStubbingSettings<T> {
+            override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
+                finishStubbing(pending)
+                return BDDOngoingStubbingImpl<R>().apply { pending = this to function }
+            }
+        }.settings()
+        finishStubbing(pending)
+    } catch (e: MockitoException) {
+        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+        (e as java.lang.Throwable).run {
+            // We do not use the StackTraceCleaner extension. Mockito does not allow multiple StackTraceCleaners, so if
+            // we used the extension, the cleaner might not work with a library that has its own StackTraceCleaner
+            // (e.g. dexmaker-mockito).
+            stackTrace = stackTrace.filterNot { it.className.startsWith("com.github.tmurakami.mockito4k.") }.toTypedArray()
         }
-    }.settings()
-    finishStubbing(pending)
+        throw e
+    }
 }
 
 /**
