@@ -1,13 +1,13 @@
 package test.com.github.tmurakami.mockito4k
 
 import com.github.tmurakami.mockito4k.KThrowsException
+import com.github.tmurakami.mockito4k.mock
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.never
 import org.mockito.BDDMockito.then
-import org.mockito.Mock
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
@@ -17,9 +17,6 @@ import java.io.ObjectOutputStream
 
 @RunWith(MockitoJUnitRunner.Strict::class)
 class KThrowsExceptionTest {
-
-    @Mock
-    private lateinit var invocation: InvocationOnMock
 
     @Test
     fun `KThrowsException should be serializable`() {
@@ -33,12 +30,11 @@ class KThrowsExceptionTest {
     }
 
     @Test
-    fun `validateFor should not check the method signature`() {
-        KThrowsException(E()).validateFor(invocation)
-        then(invocation).should(never()).method
+    fun `validateFor should not check the method signature if the invocation is for Kotlin`() {
+        val mock = mock<InvocationOnMock>()
+        KThrowsException(E()).validateFor(mock)
+        then(mock).should(never()).method
     }
-
-    private open class C
 
     private class E : Exception()
 
