@@ -2,7 +2,6 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.Answers
 import org.mockito.Mockito
-import org.mockito.exceptions.base.MockitoException
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
@@ -19,31 +18,29 @@ import kotlin.reflect.KClass
  */
 fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
     var pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>? = null
-    fun T.finishStubbing(p: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>?) {
-        p?.run {
-            first.stubber?.`when`(this@finishStubbing)?.run {
-                try {
-                    second()
-                } catch (ignored: NullPointerException) {
-                    // An NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a
-                    // primitive return value. Therefore, we ignore this error.
-                }
-            }
+    fun Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>.finishStubbing(t: T) {
+        first.stubber?.`when`(t) ?: return
+        try {
+            second(t)
+        } catch (e: NullPointerException) {
+            // An NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a primitive
+            // return value. Therefore, we ignore this error if the mock is a `Function<*>` object.
+            if (t !is Function<*>) throw e
         }
     }
     try {
         object : BDDStubbingSettings<T> {
             override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
-                finishStubbing(pending)
+                pending?.finishStubbing(this@apply)
                 return BDDOngoingStubbingImpl<R>().apply { pending = this to function }
             }
         }.settings()
-        finishStubbing(pending)
-    } catch (e: MockitoException) {
+        pending?.finishStubbing(this)
+    } catch (e: Exception) {
         @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
         (e as java.lang.Throwable).run {
-            // We do not use the StackTraceCleaner extension. Mockito does not allow multiple StackTraceCleaners, so if
-            // we used the extension, the cleaner might not work with a library that has its own StackTraceCleaner
+            // We do not use the `StackTraceCleaner` extension because multiple StackTraceCleaners are not allowed. If
+            // we used the extension, the cleaner would not work with a library that has its own StackTraceCleaner
             // (e.g. dexmaker-mockito).
             stackTrace = stackTrace.filterNot { it.className.startsWith("com.github.tmurakami.mockito4k.") }.toTypedArray()
         }

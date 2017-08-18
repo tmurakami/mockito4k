@@ -67,7 +67,7 @@ dokka {
     outputDirectory = javadoc.destinationDir
     processConfigurations = ['compile', 'compileOnly']
 }
-javadoc.dependsOn dokka
+javadoc.dependsOn dokka as Object
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'

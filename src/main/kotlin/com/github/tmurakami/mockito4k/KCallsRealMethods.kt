@@ -4,11 +4,27 @@ import org.mockito.internal.stubbing.answers.CallsRealMethods
 import org.mockito.invocation.InvocationOnMock
 import java.lang.reflect.Method
 
-// The `CallsRealMethods` that supports interface methods with body.
+// The `CallsRealMethods` that supports interface functions with optional body.
 internal object KCallsRealMethods : CallsRealMethods() {
 
     @Suppress("unused")
     private const val serialVersionUID = -3958443847469232832L
+
+    private val Method.defaultImpl: Method?
+        get() =
+            try {
+                declaringClass.run {
+                    if (isInterface) {
+                        try {
+                            return@run classLoader.loadClass(name + "\$DefaultImpls")
+                        } catch (e: ClassNotFoundException) {
+                        }
+                    }
+                    null
+                }?.getMethod(name, declaringClass, *parameterTypes)
+            } catch (e: NoSuchMethodException) {
+                null
+            }
 
     override fun answer(invocation: InvocationOnMock): Any? {
         val defaultImpl = invocation.method.defaultImpl ?: return super.answer(invocation)
@@ -18,18 +34,5 @@ internal object KCallsRealMethods : CallsRealMethods() {
     override fun validateFor(invocation: InvocationOnMock) {
         if (invocation.method.defaultImpl == null) super.validateFor(invocation)
     }
-
-    private val Method.defaultImpl: Method?
-        get() = if (declaringClass.isInterface)
-            try {
-                try {
-                    Class.forName(declaringClass.name + "\$DefaultImpls", false, declaringClass.classLoader)
-                } catch (e: ClassNotFoundException) {
-                    null
-                }?.getMethod(name, declaringClass, *parameterTypes)
-            } catch (e: NoSuchMethodException) {
-                null
-            }
-        else null
 
 }
