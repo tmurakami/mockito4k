@@ -2,9 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
-[![KDoc](https://img.shields.io/badge/KDoc-0.8.2-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/0.8.2/javadoc/mockito4k/com.github.tmurakami.mockito4k/)<br>
+[![KDoc](https://img.shields.io/badge/KDoc-0.8.3-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/0.8.3/javadoc/mockito4k/com.github.tmurakami.mockito4k/)<br>
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.7%2B-blue.svg)
-![Mockito](https://img.shields.io/badge/Mockito-2.7%2B-blue.svg)
+![Mockito](https://img.shields.io/badge/Mockito-2.7.0%2B-blue.svg)
 
 A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
@@ -28,9 +28,7 @@ Use the `given` function.
 
 ```kotlin
 given(mock) {
-    calling { doSomething("foo") }
-            .willReturn("bar")
-            .willThrow(IllegalStateException::class)
+    calling { doSomething("foo") }.willReturn("bar")
 }
 ```
 
@@ -38,9 +36,40 @@ This function can also be used for properties, `Unit` (`void`) functions, and sp
 
 ```kotlin
 given(mock) {
-    calling { someProperty = "foo" }
-            .willReturn(Unit) // Same as Mockito#doNothing()
-            .willThrow(IllegalStateException::class)
+    calling { someProperty = "foo" }.willReturn(Unit) // Same as Mockito#doNothing()
+}
+```
+
+Although Kotlin does not have checked exceptions, Mockito cannot stub the function to throw a checked exception that does not match the method signature.
+Therefore, we extended the `willThrow` function to be able to throw any exceptions without `@Throws` annotation.
+
+```kotlin
+interface Foo {
+    fun doSomething(): String
+}
+
+class SomeException : Exception()
+
+@Test(expected = SomeException::class)
+fun test() {
+    given(mock<Foo>()) {
+        calling { doSomething() }.willThrow(SomeException())
+    }.doSomething()
+}
+```
+
+Also the `willCallRealMethod` function has been extended to call the default implementation of interface functions.
+
+```kotlin
+interface Foo {
+    fun doSomething(): String = "Do something"
+}
+
+@Test
+fun test() {
+    assertEquals("Do something", given(mock<Foo>()) {
+        calling { doSomething() }.willCallRealMethod()
+    }.doSomething())
 }
 ```
 
@@ -81,7 +110,7 @@ We provide the following matchers as top-level functions.
 - find
 - aryEq
 
-Applying a matcher written in Java to a function that does not accept null may throw an IllegalStateException with the message `xxx must not be null`.
+Applying a matcher written in Java to a function that does not accept null may throw an `IllegalStateException` with the message `xxx must not be null`.
 In that case, use the `by` function as follows:
 
 ```kotlin
@@ -96,7 +125,7 @@ Use the `argumentCaptor` function.
 val captor = argumentCaptor<String>()
 ```
 
-Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an IllegalStateException with the message `xxx.capture() must not be null`.
+Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an `IllegalStateException` with the message `xxx.capture() must not be null`.
 To avoid it, use the `capture` function instead.
 
 ```kotlin
@@ -132,18 +161,11 @@ dependencies {
 }
 ```
 
-> **Note:** Several functions may not work for the classes shrunk by [enabling code shrinking on Android projects](https://developer.android.com/studio/build/shrink-code.html#shrink-code). In that case, you need to add the following settings into your ProGuard configuration file.
->
-> ```
-> -keepattributes RuntimeVisibleAnnotations
-> -keep @interface kotlin.Metadata
-> ```
-
 ## Limitations
 
 - Stubbing the following functions does not work.
 
-  - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled into static methods that Mockito cannot stub.
+  - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled to static methods that Mockito cannot stub.
   - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
 
-- Do not use the [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of methods in interfaces.
+- Do not use the [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of functions in interfaces.
