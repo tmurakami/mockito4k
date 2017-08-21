@@ -5,10 +5,10 @@ import org.mockito.Mockito
 import kotlin.reflect.KClass
 
 /**
- * Creates a mock object without additional mock settings.
+ * The delegation to [Mockito#mock(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class&#41;).
  *
  * @param T the type of mock
- * @return the mock object
+ * @return the result for executing [Mockito#mock(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#mock&#40;java.lang.Class&#41;)
  */
 inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)
 
