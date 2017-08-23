@@ -14,13 +14,7 @@ internal object KCallsRealMethods : CallsRealMethods() {
         get() =
             try {
                 declaringClass.run {
-                    if (isInterface) {
-                        try {
-                            return@run classLoader.loadClass(name + "\$DefaultImpls")
-                        } catch (e: ClassNotFoundException) {
-                        }
-                    }
-                    null
+                    if (isInterface) classes.find { it.simpleName == "DefaultImpls" } else null
                 }?.getMethod(name, declaringClass, *parameterTypes)
             } catch (e: NoSuchMethodException) {
                 null

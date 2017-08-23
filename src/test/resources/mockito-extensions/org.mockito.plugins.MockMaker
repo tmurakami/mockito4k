@@ -1,1 +1,2 @@
+# To include this file in the test classpath, you need to pass the `-PusingInlineMockMaker` option to the Gradle test.
 mock-maker-inline
