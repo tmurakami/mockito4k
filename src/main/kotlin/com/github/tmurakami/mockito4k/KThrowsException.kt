@@ -5,6 +5,8 @@ import org.mockito.invocation.InvocationOnMock
 
 internal class KThrowsException(throwable: Throwable) : ThrowsException(throwable) {
 
+    override fun answer(invocation: InvocationOnMock?): Any? = filterStackTrace { super.answer(invocation) }
+
     // Kotlin has no checked exceptions.
     override fun validateFor(invocation: InvocationOnMock) = Unit
 

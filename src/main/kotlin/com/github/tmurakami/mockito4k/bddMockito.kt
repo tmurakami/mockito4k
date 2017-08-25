@@ -28,7 +28,7 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = m
             if (t !is Function<*>) throw e
         }
     }
-    try {
+    filterStackTrace {
         object : BDDStubbingSettings<T> {
             override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
                 pending?.finishStubbing(this@apply)
@@ -36,15 +36,6 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = m
             }
         }.settings()
         pending?.finishStubbing(this)
-    } catch (e: Exception) {
-        @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-        (e as java.lang.Throwable).run {
-            // We do not use the `StackTraceCleaner` extension because multiple StackTraceCleaners are not allowed. If
-            // we used the extension, the cleaner would not work with a library that has its own StackTraceCleaner
-            // (e.g. dexmaker-mockito).
-            stackTrace = stackTrace.filterNot { it.className.startsWith("com.github.tmurakami.mockito4k.") }.toTypedArray()
-        }
-        throw e
     }
 }
 

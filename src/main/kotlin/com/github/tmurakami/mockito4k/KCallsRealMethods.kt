@@ -20,12 +20,13 @@ internal object KCallsRealMethods : CallsRealMethods() {
                 null
             }
 
-    override fun answer(invocation: InvocationOnMock): Any? {
-        val defaultImpl = invocation.method.defaultImpl ?: return super.answer(invocation)
-        return defaultImpl.invoke(null, invocation.mock, *invocation.arguments)
+    override fun answer(invocation: InvocationOnMock): Any? = filterStackTrace {
+        val defaultImpl = invocation.method.defaultImpl
+        if (defaultImpl == null) super.answer(invocation)
+        else defaultImpl.invoke(null, invocation.mock, *invocation.arguments)
     }
 
-    override fun validateFor(invocation: InvocationOnMock) {
+    override fun validateFor(invocation: InvocationOnMock) = filterStackTrace {
         if (invocation.method.defaultImpl == null) super.validateFor(invocation)
     }
 
