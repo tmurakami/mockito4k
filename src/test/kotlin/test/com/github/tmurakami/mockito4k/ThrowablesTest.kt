@@ -1,37 +1,35 @@
 package test.com.github.tmurakami.mockito4k
 
 import com.github.tmurakami.mockito4k.filterStackTrace
-import com.github.tmurakami.mockito4k.given
-import com.github.tmurakami.mockito4k.mock
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.configuration.IMockitoConfiguration
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.configuration.MockitoConfiguration
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
 class ThrowablesTest {
 
     @Test
     fun `filterStackTrace should remove stack trace elements belonging to the library package`() {
-        val configuration = mock<IMockitoConfiguration>()
-        given(configuration) {
-            calling { cleansStackTrace() }.willReturn(true)
-        }
+        val isStackTraceCleaned = MockitoConfiguration.isStackTraceCleaned
+        MockitoConfiguration.isStackTraceCleaned = true
         try {
-            filterStackTrace(configuration) { throw MyException() }
+            filterStackTrace { throw MyException() }
         } catch (e: Exception) {
             assertTrue(e.stackTrace.none { it.className.startsWith("com.github.tmurakami.mockito4k.") })
+        } finally {
+            MockitoConfiguration.isStackTraceCleaned = isStackTraceCleaned
         }
     }
 
     @Test
-    fun `filterStackTrace should not remove any stack trace elements if IMockitoConfiguration#cleansStackTrace is false`() {
-        val configuration = mock<IMockitoConfiguration>()
+    fun `filterStackTrace should not remove any stack trace elements if MockitoConfiguration#cleansStackTrace is false`() {
+        val isStackTraceCleaned = MockitoConfiguration.isStackTraceCleaned
+        MockitoConfiguration.isStackTraceCleaned = false
         try {
-            filterStackTrace(configuration) { throw MyException() }
+            filterStackTrace { throw MyException() }
         } catch (e: Exception) {
             assertTrue(e.stackTrace.any { it.className.startsWith("com.github.tmurakami.mockito4k.") })
+        } finally {
+            MockitoConfiguration.isStackTraceCleaned = isStackTraceCleaned
         }
     }
 

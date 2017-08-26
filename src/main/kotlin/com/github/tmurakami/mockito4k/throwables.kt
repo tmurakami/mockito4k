@@ -1,12 +1,11 @@
 package com.github.tmurakami.mockito4k
 
-import org.mockito.configuration.IMockitoConfiguration
 import org.mockito.internal.configuration.GlobalConfiguration
 
 private val myPackage = Init::class.java.run { name.removeSuffix(simpleName) }
-private val globalConfiguration = GlobalConfiguration()
+private val configuration = GlobalConfiguration()
 
-internal fun <T> filterStackTrace(configuration: IMockitoConfiguration = globalConfiguration, function: () -> T): T =
+internal fun <T> filterStackTrace(function: () -> T): T =
     try {
         function()
     } catch (e: Exception) {
