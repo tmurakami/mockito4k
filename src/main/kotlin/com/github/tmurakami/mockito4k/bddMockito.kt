@@ -2,6 +2,8 @@ package com.github.tmurakami.mockito4k
 
 import org.mockito.Answers
 import org.mockito.Mockito
+import org.mockito.internal.stubbing.answers.Returns
+import org.mockito.internal.util.MockUtil
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
@@ -17,26 +19,7 @@ import kotlin.reflect.KClass
  * @return the given [mock] object
  */
 fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
-    var pending: Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>? = null
-    fun Pair<BDDOngoingStubbingImpl<*>, T.() -> Any?>.finishStubbing(t: T) {
-        first.stubber?.`when`(t) ?: return
-        try {
-            second(t)
-        } catch (e: NullPointerException) {
-            // An NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a primitive
-            // return value. Therefore, we ignore this error if the mock is a `Function<*>` object.
-            if (t !is Function<*>) throw e
-        }
-    }
-    filterStackTrace {
-        object : BDDStubbingSettings<T> {
-            override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
-                pending?.finishStubbing(this@apply)
-                return BDDOngoingStubbingImpl<R>().apply { pending = this to function }
-            }
-        }.settings()
-        pending?.finishStubbing(this)
-    }
+    filterStackTrace { BDDStubbingSettingsImpl(mock).apply(settings).finishStubbing() }
 }
 
 /**
@@ -132,41 +115,96 @@ interface BDDOngoingStubbing<R> {
 
 }
 
-private class BDDOngoingStubbingImpl<R> : BDDOngoingStubbing<R> {
+private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStubbingSettings<T> {
 
-    internal var stubber: Stubber? = null
-        private set
+    private var current: BDDStubbing? = null
 
-    override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = willAnswer(answer)
-
-    override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = willAnswer(answer)
-
-    override fun willAnswer(answer: Answer<R>): BDDOngoingStubbing<R> = apply {
-        stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
+    fun finishStubbing() {
+        current?.finish()
     }
 
-    override fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = apply {
-        stubber = stubber?.doAnswer(answer) ?: Mockito.doAnswer(answer)
+    override fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R> {
+        finishStubbing()
+        val f: T.() -> Any? = {
+            try {
+                function()
+            } catch (e: NullPointerException) {
+                // An NPE is thrown when the MockHandler returns null for a mocked lambda expression expecting a
+                // primitive return value. Therefore, we ignore this error if the mock is a `Function<*>` object.
+                if (this is Function<*>) null else throw e
+            }
+        }
+        current = if (MockUtil.isSpy(mock)) BDDSpyStubbing(mock, f) else BDDMockStubbing(mock, f)
+        return BDDOngoingStubbingImpl(current!!)
     }
 
-    override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply {
-        stubber = stubber?.doAnswer(Answers.CALLS_REAL_METHODS) ?: Mockito.doAnswer(Answers.CALLS_REAL_METHODS)
+}
+
+private interface BDDStubbing {
+    fun finish()
+    operator fun plusAssign(answer: Answer<*>)
+}
+
+private class BDDMockStubbing<T : Any>(mock: T, function: T.() -> Any?) : BDDStubbing {
+
+    private var delegate = Mockito.`when`(mock.function())
+
+    override fun finish() = Unit
+
+    override fun plusAssign(answer: Answer<*>) {
+        delegate = delegate.thenAnswer(answer)
     }
+}
+
+private class BDDSpyStubbing<T : Any>(private val spied: T, private val function: T.() -> Any?) : BDDStubbing {
+
+    private var delegate: Stubber? = null
+
+    override fun finish() {
+        delegate?.`when`(spied)?.function()
+    }
+
+    override fun plusAssign(answer: Answer<*>) {
+        delegate = delegate?.doAnswer(answer) ?: Mockito.doAnswer(answer)
+    }
+
+}
+
+private class BDDOngoingStubbingImpl<R>(private val stubbing: BDDStubbing) : BDDOngoingStubbing<R> {
+
+    override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = apply { stubbing += answer }
+
+    override fun will(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = will(Answer { answer(it) })
+
+    override fun willAnswer(answer: Answer<R>): BDDOngoingStubbing<R> = will(answer)
+
+    override fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = will(answer)
+
+    override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply { stubbing += Answers.CALLS_REAL_METHODS }
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
-        stubber = arrayListOf(value, *values).fold(stubber) { s, v ->
-            // We use `doAnswer` for `Unit` because `doReturn` cannot be used for void methods and `doNothing` cannot for non-void methods.
-            if (v === Unit) Answer { Unit as Any }.let { s?.doAnswer(it) ?: Mockito.doAnswer(it) } else s?.doReturn(v) ?: Mockito.doReturn(v)
-        }
+        thenReturn(value)
+        for (v in values) thenReturn(v)
     }
 
     override fun willThrow(toBeThrown: Throwable, vararg nextToBeThrown: Throwable): BDDOngoingStubbing<R> = apply {
-        stubber = arrayOf(toBeThrown, *nextToBeThrown).fold(stubber) { s, t ->
-            KThrowsException(t).let { s?.doAnswer(it) ?: Mockito.doAnswer(it) }
-        }
+        thenThrow(toBeThrown)
+        for (t in nextToBeThrown) thenThrow(t)
     }
 
-    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> =
-        willThrow(ObjenesisHelper.newInstance(toBeThrown.java), *nextToBeThrown.map { ObjenesisHelper.newInstance(it.java) }.toTypedArray())
+    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
+        thenThrow(toBeThrown)
+        for (c in nextToBeThrown) thenThrow(c)
+    }
+
+    private fun thenReturn(value: R) {
+        stubbing += if (value === Unit) Answer { Unit as Any } else Returns(value)
+    }
+
+    private fun thenThrow(toBeThrown: Throwable) {
+        stubbing += KThrowsException(toBeThrown)
+    }
+
+    private fun thenThrow(toBeThrown: KClass<out Throwable>) = thenThrow(ObjenesisHelper.newInstance(toBeThrown.java))
 
 }

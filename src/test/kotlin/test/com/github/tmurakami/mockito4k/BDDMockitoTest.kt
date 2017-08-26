@@ -9,6 +9,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.BDDMockito.then
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.stubbing.Answer
 
@@ -17,20 +18,20 @@ class BDDMockitoTest {
 
     @Test
     fun `given should stub the function to call the given answer object`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s }.will(Answer { "foo" })
         }
-        assertEquals("foo", spied.s)
+        assertEquals("foo", mock.s)
     }
 
     @Test
     fun `given should stub the function to call the given answer function`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s }.willAnswer { "foo" }
         }
-        assertEquals("foo", spied.s)
+        assertEquals("foo", mock.s)
     }
 
     @Test
@@ -47,39 +48,39 @@ class BDDMockitoTest {
 
     @Test
     fun `given should stub the function to return the given value`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s }.willReturn("foo")
         }
-        assertEquals("foo", spied.s)
+        assertEquals("foo", mock.s)
     }
 
     @Test
     fun `given should stub the void function to return Unit`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s = any() }.willReturn(Unit)
         }
-        spied.s = "foo"
-        then(spied).should().s = "foo"
+        mock.s = "foo"
+        then(mock).should().s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the given exception`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s = any() }.willThrow(E())
         }
-        spied.s = "foo"
+        mock.s = "foo"
     }
 
     @Test(expected = E::class)
     fun `given should stub the function to throw the exception of the given type`() {
-        val spied = spy<C>()
-        given(spied) {
+        val mock = mock<C>()
+        given(mock) {
             calling { s = any() }.willThrow(E::class)
         }
-        spied.s = "foo"
+        mock.s = "foo"
     }
 
     @Test
@@ -91,8 +92,18 @@ class BDDMockitoTest {
         assertTrue(mock())
     }
 
+    @Test
+    fun `given should stub the function of the mock whose default answer is RETURNS_DEEP_STUBS`() {
+        val mock = mock<C> { defaultAnswer(Mockito.RETURNS_DEEP_STUBS) }
+        given(mock) {
+            calling { self.s }.willReturn("test")
+        }
+        assertEquals("test", mock.self.s)
+    }
+
     private open class C {
         open var s: String = ""
+        open val self: C get() = this
     }
 
     private class E : Exception()
