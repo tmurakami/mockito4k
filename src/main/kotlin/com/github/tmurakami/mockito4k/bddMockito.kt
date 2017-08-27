@@ -18,9 +18,8 @@ import kotlin.reflect.KClass
  * @param settings the stubbing settings
  * @return the given [mock] object
  */
-fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T = mock.apply {
-    filterStackTrace { BDDStubbingSettingsImpl(mock).apply(settings).finishStubbing() }
-}
+fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T =
+    mock.apply { filterStackTrace { BDDStubbingSettingsImpl(mock).apply(settings).finishStubbing() } }
 
 /**
  * The settings for stubbing.
@@ -111,13 +110,14 @@ interface BDDOngoingStubbing<R> {
      * @param nextToBeThrown the type of the next error to be thrown
      * @return this object
      */
-    fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R>
+    fun willThrow(toBeThrown: KClass<out Throwable>,
+                  vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R>
 
 }
 
 private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStubbingSettings<T> {
 
-    private var current: BDDStubbing? = null
+    private var current: InternalStubbing? = null
 
     fun finishStubbing() {
         current?.finish()
@@ -134,43 +134,44 @@ private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStu
                 if (this is Function<*>) null else throw e
             }
         }
-        current = if (MockUtil.isSpy(mock)) BDDSpyStubbing(mock, f) else BDDMockStubbing(mock, f)
+        current = if (MockUtil.isSpy(mock)) SpiedStubbing(mock, f) else MockStubbing(mock, f)
         return BDDOngoingStubbingImpl(current!!)
     }
 
 }
 
-private interface BDDStubbing {
+private interface InternalStubbing {
     fun finish()
     operator fun plusAssign(answer: Answer<*>)
 }
 
-private class BDDMockStubbing<T : Any>(mock: T, function: T.() -> Any?) : BDDStubbing {
+private class MockStubbing<T : Any>(mock: T, function: T.() -> Any?) : InternalStubbing {
 
-    private var delegate = Mockito.`when`(mock.function())
+    private var stubbing = Mockito.`when`(mock.function())
 
     override fun finish() = Unit
 
     override fun plusAssign(answer: Answer<*>) {
-        delegate = delegate.thenAnswer(answer)
+        stubbing = stubbing.thenAnswer(answer)
     }
+
 }
 
-private class BDDSpyStubbing<T : Any>(private val spied: T, private val function: T.() -> Any?) : BDDStubbing {
+private class SpiedStubbing<T : Any>(private val spied: T, private val function: T.() -> Any?) : InternalStubbing {
 
-    private var delegate: Stubber? = null
+    private var stubbing: Stubber? = null
 
     override fun finish() {
-        delegate?.`when`(spied)?.function()
+        stubbing?.`when`(spied)?.function()
     }
 
     override fun plusAssign(answer: Answer<*>) {
-        delegate = delegate?.doAnswer(answer) ?: Mockito.doAnswer(answer)
+        stubbing = stubbing?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
 
 }
 
-private class BDDOngoingStubbingImpl<R>(private val stubbing: BDDStubbing) : BDDOngoingStubbing<R> {
+private class BDDOngoingStubbingImpl<R>(private val stubbing: InternalStubbing) : BDDOngoingStubbing<R> {
 
     override fun will(answer: Answer<R>): BDDOngoingStubbing<R> = apply { stubbing += answer }
 
@@ -192,13 +193,14 @@ private class BDDOngoingStubbingImpl<R>(private val stubbing: BDDStubbing) : BDD
         for (t in nextToBeThrown) thenThrow(t)
     }
 
-    override fun willThrow(toBeThrown: KClass<out Throwable>, vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
+    override fun willThrow(toBeThrown: KClass<out Throwable>,
+                           vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
         thenThrow(toBeThrown)
         for (c in nextToBeThrown) thenThrow(c)
     }
 
     private fun thenReturn(value: R) {
-        stubbing += if (value === Unit) Answer { Unit as Any } else Returns(value)
+        stubbing += if (value === Unit) Answer { Unit } else Returns(value)
     }
 
     private fun thenThrow(toBeThrown: Throwable) {

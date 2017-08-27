@@ -12,4 +12,5 @@ for test_kotlin_version in '1.0.7' '1.1.4-2'; do
                                  $(${using_inline_mock_maker} && echo '-PusingInlineMockMaker') || exit $?
         done
     done
+    ./gradlew --stop || exit $?
 done

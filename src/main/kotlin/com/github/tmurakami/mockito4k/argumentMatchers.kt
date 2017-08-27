@@ -47,7 +47,8 @@ inline fun <reified T> eq(value: T): T = ArgumentMatchers.eq(value) ?: value
  * @param value the value to be compared
  * @return the result for executing [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;)
  */
-inline fun <reified T> refEq(value: T, vararg excludeFields: String): T = ArgumentMatchers.refEq(value, *excludeFields) ?: value
+inline fun <reified T> refEq(value: T, vararg excludeFields: String): T =
+    ArgumentMatchers.refEq(value, *excludeFields) ?: value
 
 /**
  * The delegation to [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;).
@@ -121,7 +122,8 @@ fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
  * @param matcher the argument matcher
  * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
  */
-inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T = ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
+inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T =
+    ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
 
 /**
  * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).
@@ -130,4 +132,5 @@ inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T = ArgumentM
  * @param matcher the argument matcher
  * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
  */
-inline fun <reified T : Any> argThat(noinline matcher: (T) -> Boolean): T = ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
+inline fun <reified T : Any> argThat(noinline matcher: (T) -> Boolean): T =
+    ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
