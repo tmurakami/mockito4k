@@ -24,7 +24,7 @@ val mock = mock<Foo> { name("foo") }
 
 ## Stubbing
 
-Use the `given` function.
+Use `given` function.
 
 ```kotlin
 given(mock) {
@@ -41,7 +41,7 @@ given(mock) {
 ```
 
 Although Kotlin does not have checked exceptions, Mockito cannot stub the function to throw a checked exception that does not match the method signature.
-Therefore, we extended the `willThrow` function to be able to throw any exceptions without `@Throws` annotation.
+Therefore, we extended `willThrow` function to be able to throw any exceptions without `@Throws` annotation.
 
 ```kotlin
 interface Foo {
@@ -58,7 +58,7 @@ fun test() {
 }
 ```
 
-Also the `willCallRealMethod` function has been extended to call the default implementation of interface functions.
+Also `willCallRealMethod` function has been extended to call the default implementation of interface functions.
 
 ```kotlin
 interface Foo {
@@ -111,7 +111,7 @@ We provide the following matchers as top-level functions.
 - aryEq
 
 Applying a matcher written in Java to a function that does not accept null may throw an `IllegalStateException` with the message `xxx must not be null`.
-In that case, use the `by` function as follows:
+In that case, use `by` function as follows:
 
 ```kotlin
 mock.doSomething(by(MatchersWrittenInJava.matchesSomething()))
@@ -119,14 +119,14 @@ mock.doSomething(by(MatchersWrittenInJava.matchesSomething()))
 
 ## Capturing arguments
 
-Use the `argumentCaptor` function.
+Use `argumentCaptor` function.
 
 ```kotlin
 val captor = argumentCaptor<String>()
 ```
 
 Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an `IllegalStateException` with the message `xxx.capture() must not be null`.
-To avoid it, use the `capture` function instead.
+To avoid it, use `capture` extension function instead.
 
 ```kotlin
 mock.doSomething(capture(captor))
@@ -168,4 +168,4 @@ dependencies {
   - [Extension functions](https://kotlinlang.org/docs/reference/extensions.html): They are compiled to static methods that Mockito cannot stub.
   - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
 
-- Do not use the [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of functions in interfaces.
+- Do not use [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling the default implementation of functions in interfaces.
