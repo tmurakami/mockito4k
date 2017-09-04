@@ -10,7 +10,7 @@ A Kotlin wrapper around [Mockito 2](http://site.mockito.org/).
 
 ## Mock creation
 
-Use the `mock` function.
+Use `mock` function.
 
 ```kotlin
 val mock = mock<Foo>()
@@ -126,7 +126,7 @@ val captor = argumentCaptor<String>()
 ```
 
 Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an `IllegalStateException` with the message `xxx.capture() must not be null`.
-To avoid it, use `capture` extension function instead.
+To avoid it, use `capture` function instead.
 
 ```kotlin
 mock.doSomething(capture(captor))
