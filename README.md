@@ -16,7 +16,7 @@ Use `mock` function.
 val mock = mock<Foo>()
 ```
 
-To create a mock with additional settings, use the `mock(MockSettings.() -> Unit)` function.
+To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` function.
 
 ```kotlin
 val mock = mock<Foo> { name("foo") }
