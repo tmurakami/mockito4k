@@ -111,7 +111,7 @@ We provide the following matchers as top-level functions.
 - aryEq
 
 Applying a matcher written in Java to a function that does not accept null may throw an `IllegalStateException` with the message `xxx must not be null`.
-In that case, use `by` function as follows:
+To prevent this, use `by` function as follows:
 
 ```kotlin
 mock.doSomething(by(MatchersWrittenInJava.matchesSomething()))
@@ -126,7 +126,7 @@ val captor = argumentCaptor<String>()
 ```
 
 Applying `ArgumentCaptor#capture()` to a function that does not accept null will throw an `IllegalStateException` with the message `xxx.capture() must not be null`.
-To avoid it, use `capture` function instead.
+To prevent this, use `capture` function instead.
 
 ```kotlin
 mock.doSomething(capture(captor))
