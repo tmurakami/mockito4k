@@ -58,7 +58,7 @@ fun test() {
 }
 ```
 
-Also `willCallRealMethod` function has been extended to call the default implementation of interface functions.
+Also `willCallRealMethod` function has been extended to call default implementations of interface functions.
 
 ```kotlin
 interface Foo {
@@ -151,6 +151,8 @@ dependencies {
     testCompile 'org.mockito:mockito-core:x.y.z' // 2.7.0 or later
 }
 ```
+
+[![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
 
 To use this with mockito-android, add them as `androidTestCompile` dependency.
 
