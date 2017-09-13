@@ -3,7 +3,6 @@ package com.github.tmurakami.mockito4k
 import org.mockito.Answers
 import org.mockito.Mockito
 import org.mockito.internal.stubbing.answers.Returns
-import org.mockito.internal.util.MockUtil
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.mockito.stubbing.Stubber
@@ -134,7 +133,7 @@ private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStu
                 if (this is Function<*>) null else throw e
             }
         }
-        current = if (MockUtil.isSpy(mock)) SpiedStubbing(mock, f) else MockStubbing(mock, f)
+        current = if (Mockito.mockingDetails(mock).isSpy) SpiedStubbing(mock, f) else MockStubbing(mock, f)
         return BDDOngoingStubbingImpl(current!!)
     }
 
