@@ -41,7 +41,7 @@ given(mock) {
 ```
 
 Although Kotlin does not have checked exceptions, Mockito cannot stub the function to throw a checked exception that does not match the method signature.
-Therefore, we extended `willThrow` function to be able to throw any exceptions without `@Throws` annotation.
+Therefore, we extended `willThrow` function to be able to throw any exception without `@Throws` annotation.
 
 ```kotlin
 interface Foo {
