@@ -40,8 +40,7 @@ given(mock) {
 }
 ```
 
-Although Kotlin does not have checked exceptions, Mockito cannot stub the function to throw a checked exception that does not match the method signature.
-Therefore, we extended `willThrow` function to be able to throw any exception without `@Throws` annotation.
+You can use `willThrow` function to make a function throw any checked exceptions without `@Throws` annotation.
 
 ```kotlin
 interface Foo {
@@ -58,7 +57,7 @@ fun test() {
 }
 ```
 
-Also `willCallRealMethod` function has been extended to call default implementations of interface functions.
+To call default implementations of interface functions, you can use `willCallRealMethod` function.
 
 ```kotlin
 interface Foo {
@@ -75,7 +74,7 @@ fun test() {
 
 ## Verification
 
-Currently we do not provide any function for verification, so use Mockito's [`BDDMockito#then(T)`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#then(T)).
+Currently this library does not provide any function for verification, so use Mockito's [`BDDMockito#then(T)`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/BDDMockito.html#then(T)).
 
 ```kotlin
 import org.mockito.BDDMockito.then
@@ -86,7 +85,7 @@ then(mock).should().someProperty = "bar"
 
 ## Comparing arguments
 
-We provide the following matchers as top-level functions.
+This library provides the following matchers as top-level functions.
 
 - anyNullable
 - any
