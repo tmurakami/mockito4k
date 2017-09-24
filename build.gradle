@@ -77,6 +77,8 @@ artifacts {
     archives javadocJar
 }
 
+jar.manifest.attributes 'Automatic-Module-Name': 'com.github.tmurakami.mockito4k'
+
 compileKotlin.kotlinOptions { apiVersion = languageVersion = '1.0' }
 compileTestKotlin.kotlinOptions { apiVersion = languageVersion = (test_kotlin_version =~ /\d+\.\d+/)[0] }
 
