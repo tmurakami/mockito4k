@@ -21,6 +21,8 @@ apply from: "$rootDir/gradle/jacoco.gradle"
 group = 'com.github.tmurakami'
 version = version_name
 
+ext.test_kotlin_version = properties['testKotlinVersion'] ?: kotlin_version
+
 repositories {
     jcenter()
     maven { url 'https://dl.bintray.com/mockito/maven' }
@@ -29,8 +31,6 @@ repositories {
 configurations {
     ktlint
 }
-
-def test_kotlin_version = properties['testKotlinVersion'] ?: kotlin_version
 
 dependencies {
     ktlint 'com.github.shyiko:ktlint:0.8.3'
