@@ -1,8 +1,8 @@
 package test.com.github.tmurakami.mockito4k
 
 import com.github.tmurakami.mockito4k.filterStackTrace
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import org.mockito.configuration.MockitoConfiguration
 
 class ThrowablesTest {

@@ -4,16 +4,16 @@ import com.github.tmurakami.mockito4k.any
 import com.github.tmurakami.mockito4k.given
 import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.spy
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.stubbing.Answer
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
+@ExtendWith(MockitoExtension::class)
 class BDDMockitoTest {
 
     @Test
@@ -65,22 +65,22 @@ class BDDMockitoTest {
         then(mock).should().s = "foo"
     }
 
-    @Test(expected = E::class)
+    @Test
     fun `given should stub the function to throw the given exception`() {
         val mock = mock<C>()
         given(mock) {
             calling { s = any() }.willThrow(E())
         }
-        mock.s = "foo"
+        assertThrows(E::class.java) { mock.s = "foo" }
     }
 
-    @Test(expected = E::class)
+    @Test
     fun `given should stub the function to throw the exception of the given type`() {
         val mock = mock<C>()
         given(mock) {
             calling { s = any() }.willThrow(E::class)
         }
-        mock.s = "foo"
+        assertThrows(E::class.java) { mock.s = "foo" }
     }
 
     @Test

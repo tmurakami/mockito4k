@@ -7,6 +7,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.13'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
     }
 }
 
@@ -14,6 +15,7 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 apply plugin: 'maven'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 apply from: "$rootDir/gradle/version.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
@@ -34,11 +36,13 @@ configurations {
 
 dependencies {
     ktlint 'com.github.shyiko:ktlint:0.8.3'
-    compile 'org.mockito:mockito-core:2.7.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.0.7'
+    compileOnly 'org.mockito:mockito-core:2.7.0'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$test_kotlin_version"
-    testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:${project.properties['testMockitoVersion'] ?: 'latest.release'}"
+    def junitVersion = '5.0.1'
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 task ktlint(type: JavaExec) {

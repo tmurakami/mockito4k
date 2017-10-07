@@ -12,16 +12,15 @@ import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.nullable
 import com.github.tmurakami.mockito4k.refEq
 import com.github.tmurakami.mockito4k.same
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatcher
 import org.mockito.BDDMockito.then
 import org.mockito.Mockito.times
-import org.mockito.junit.MockitoJUnitRunner
 import java.io.Serializable
 import java.util.regex.Pattern
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
+@ExtendWith(MockitoExtension::class)
 class ArgumentMatchersTest {
 
     @Test

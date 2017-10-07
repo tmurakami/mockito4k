@@ -3,15 +3,14 @@ package test.com.github.tmurakami.mockito4k
 import com.github.tmurakami.mockito4k.extraInterfaces
 import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.spy
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Answers
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
+@ExtendWith(MockitoExtension::class)
 class MockitoTest {
 
     @Test

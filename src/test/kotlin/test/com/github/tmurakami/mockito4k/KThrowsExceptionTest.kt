@@ -2,20 +2,18 @@ package test.com.github.tmurakami.mockito4k
 
 import com.github.tmurakami.mockito4k.KThrowsException
 import com.github.tmurakami.mockito4k.mock
-import org.junit.Assert.assertNotSame
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertNotSame
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.never
 import org.mockito.BDDMockito.then
 import org.mockito.invocation.InvocationOnMock
-import org.mockito.junit.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
-@RunWith(MockitoJUnitRunner.Strict::class)
 class KThrowsExceptionTest {
 
     @Test
@@ -29,6 +27,7 @@ class KThrowsExceptionTest {
         assertTrue(o is KThrowsException)
     }
 
+    @ExtendWith(MockitoExtension::class)
     @Test
     fun `validateFor should not check the method signature if the invocation is for Kotlin`() {
         val mock = mock<InvocationOnMock>()

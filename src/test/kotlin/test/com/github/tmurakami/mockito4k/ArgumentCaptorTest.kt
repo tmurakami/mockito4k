@@ -3,13 +3,12 @@ package test.com.github.tmurakami.mockito4k
 import com.github.tmurakami.mockito4k.argumentCaptor
 import com.github.tmurakami.mockito4k.capture
 import com.github.tmurakami.mockito4k.mock
-import org.junit.Assert.assertSame
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
+@ExtendWith(MockitoExtension::class)
 class ArgumentCaptorTest {
 
     @Test

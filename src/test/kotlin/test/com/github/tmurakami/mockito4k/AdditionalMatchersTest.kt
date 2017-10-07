@@ -12,13 +12,12 @@ import com.github.tmurakami.mockito4k.lt
 import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.not
 import com.github.tmurakami.mockito4k.or
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 import org.mockito.Mockito.times
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner.StrictStubs::class)
+@ExtendWith(MockitoExtension::class)
 class AdditionalMatchersTest {
 
     @Test
