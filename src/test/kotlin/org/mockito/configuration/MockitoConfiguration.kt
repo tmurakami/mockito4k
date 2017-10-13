@@ -7,7 +7,7 @@ class MockitoConfiguration : DefaultMockitoConfiguration() {
 
     companion object {
 
-        private val CLEANS_STACK_TRACE = ThreadLocal<Boolean>().apply { set(false) }
+        private val CLEANS_STACK_TRACE = ThreadLocal<Boolean>().apply { set(true) }
 
         var isStackTraceCleaned: Boolean
             get() = CLEANS_STACK_TRACE.get()
