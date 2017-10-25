@@ -8,13 +8,13 @@ import org.mockito.Mockito
 import org.mockito.MockitoSession
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.ANNOTATION_CLASS)
-@ExtendWith(MockitoExtensions::class)
+@ExtendWith(MockitoExtension::class)
 annotation class WithMockito
 
-private class MockitoExtensions : BeforeTestExecutionCallback, AfterTestExecutionCallback {
+private class MockitoExtension : BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
     private val ExtensionContext.store: ExtensionContext.Store
-        get() = getStore(ExtensionContext.Namespace.create(this@MockitoExtensions.javaClass, this))
+        get() = getStore(ExtensionContext.Namespace.create(this@MockitoExtension.javaClass, this))
 
     override fun beforeTestExecution(context: ExtensionContext) =
         context.store.put(context.requiredTestMethod, Mockito.mockitoSession().startMocking())
