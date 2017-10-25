@@ -5,7 +5,6 @@ import com.github.tmurakami.mockito4k.mock
 import org.junit.jupiter.api.Assertions.assertNotSame
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.never
 import org.mockito.BDDMockito.then
 import org.mockito.invocation.InvocationOnMock
@@ -27,7 +26,7 @@ class KThrowsExceptionTest {
         assertTrue(o is KThrowsException)
     }
 
-    @ExtendWith(MockitoExtension::class)
+    @WithMockito
     @Test
     fun `validateFor should not check the method signature if the invocation is for Kotlin`() {
         val mock = mock<InvocationOnMock>()

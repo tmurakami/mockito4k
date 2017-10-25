@@ -13,11 +13,10 @@ import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.not
 import com.github.tmurakami.mockito4k.or
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 import org.mockito.Mockito.times
 
-@ExtendWith(MockitoExtension::class)
+@WithMockito
 class AdditionalMatchersTest {
 
     @Test

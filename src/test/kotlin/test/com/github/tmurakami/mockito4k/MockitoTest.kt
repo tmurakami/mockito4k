@@ -6,11 +6,10 @@ import com.github.tmurakami.mockito4k.spy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Answers
 import org.mockito.Mockito
 
-@ExtendWith(MockitoExtension::class)
+@WithMockito
 class MockitoTest {
 
     @Test

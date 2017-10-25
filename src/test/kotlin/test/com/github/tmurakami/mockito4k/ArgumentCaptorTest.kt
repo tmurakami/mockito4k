@@ -5,10 +5,9 @@ import com.github.tmurakami.mockito4k.capture
 import com.github.tmurakami.mockito4k.mock
 import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.then
 
-@ExtendWith(MockitoExtension::class)
+@WithMockito
 class ArgumentCaptorTest {
 
     @Test
