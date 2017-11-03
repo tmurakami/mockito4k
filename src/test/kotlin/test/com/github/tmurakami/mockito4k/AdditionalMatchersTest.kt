@@ -20,7 +20,7 @@ import org.mockito.Mockito.times
 class AdditionalMatchersTest {
 
     @Test
-    fun `and should make a primitive matcher that matches both of the given matchers`() {
+    fun `and() should make a primitive matcher that matches both of the given matchers`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -31,7 +31,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `and should make a object matcher that matches both of the given matchers`() {
+    fun `and() should make a object matcher that matches both of the given matchers`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -42,7 +42,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `or should make a primitive matcher that matcher either of the given matchers`() {
+    fun `or() should make a primitive matcher that matcher either of the given matchers`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -53,7 +53,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `or should make a object matcher that matcher either of the given matchers`() {
+    fun `or() should make a object matcher that matcher either of the given matchers`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -64,7 +64,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `not should make a primitive matcher that does not match the given matcher`() {
+    fun `not() should make a primitive matcher that does not match the given matcher`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -75,7 +75,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `not should make a object matcher that does not match the given matcher`() {
+    fun `not() should make a object matcher that does not match the given matcher`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -86,7 +86,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `geq should make a primitive matcher that is greater than or equal to the given value`() {
+    fun `geq() should make a primitive matcher that is greater than or equal to the given value`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -97,7 +97,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `geq should make a object matcher that is greater than or equal to the given value`() {
+    fun `geq() should make a object matcher that is greater than or equal to the given value`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -108,7 +108,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `gt should make a primitive matcher that is greater than the given value`() {
+    fun `gt() should make a primitive matcher that is greater than the given value`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -119,7 +119,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `gt should make a object matcher that is greater than the given value`() {
+    fun `gt() should make a object matcher that is greater than the given value`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -130,7 +130,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `leq should make a primitive matcher that is less than or equal to the given value`() {
+    fun `leq() should make a primitive matcher that is less than or equal to the given value`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -141,7 +141,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `leq should make a object matcher that is less than or equal to the given value`() {
+    fun `leq() should make a object matcher that is less than or equal to the given value`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -152,7 +152,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `lt should make a primitive matcher that is less than the given value`() {
+    fun `lt() should make a primitive matcher that is less than the given value`() {
         val mock = mock<I>()
         mock.i(0)
         mock.i(1)
@@ -163,7 +163,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `lt should make a object matcher that is less than the given value`() {
+    fun `lt() should make a object matcher that is less than the given value`() {
         val mock = mock<I>()
         mock.s("0")
         mock.s("1")
@@ -174,28 +174,28 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `cmpEq should make a primitive matcher that is comparable-equal to the given value`() {
+    fun `cmpEq() should make a primitive matcher that is comparable-equal to the given value`() {
         val mock = mock<I>()
         mock.i(0)
         then(mock).should().i(cmpEq(0))
     }
 
     @Test
-    fun `cmpEq should make a object matcher that is comparable-equal to the given value`() {
+    fun `cmpEq() should make a object matcher that is comparable-equal to the given value`() {
         val mock = mock<I>()
         mock.s("0")
         then(mock).should().s(cmpEq("0"))
     }
 
     @Test
-    fun `find should make a matcher that matches the given regular expression`() {
+    fun `find() should make a matcher that matches the given regular expression`() {
         val mock = mock<I>()
         mock.s("foo")
         then(mock).should().s(find("o"))
     }
 
     @Test
-    fun `aryEq_BooleanArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(BooleanArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = booleanArrayOf()
         mock.booleans(array)
@@ -203,7 +203,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_ByteArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(ByteArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = byteArrayOf()
         mock.bytes(array)
@@ -211,7 +211,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_CharArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(CharArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = charArrayOf()
         mock.chars(array)
@@ -219,7 +219,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_DoubleArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(DoubleArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = doubleArrayOf()
         mock.doubles(array)
@@ -227,7 +227,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_FloatArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(FloatArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = floatArrayOf()
         mock.floats(array)
@@ -235,7 +235,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_IntArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(IntArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = intArrayOf()
         mock.ints(array)
@@ -243,7 +243,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_LongArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(LongArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = longArrayOf()
         mock.longs(array)
@@ -251,7 +251,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_ShortArray should make a matcher that is equals to the given array`() {
+    fun `aryEq(ShortArray) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = shortArrayOf()
         mock.shorts(array)
@@ -259,7 +259,7 @@ class AdditionalMatchersTest {
     }
 
     @Test
-    fun `aryEq_Array should make a matcher that is equals to the given array`() {
+    fun `aryEq(Array) should make a matcher that is equals to the given array`() {
         val mock = mock<I>()
         val array = arrayOf<Any>()
         mock.objects(array)

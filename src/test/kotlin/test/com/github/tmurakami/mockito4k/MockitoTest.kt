@@ -13,23 +13,23 @@ import org.mockito.Mockito
 class MockitoTest {
 
     @Test
-    fun `mock should make a mock object`() = assertTrue(Mockito.mockingDetails(mock<C>()).isMock)
+    fun `mock() should make a mock object`() = assertTrue(Mockito.mockingDetails(mock<C>()).isMock)
 
     @Test
-    fun `mock should make a mock object with the given name`() =
+    fun `mock() should make a mock object with the given name`() =
         Mockito.mockingDetails(mock<C> { name("foo") }).run {
             assertTrue(isMock)
             assertEquals("foo", mockCreationSettings.mockName.toString())
         }
 
     @Test
-    fun `spy should make a spied object`() = assertTrue(Mockito.mockingDetails(spy(C())).isSpy)
+    fun `spy() should make a spied object`() = assertTrue(Mockito.mockingDetails(spy(C())).isSpy)
 
     @Test
-    fun `spy should make a spied object of the given type`() = assertTrue(Mockito.mockingDetails(spy<C>()).isSpy)
+    fun `spy() should make a spied object of the given type`() = assertTrue(Mockito.mockingDetails(spy<C>()).isSpy)
 
     @Test
-    fun `mock using extraInterfaces should make a mock object which implements the given interfaces`() =
+    fun `Mocking with extraInterfaces() should make a mock object which implements the given interfaces`() =
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
     @Test

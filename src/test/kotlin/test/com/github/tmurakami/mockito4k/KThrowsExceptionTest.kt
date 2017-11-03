@@ -28,7 +28,7 @@ class KThrowsExceptionTest {
 
     @WithMockito
     @Test
-    fun `validateFor should not check the method signature if the invocation is for Kotlin`() {
+    fun `validateFor() should not check the method signature if the invocation is for Kotlin`() {
         val mock = mock<InvocationOnMock>()
         KThrowsException(E()).validateFor(mock)
         then(mock).should(never()).method

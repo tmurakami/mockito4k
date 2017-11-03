@@ -11,7 +11,7 @@ import org.mockito.BDDMockito.then
 class ArgumentCaptorTest {
 
     @Test
-    fun `capture should capture the argument without causing IllegalStateException`() {
+    fun `capture() should capture the argument without causing IllegalStateException`() {
         val mock = mock<I>()
         val arg = Any()
         mock.f(arg)

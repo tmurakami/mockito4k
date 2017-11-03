@@ -8,12 +8,13 @@ import org.mockito.configuration.MockitoConfiguration
 class ThrowablesTest {
 
     @Test
-    fun `filterStackTrace should remove stack trace elements belonging to the library package`() {
+    fun `filterStackTrace() should remove stack trace elements belonging to the library package`() {
         val isStackTraceCleaned = MockitoConfiguration.isStackTraceCleaned
         MockitoConfiguration.isStackTraceCleaned = true
         try {
             filterStackTrace { throw E() }
         } catch (e: Exception) {
+            assertTrue(e.stackTrace.none { it.className.startsWith("org.mockito.") })
             assertTrue(e.stackTrace.none { it.className.startsWith("com.github.tmurakami.mockito4k.") })
         } finally {
             MockitoConfiguration.isStackTraceCleaned = isStackTraceCleaned
@@ -21,7 +22,7 @@ class ThrowablesTest {
     }
 
     @Test
-    fun `filterStackTrace should not filter stack trace if MockitoConfiguration#cleansStackTrace is false`() {
+    fun `filterStackTrace() should not filter stack trace if MockitoConfiguration#cleansStackTrace() is false`() {
         val isStackTraceCleaned = MockitoConfiguration.isStackTraceCleaned
         MockitoConfiguration.isStackTraceCleaned = false
         try {

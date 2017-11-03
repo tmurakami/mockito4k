@@ -23,7 +23,7 @@ import java.util.regex.Pattern
 class ArgumentMatchersTest {
 
     @Test
-    fun `anyNullable should make a matcher that matches anything`() {
+    fun `anyNullable() should make a matcher that matches anything`() {
         val mock = mock<I>()
         mock.nullable(null)
         mock.nullable(Any())
@@ -31,7 +31,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `any function should make a matcher that is of the given type`() {
+    fun `any() should make a matcher that is of the given type`() {
         val mock = mock<I>()
         mock.nullable(null)
         mock.nullable(Any())
@@ -39,7 +39,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `eq should make a matcher that is equal to the given value`() {
+    fun `eq() should make a matcher that is equal to the given value`() {
         val mock = mock<I>()
         val arg = Any()
         mock.nonNull(arg)
@@ -47,7 +47,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `refEq should make a matcher that is reflection-equal to the given value`() {
+    fun `refEq() should make a matcher that is reflection-equal to the given value`() {
         val mock = mock<I>()
         val first = Any()
         val arg = first to Any()
@@ -56,7 +56,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `same should make a matcher that is same as the given value`() {
+    fun `same() should make a matcher that is same as the given value`() {
         val mock = mock<I>()
         val arg = Any()
         mock.nonNull(arg)
@@ -64,7 +64,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `isA should make a matcher that is of the given type`() {
+    fun `isA() should make a matcher that is of the given type`() {
         val mock = mock<I>()
         mock.nonNull("")
         mock.nonNull(Any())
@@ -72,21 +72,21 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `isNull should make a matcher that is equal to null`() {
+    fun `isNull() should make a matcher that is equal to null`() {
         val mock = mock<I>()
         mock.nullable(null)
         then(mock).should().nullable(isNull())
     }
 
     @Test
-    fun `isNotNull should make a matcher that is not equal to null`() {
+    fun `isNotNull() should make a matcher that is not equal to null`() {
         val mock = mock<I>()
         mock.nullable(Any())
         then(mock).should().nullable(isNotNull())
     }
 
     @Test
-    fun `nullable should make a matcher that is either null or of the given type`() {
+    fun `nullable() should make a matcher that is either null or of the given type`() {
         val mock = mock<I>()
         mock.nullable(null)
         mock.nullable("")
@@ -95,28 +95,28 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `matches_String should make a matcher that matches the given regular expression`() {
+    fun `matches(String) should make a matcher that matches the given regular expression`() {
         val mock = mock<I>()
         mock.nonNull("foobar")
         then(mock).should().nonNull(matches("[\\w]+"))
     }
 
     @Test
-    fun `matches_Regex should make a matcher that matches the given regular expression`() {
+    fun `matches(Regex) should make a matcher that matches the given regular expression`() {
         val mock = mock<I>()
         mock.nonNull("foobar")
         then(mock).should().nonNull(matches(Regex("[\\w]+")))
     }
 
     @Test
-    fun `matches_Pattern should make a matcher that matches the given regular expression`() {
+    fun `matches(Pattern) should make a matcher that matches the given regular expression`() {
         val mock = mock<I>()
         mock.nonNull("foobar")
         then(mock).should().nonNull(matches(Pattern.compile("[\\w]+")))
     }
 
     @Test
-    fun `argThat_Function1 should make a primitive matcher with the given function`() {
+    fun `argThat(Function1) should make a primitive matcher with the given function`() {
         val mock = mock<I>()
         val arg = 0
         mock.int(arg)
@@ -124,7 +124,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `argThat_Function1 should make a object matcher with the given function`() {
+    fun `argThat(Function1) should make a object matcher with the given function`() {
         val mock = mock<I>()
         val arg = Any()
         mock.nonNull(arg)
@@ -132,7 +132,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `argThat_ArgumentMatcher should make a primitive matcher with the given ArgumentMatcher`() {
+    fun `argThat(ArgumentMatcher) should make a primitive matcher with the given ArgumentMatcher`() {
         val mock = mock<I>()
         val arg = 0
         mock.int(arg)
@@ -140,7 +140,7 @@ class ArgumentMatchersTest {
     }
 
     @Test
-    fun `argThat_ArgumentMatcher should make a object matcher with the given ArgumentMatcher`() {
+    fun `argThat(ArgumentMatcher) should make a object matcher with the given ArgumentMatcher`() {
         val mock = mock<I>()
         val arg = Any()
         mock.nonNull(arg)
