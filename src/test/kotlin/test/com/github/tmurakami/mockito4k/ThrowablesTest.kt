@@ -28,6 +28,7 @@ class ThrowablesTest {
         try {
             filterStackTrace { throw E() }
         } catch (e: Exception) {
+            assertTrue(e.stackTrace.any { it.className.startsWith("org.mockito.") })
             assertTrue(e.stackTrace.any { it.className.startsWith("com.github.tmurakami.mockito4k.") })
         } finally {
             MockitoConfiguration.isStackTraceCleaned = isStackTraceCleaned
@@ -38,7 +39,8 @@ class ThrowablesTest {
         init {
             @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
             val throwable = this as java.lang.Throwable
-            throwable.stackTrace = arrayOf(StackTraceElement("com.github.tmurakami.mockito4k.C", "foo", null, -1))
+            throwable.stackTrace = arrayOf(StackTraceElement("org.mockito.C", "foo", null, -1),
+                                           StackTraceElement("com.github.tmurakami.mockito4k.C", "foo", null, -1))
         }
     }
 

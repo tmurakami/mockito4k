@@ -1,6 +1,5 @@
 package com.github.tmurakami.mockito4k
 
-import org.mockito.Answers
 import org.mockito.Mockito
 import org.mockito.internal.stubbing.answers.Returns
 import org.mockito.invocation.InvocationOnMock
@@ -180,7 +179,7 @@ private class BDDOngoingStubbingImpl<R>(private val stubbing: InternalStubbing) 
 
     override fun willAnswer(answer: (InvocationOnMock) -> R): BDDOngoingStubbing<R> = will(answer)
 
-    override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply { stubbing += Answers.CALLS_REAL_METHODS }
+    override fun willCallRealMethod(): BDDOngoingStubbing<R> = apply { stubbing += KCallsRealMethods }
 
     override fun willReturn(value: R, vararg values: R): BDDOngoingStubbing<R> = apply {
         thenReturn(value)

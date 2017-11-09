@@ -1,8 +1,10 @@
 package com.github.tmurakami.mockito4k
 
 import org.mockito.internal.configuration.GlobalConfiguration
+import org.mockito.internal.exceptions.stacktrace.ConditionalStackTraceFilter
 
 private val configuration = GlobalConfiguration()
+private val stackTraceFilter = ConditionalStackTraceFilter()
 private val packagePrefix = Init::class.java.run { name.removeSuffix(simpleName) }
 
 internal fun <T> filterStackTrace(function: () -> T): T =
@@ -17,5 +19,5 @@ internal fun <T> filterStackTrace(function: () -> T): T =
                 stackTrace = stackTrace.filterNot { it.className.startsWith(packagePrefix) }.toTypedArray()
             }
         }
-        throw e
+        throw e.apply { stackTraceFilter.filter(this) }
     }
