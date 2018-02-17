@@ -14,5 +14,4 @@ internal class Init : PluginSwitch {
     }
 
     override fun isEnabled(pluginClassName: String): Boolean = true
-
 }

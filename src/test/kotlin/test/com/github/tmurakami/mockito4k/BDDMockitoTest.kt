@@ -106,5 +106,4 @@ class BDDMockitoTest {
     }
 
     private class E : Exception()
-
 }

@@ -37,5 +37,4 @@ internal object KCallsRealMethods : CallsRealMethods() {
     override fun validateFor(invocation: InvocationOnMock) = filterStackTrace {
         if (invocation.method.defaultImpl == null) super.validateFor(invocation)
     }
-
 }

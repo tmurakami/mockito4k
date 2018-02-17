@@ -23,5 +23,4 @@ class ArgumentCaptorTest {
     private interface I {
         fun f(arg: Any)
     }
-
 }

@@ -279,5 +279,4 @@ class AdditionalMatchersTest {
         fun shorts(arg: ShortArray)
         fun <T> objects(arg: Array<T>)
     }
-
 }

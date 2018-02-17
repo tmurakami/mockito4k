@@ -41,5 +41,4 @@ class MockitoTest {
     }
 
     private open class C
-
 }

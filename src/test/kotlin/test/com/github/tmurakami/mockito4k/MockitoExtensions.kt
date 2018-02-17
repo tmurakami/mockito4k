@@ -21,5 +21,4 @@ private class MockitoExtension : BeforeTestExecutionCallback, AfterTestExecution
 
     override fun afterTestExecution(context: ExtensionContext) =
         context.store.remove(context.requiredTestMethod, MockitoSession::class.java).finishMocking()
-
 }

@@ -18,12 +18,10 @@ fun <T : Any> given(mock: T, settings: BDDStubbingSettings<T>.() -> Unit): T =
  * The settings for stubbing.
  */
 interface BDDStubbingSettings<out T : Any> {
-
     /**
      * Enables stubbing function.
      */
     fun <R> calling(function: T.() -> R): BDDOngoingStubbing<R>
-
 }
 
 /**
@@ -69,9 +67,10 @@ interface BDDOngoingStubbing<R> {
     /**
      * Sets to throw errors to be thrown when the function is called.
      */
-    fun willThrow(toBeThrown: KClass<out Throwable>,
-                  vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R>
-
+    fun willThrow(
+        toBeThrown: KClass<out Throwable>,
+        vararg nextToBeThrown: KClass<out Throwable>
+    ): BDDOngoingStubbing<R>
 }
 
 private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStubbingSettings<T> {
@@ -96,7 +95,6 @@ private class BDDStubbingSettingsImpl<out T : Any>(private val mock: T) : BDDStu
         current = if (Mockito.mockingDetails(mock).isSpy) SpiedStubbing(mock, f) else MockStubbing(mock, f)
         return BDDOngoingStubbingImpl(current!!)
     }
-
 }
 
 private interface InternalStubbing {
@@ -113,7 +111,6 @@ private class MockStubbing<T : Any>(mock: T, function: T.() -> Any?) : InternalS
     override fun plusAssign(answer: Answer<*>) {
         stubbing = stubbing.thenAnswer(answer)
     }
-
 }
 
 private class SpiedStubbing<T : Any>(private val spied: T, private val function: T.() -> Any?) : InternalStubbing {
@@ -127,7 +124,6 @@ private class SpiedStubbing<T : Any>(private val spied: T, private val function:
     override fun plusAssign(answer: Answer<*>) {
         stubbing = stubbing?.doAnswer(answer) ?: Mockito.doAnswer(answer)
     }
-
 }
 
 private class BDDOngoingStubbingImpl<R>(private val stubbing: InternalStubbing) : BDDOngoingStubbing<R> {
@@ -152,8 +148,10 @@ private class BDDOngoingStubbingImpl<R>(private val stubbing: InternalStubbing) 
         for (t in nextToBeThrown) thenThrow(t)
     }
 
-    override fun willThrow(toBeThrown: KClass<out Throwable>,
-                           vararg nextToBeThrown: KClass<out Throwable>): BDDOngoingStubbing<R> = apply {
+    override fun willThrow(
+        toBeThrown: KClass<out Throwable>,
+        vararg nextToBeThrown: KClass<out Throwable>
+    ): BDDOngoingStubbing<R> = apply {
         thenThrow(toBeThrown)
         for (c in nextToBeThrown) thenThrow(c)
     }
@@ -167,5 +165,4 @@ private class BDDOngoingStubbingImpl<R>(private val stubbing: InternalStubbing) 
     }
 
     private fun thenThrow(toBeThrown: KClass<out Throwable>) = thenThrow(ObjenesisHelper.newInstance(toBeThrown.java))
-
 }

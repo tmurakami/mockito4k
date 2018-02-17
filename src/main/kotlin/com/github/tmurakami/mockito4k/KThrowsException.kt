@@ -13,5 +13,4 @@ internal class KThrowsException(throwable: Throwable) : ThrowsException(throwabl
     companion object {
         private const val serialVersionUID = 8529150053065919680L
     }
-
 }

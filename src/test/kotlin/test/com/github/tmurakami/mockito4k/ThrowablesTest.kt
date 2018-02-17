@@ -39,9 +39,10 @@ class ThrowablesTest {
         init {
             @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
             val throwable = this as java.lang.Throwable
-            throwable.stackTrace = arrayOf(StackTraceElement("org.mockito.C", "foo", null, -1),
-                                           StackTraceElement("com.github.tmurakami.mockito4k.C", "foo", null, -1))
+            throwable.stackTrace = arrayOf(
+                StackTraceElement("org.mockito.C", "foo", null, -1),
+                StackTraceElement("com.github.tmurakami.mockito4k.C", "foo", null, -1)
+            )
         }
     }
-
 }

@@ -35,5 +35,4 @@ class KThrowsExceptionTest {
     }
 
     private class E : Exception()
-
 }

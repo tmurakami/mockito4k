@@ -152,5 +152,4 @@ class ArgumentMatchersTest {
         fun nonNull(arg: Any)
         fun nullable(arg: Any?)
     }
-
 }
