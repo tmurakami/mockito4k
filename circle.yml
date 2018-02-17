@@ -7,7 +7,7 @@ machine:
 test:
   override:
     - ./test.sh
-    - ./gradlew jacocoTestReport
+    - ./gradlew ktlintCheck jacocoTestReport
   post:
     - find . -type d -regex '.*/build/reports' -exec cp -pr {} $CIRCLE_ARTIFACTS \;
     - mkdir $CIRCLE_TEST_REPORTS/junit
