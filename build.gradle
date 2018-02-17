@@ -3,10 +3,11 @@ buildscript {
     repositories {
         jcenter()
         maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.15'
+        classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16-eap-3'
         classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:3.0.1"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
@@ -35,7 +36,7 @@ repositories {
 
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.61'
-    compileOnly 'org.mockito:mockito-core:2.7.0'
+    compile 'org.mockito:mockito-core:2.7.0'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$test_kotlin_version"
     testImplementation "org.mockito:mockito-core:${project.properties['testMockitoVersion'] ?: 'latest.release'}"
     def junitVersion = '5.0.3'
@@ -56,9 +57,12 @@ task sourcesJar(type: Jar) {
 }
 
 dokka {
-    skipDeprecated = true
+    outputFormat = 'html'
     outputDirectory = javadoc.destinationDir
-    processConfigurations = ['compile', 'compileOnly']
+    externalDocumentationLink {
+        url = 'https://javadoc.io/doc/org.mockito/mockito-core/2.7.0/'.toURL()
+        packageListUrl = file('mockito-package-list').toURI().toURL()
+    }
 }
 javadoc.dependsOn dokka as Object
 
@@ -74,7 +78,10 @@ artifacts {
 
 jar.manifest.attributes 'Automatic-Module-Name': 'com.github.tmurakami.mockito4k'
 
-compileKotlin.kotlinOptions { apiVersion = languageVersion = '1.1' }
+compileKotlin.kotlinOptions {
+    apiVersion = languageVersion = '1.1'
+    freeCompilerArgs += ['-Xskip-runtime-version-check']
+}
 compileTestKotlin.kotlinOptions { apiVersion = languageVersion = (test_kotlin_version =~ /\d+\.\d+/)[0] }
 
 processTestResources {

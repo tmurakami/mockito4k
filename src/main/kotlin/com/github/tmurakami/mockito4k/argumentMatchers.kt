@@ -7,130 +7,79 @@ import java.util.regex.Pattern
 
 /**
  * Prevents causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
- *
- * @param T the type of the given argument [matcher]
- * @param matcher the argument matcher
- * @return the given argument [matcher]
  */
 @Suppress("UNCHECKED_CAST")
 fun <T> by(matcher: T?): T = matcher as T
 
 /**
- * The delegation to [ArgumentMatchers#any()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;&#41;).
- *
- * @param T the type of the argument matcher
- * @return the result for executing [ArgumentMatchers#any()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;&#41;)
+ * The delegation to [ArgumentMatchers.any].
  */
 inline fun <reified T> anyNullable(): T? = ArgumentMatchers.any()
 
 /**
- * The delegation to [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;).
- *
- * @param T the type of acceptable values
- * @return the result for executing [ArgumentMatchers#any(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#any&#40;java.lang.Class&#41;)
+ * The delegation to [ArgumentMatchers.any].
  */
 inline fun <reified T : Any> any(): T = by(ArgumentMatchers.any(T::class.java))
 
 /**
- * The delegation to [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;).
- *
- * @param T the type of the given [value]
- * @param value the value to be compared
- * @return the result for executing [ArgumentMatchers#eq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#eq&#40;T&#41;)
+ * The delegation to [ArgumentMatchers.eq].
  */
 inline fun <reified T> eq(value: T): T = ArgumentMatchers.eq(value) ?: value
 
 /**
- * The delegation to [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;).
- *
- * @param T the type of the given [value]
- * @param value the value to be compared
- * @return the result for executing [ArgumentMatchers#refEq(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#refEq&#40;T,&#32;java.lang.String...&#41;)
+ * The delegation to [ArgumentMatchers.refEq].
  */
 inline fun <reified T> refEq(value: T, vararg excludeFields: String): T =
     ArgumentMatchers.refEq(value, *excludeFields) ?: value
 
 /**
- * The delegation to [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;).
- *
- * @param T the type of the given [value]
- * @param value the value to be compared
- * @return the result for executing [ArgumentMatchers#same(T)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#same&#40;T&#41;)
+ * The delegation to [ArgumentMatchers.same].
  */
 inline fun <reified T> same(value: T): T = ArgumentMatchers.same(value) ?: value
 
 /**
- * The delegation to [ArgumentMatchers#isA(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isA&#40;java.lang.Class&#41;).
- *
- * @param T the type of acceptable values
- * @return the result for executing [ArgumentMatchers#isA(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isA&#40;java.lang.Class&#41;)
+ * The delegation to [ArgumentMatchers.isA].
  */
 inline fun <reified T : Any> isA(): T = by(ArgumentMatchers.isA(T::class.java))
 
 /**
- * The delegation to [ArgumentMatchers#isNull()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNull&#40;&#41;).
- *
- * @param T the type of the argument matcher
- * @return the result for executing [ArgumentMatchers#isNull()](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNull&#40;&#41;)
+ * The delegation to [ArgumentMatchers.isNull].
  */
 inline fun <reified T> isNull(): T? = ArgumentMatchers.isNull()
 
 /**
- * The delegation to [ArgumentMatchers#isNotNull(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNotNull&#40;&#41;).
- *
- * @param T the type of the argument matcher
- * @return the result for executing [ArgumentMatchers#isNotNull(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#isNotNull&#40;&#41;)
+ * The delegation to [ArgumentMatchers.isNotNull].
  */
 inline fun <reified T> isNotNull(): T? = ArgumentMatchers.isNotNull()
 
 /**
- * The delegation to [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;).
- *
- * @param T the type of the argument matcher
- * @return the result for executing [ArgumentMatchers#nullable(Class)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#nullable&#40;java.lang.Class&#41;)
+ * The delegation to [ArgumentMatchers.nullable].
  */
 inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class.java)
 
 /**
- * The delegation to [ArgumentMatchers#matches(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.lang.String&#41;).
- *
- * @param regex the regular expression
- * @return the result for executing [ArgumentMatchers#matches(String)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.lang.String&#41;)
+ * The delegation to [ArgumentMatchers.matches].
  */
 fun matches(regex: String): String = ArgumentMatchers.matches(regex)
 
 /**
- * The delegation to [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.regex.Pattern&#41;).
- *
- * @param regex the regular expression
- * @return the result for executing [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.regex.Pattern&#41;)
+ * The delegation to [ArgumentMatchers.matches].
  */
 fun matches(regex: Regex): String = matches(regex.toPattern())
 
 /**
- * The delegation to [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.pattern.Pattern&#41;).
- *
- * @param pattern the regular expression
- * @return the result for executing [ArgumentMatchers#matches(Pattern)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#matches&#40;java.util.pattern.Pattern&#41;)
+ * The delegation to [ArgumentMatchers.matches].
  */
 fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
 
 /**
- * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).
- *
- * @param T the type of the argument [matcher]
- * @param matcher the argument matcher
- * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
+ * The delegation to [ArgumentMatchers.argThat].
  */
 inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T =
     ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
 
 /**
- * The delegation to [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;).
- *
- * @param T the type of the argument [matcher]
- * @param matcher the argument matcher
- * @return the result for executing [ArgumentMatchers#argThat(ArgumentMatcher)](https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/ArgumentMatchers.html#argThat&#40;org.mockito.ArgumentMatcher&#41;)
+ * The delegation to [ArgumentMatchers.argThat].
  */
 inline fun <reified T : Any> argThat(noinline matcher: (T) -> Boolean): T =
     ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
