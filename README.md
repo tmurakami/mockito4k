@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
-[![KDoc](https://img.shields.io/badge/KDoc-0.9.0-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/0.9.0/javadoc/mockito4k/com.github.tmurakami.mockito4k/)<br>
+[![KDoc](https://img.shields.io/badge/KDoc-0.9.0-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/9ee9c363b8/javadoc/mockito4k/com.github.tmurakami.mockito4k/)<br>
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.61%2B-blue.svg)
 ![Mockito](https://img.shields.io/badge/Mockito-2.7.0%2B-blue.svg)
 
