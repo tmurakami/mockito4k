@@ -60,7 +60,7 @@ dokka {
     outputFormat = 'html'
     outputDirectory = javadoc.destinationDir
     externalDocumentationLink {
-        url = 'https://javadoc.io/doc/org.mockito/mockito-core/2.7.0/'.toURL()
+        url = 'https://static.javadoc.io/org.mockito/mockito-core/2.7.0/index.html'.toURL()
         packageListUrl = file('mockito-package-list').toURI().toURL()
     }
 }
@@ -78,10 +78,7 @@ artifacts {
 
 jar.manifest.attributes 'Automatic-Module-Name': 'com.github.tmurakami.mockito4k'
 
-compileKotlin.kotlinOptions {
-    apiVersion = languageVersion = '1.1'
-    freeCompilerArgs += ['-Xskip-runtime-version-check']
-}
+compileKotlin.kotlinOptions { apiVersion = languageVersion = '1.1' }
 compileTestKotlin.kotlinOptions { apiVersion = languageVersion = (test_kotlin_version =~ /\d+\.\d+/)[0] }
 
 processTestResources {
