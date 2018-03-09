@@ -1,12 +1,12 @@
 package test.com.github.tmurakami.mockito4k
 
+import com.github.tmurakami.mockito4k.CALLS_REAL_METHODS
 import com.github.tmurakami.mockito4k.extraInterfaces
 import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.spy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.mockito.Answers
 import org.mockito.Mockito
 
 @WithMockito
@@ -33,8 +33,8 @@ class MockitoTest {
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
     @Test
-    fun `The default implementation of an interface method should be called with Answers#CALLS_REAL_METHODS`() =
-        assertEquals("test", mock<I> { defaultAnswer(Answers.CALLS_REAL_METHODS) }.doIt())
+    fun `The default implementation of an interface method should be called with callsRealMethods`() =
+        assertEquals("test", mock<I> { defaultAnswer(CALLS_REAL_METHODS) }.doIt())
 
     private interface I {
         fun doIt(): String = "test"

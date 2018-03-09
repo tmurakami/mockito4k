@@ -5,7 +5,7 @@ import org.mockito.internal.exceptions.stacktrace.ConditionalStackTraceFilter
 
 private val configuration = GlobalConfiguration()
 private val stackTraceFilter = ConditionalStackTraceFilter()
-private val packagePrefix = Init::class.java.run { name.removeSuffix(simpleName) }
+private const val PACKAGE_PREFIX = "com.github.tmurakami.mockito4k"
 
 internal fun <T> filterStackTrace(function: () -> T): T =
     try {
@@ -16,7 +16,7 @@ internal fun <T> filterStackTrace(function: () -> T): T =
             // we used the extension, libraries with their own StackTraceCleaner (e.g. dexmaker-mockito) might not work.
             @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
             (e as java.lang.Throwable).run {
-                stackTrace = stackTrace.filterNot { it.className.startsWith(packagePrefix) }.toTypedArray()
+                stackTrace = stackTrace.filterNot { it.className.startsWith(PACKAGE_PREFIX) }.toTypedArray()
             }
         }
         throw e.apply { stackTraceFilter.filter(this) }

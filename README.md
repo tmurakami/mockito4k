@@ -22,6 +22,15 @@ To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` f
 val mock = mock<Foo> { name("foo") }
 ```
 
+You can use the following answers defined as top-level properties.
+
+- RETURNS_DEFAULTS
+- RETURNS_SMART_NULLS
+- RETURNS_MOCKS
+- RETURNS_DEEP_STUBS
+- RETURNS_SELF
+- CALLS_REAL_METHODS (Supports calling default implementation of interfaces)
+
 ## Stubbing
 
 Use `given` function.
@@ -170,4 +179,3 @@ dependencies {
   - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
 
 - Since Mockito expects each matcher to be applied in order of method arguments, even when stubbing a function with named arguments, you need to apply matchers in that order.
-- Do **NOT** use [`org.mockito.plugins.PluginSwitch`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/plugins/PluginSwitch.html) extension because this library has its own `PluginSwitch` which replaces [`Answers#CALLS_REAL_METHODS`](http://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Answers.html#CALLS_REAL_METHODS) to support calling default implementations of interface functions.
