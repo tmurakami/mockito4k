@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
 [![Release](https://jitpack.io/v/tmurakami/mockito4k.svg)](https://jitpack.io/#tmurakami/mockito4k)
-[![KDoc](https://img.shields.io/badge/KDoc-0.9.1-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/0.9.1/javadoc/mockito4k/com.github.tmurakami.mockito4k/)<br>
+[![KDoc](https://img.shields.io/badge/KDoc-0.10.0-brightgreen.svg)](https://jitpack.io/com/github/tmurakami/mockito4k/0.10.0/javadoc/mockito4k/)<br>
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.1.61%2B-blue.svg)
 ![Mockito](https://img.shields.io/badge/Mockito-2.7.0%2B-blue.svg)
 
@@ -179,3 +179,4 @@ dependencies {
   - [Inline functions](https://kotlinlang.org/docs/reference/inline-functions.html): They are inlined into the call site by the Kotlin compiler, so stubbing them has no effect.
 
 - Since Mockito expects each matcher to be applied in order of method arguments, even when stubbing a function with named arguments, you need to apply matchers in that order.
+- Calling default implementation of interfaces using `Answers.CALLS_REAL_METHODS` is not supported.
