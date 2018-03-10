@@ -1,6 +1,7 @@
+@file:Suppress("RemoveRedundantBackticks")
+
 package test.com.github.tmurakami.mockito4k
 
-import com.github.tmurakami.mockito4k.CALLS_REAL_METHODS
 import com.github.tmurakami.mockito4k.extraInterfaces
 import com.github.tmurakami.mockito4k.mock
 import com.github.tmurakami.mockito4k.spy
@@ -32,13 +33,6 @@ class MockitoTest {
     fun `Mocking with extraInterfaces() should make a mock object which implements the given interfaces`() =
         assertTrue(Mockito.mock(C::class.java, Mockito.withSettings().extraInterfaces(I::class)) is I)
 
-    @Test
-    fun `The default implementation of an interface method should be called with callsRealMethods`() =
-        assertEquals("test", mock<I> { defaultAnswer(CALLS_REAL_METHODS) }.doIt())
-
-    private interface I {
-        fun doIt(): String = "test"
-    }
-
+    private interface I
     private open class C
 }

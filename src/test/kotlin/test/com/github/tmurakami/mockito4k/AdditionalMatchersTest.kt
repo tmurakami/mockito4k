@@ -1,3 +1,5 @@
+@file:Suppress("RemoveRedundantBackticks")
+
 package test.com.github.tmurakami.mockito4k
 
 import com.github.tmurakami.mockito4k.and
