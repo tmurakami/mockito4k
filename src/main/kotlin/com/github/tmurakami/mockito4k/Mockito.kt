@@ -12,7 +12,7 @@ inline fun <reified T : Any> mock(): T = Mockito.mock(T::class.java)
 /**
  * The delegation to [Mockito.mock].
  */
-inline fun <reified T : Any> mock(settings: MockSettings.() -> Unit): T =
+inline fun <reified T : Any> mock(crossinline settings: MockSettings.() -> Unit): T =
     Mockito.mock(T::class.java, Mockito.withSettings().apply { settings() })
 
 /**

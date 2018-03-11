@@ -5,6 +5,7 @@ package test.com.github.tmurakami.mockito4k
 import com.github.tmurakami.mockito4k.any
 import com.github.tmurakami.mockito4k.anyNullable
 import com.github.tmurakami.mockito4k.argThat
+import com.github.tmurakami.mockito4k.by
 import com.github.tmurakami.mockito4k.eq
 import com.github.tmurakami.mockito4k.isA
 import com.github.tmurakami.mockito4k.isNotNull
@@ -23,6 +24,10 @@ import java.util.regex.Pattern
 
 @WithMockito
 class ArgumentMatchersTest {
+
+    @Test
+    fun `by() should make null look like a non-null value`() =
+        mock<I>().nonNull(by(null as Any?))
 
     @Test
     fun `anyNullable() should make a matcher that matches anything`() {

@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.tmurakami.mockito4k
 
 import org.mockito.ArgumentMatcher
@@ -9,7 +11,7 @@ import java.util.regex.Pattern
  * Prevents causing NullPointerException when using a [matcher] for method that only accepts non-null parameter.
  */
 @Suppress("UNCHECKED_CAST")
-fun <T> by(matcher: T?): T = matcher as T
+inline fun <T> by(matcher: T?): T = matcher as T
 
 /**
  * The delegation to [ArgumentMatchers.any].
@@ -60,17 +62,17 @@ inline fun <reified T : Any> nullable(): T? = ArgumentMatchers.nullable(T::class
 /**
  * The delegation to [ArgumentMatchers.matches].
  */
-fun matches(regex: String): String = ArgumentMatchers.matches(regex)
+inline fun matches(regex: String): String = ArgumentMatchers.matches(regex)
 
 /**
  * The delegation to [ArgumentMatchers.matches].
  */
-fun matches(regex: Regex): String = matches(regex.toPattern())
+inline fun matches(regex: Regex): String = matches(regex.toPattern())
 
 /**
  * The delegation to [ArgumentMatchers.matches].
  */
-fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
+inline fun matches(pattern: Pattern): String = ArgumentMatchers.matches(pattern)
 
 /**
  * The delegation to [ArgumentMatchers.argThat].

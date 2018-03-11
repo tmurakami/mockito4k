@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.tmurakami.mockito4k
 
 import org.mockito.AdditionalMatchers
@@ -45,47 +47,47 @@ inline fun <reified T : Comparable<T>> cmpEq(value: T): T = AdditionalMatchers.c
 /**
  * The delegation to [AdditionalMatchers.find].
  */
-fun find(regex: String): String = AdditionalMatchers.find(regex) ?: regex
+inline fun find(regex: String): String = AdditionalMatchers.find(regex) ?: regex
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: BooleanArray): BooleanArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: BooleanArray): BooleanArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: ByteArray): ByteArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: ByteArray): ByteArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: CharArray): CharArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: CharArray): CharArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: DoubleArray): DoubleArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: DoubleArray): DoubleArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: FloatArray): FloatArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: FloatArray): FloatArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: IntArray): IntArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: IntArray): IntArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: LongArray): LongArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: LongArray): LongArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
  */
-fun aryEq(value: ShortArray): ShortArray = AdditionalMatchers.aryEq(value) ?: value
+inline fun aryEq(value: ShortArray): ShortArray = AdditionalMatchers.aryEq(value) ?: value
 
 /**
  * The delegation to [AdditionalMatchers.aryEq].
