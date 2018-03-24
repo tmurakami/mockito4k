@@ -22,15 +22,6 @@ To create a mock with additional settings, use `mock(MockSettings.() -> Unit)` f
 val mock = mock<Foo> { name("foo") }
 ```
 
-You can use the following answers defined as top-level properties.
-
-- RETURNS_DEFAULTS
-- RETURNS_SMART_NULLS
-- RETURNS_MOCKS
-- RETURNS_DEEP_STUBS
-- RETURNS_SELF
-- CALLS_REAL_METHODS (Supports calling default implementation of interfaces)
-
 ## Stubbing
 
 Use `given` function.
