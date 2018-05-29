@@ -1,6 +1,6 @@
 machine:
   environment:
-    GRADLE_OPTS: '-Dorg.gradle.daemon=false -Dorg.gradle.parallel=false -Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    GRADLE_OPTS: '-Dorg.gradle.daemon=false'
     TERM: dumb
   java:
     version: openjdk8

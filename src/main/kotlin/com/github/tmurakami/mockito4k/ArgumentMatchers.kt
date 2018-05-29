@@ -83,5 +83,4 @@ inline fun <reified T : Any> argThat(matcher: ArgumentMatcher<T>): T =
 /**
  * The delegation to [ArgumentMatchers.argThat].
  */
-inline fun <reified T : Any> argThat(noinline matcher: (T) -> Boolean): T =
-    ArgumentMatchers.argThat(matcher) ?: by(Primitives.defaultValue(T::class.java))
+inline fun <reified T : Any> argThat(crossinline matcher: (T) -> Boolean): T = argThat(ArgumentMatcher { matcher(it) })

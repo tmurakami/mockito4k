@@ -6,10 +6,9 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.16'
-        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:3.3.0"
+        classpath 'org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17'
+        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.0.0"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.1'
     }
 }
 
@@ -18,7 +17,6 @@ apply plugin: 'maven'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'org.junit.platform.gradle.plugin'
 
 apply from: "$rootDir/gradle/version.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"
@@ -38,13 +36,17 @@ dependencies {
     compile 'org.mockito:mockito-core:2.7.0'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$test_kotlin_version"
     testImplementation "org.mockito:mockito-core:${project.properties['testMockitoVersion'] ?: 'latest.release'}"
-    def junitVersion = '5.1.1'
+    def junitVersion = '5.2.0'
     testCompileOnly "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
+test {
+    useJUnitPlatform()
+}
+
 ktlint {
-    version = '0.22.0'
+    version = '0.23.1'
     reporters = ['PLAIN', 'CHECKSTYLE']
     ignoreFailures = System.getenv('CI') as boolean
 }
@@ -78,7 +80,7 @@ jar.manifest.attributes 'Automatic-Module-Name': 'com.github.tmurakami.mockito4k
 
 compileKotlin.kotlinOptions {
     apiVersion = languageVersion = '1.1'
-    freeCompilerArgs += ['-Xno-param-assertions', '-Xno-call-assertions']
+    freeCompilerArgs += ['-Xno-param-assertions']
 }
 compileTestKotlin.kotlinOptions { apiVersion = languageVersion = (test_kotlin_version =~ /\d+\.\d+/)[0] }
 
