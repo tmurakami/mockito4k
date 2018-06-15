@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This library is deprecated. You can use [MockK](http://mockk.io/) or [Mockito-Kotlin](https://github.com/nhaarman/mockito-kotlin).
+
 # Mockito4k
 
 [![CircleCI](https://circleci.com/gh/tmurakami/mockito4k.svg?style=shield)](https://circleci.com/gh/tmurakami/mockito4k)
